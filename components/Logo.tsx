@@ -19,7 +19,7 @@ const Logo: React.FC<LogoProps> = ({
     lg: "h-16 w-16",
   };
 
-  const logoSrc = variant === "white" ? "/logo-white.svg" : "/logo.svg";
+  const logoSrc = variant === "white" ? "/logo-white.png" : "/logo.png";
 
   return (
     <Link href="/" className="flex items-center gap-2 group">
@@ -30,13 +30,15 @@ const Logo: React.FC<LogoProps> = ({
           fill
           className="object-contain transition-transform group-hover:scale-105"
           priority
+          quality={100}
+          unoptimized
         />
       </div>
       {showText && (
         <div className="flex flex-col">
           <span className="text-lg font-bold leading-tight">
             <span className="text-cyan-600">Mish</span>
-            <span className="text-gray-800">Baby</span>
+            <span className="text-gray-600">Baby</span>
           </span>
           <span className="text-xs text-gray-600 font-medium">Guide</span>
         </div>
