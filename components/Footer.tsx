@@ -1,5 +1,5 @@
+import React from "react";
 import { Mail, Facebook, Instagram, Twitter } from "lucide-react";
-import Image from "next/image";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -25,19 +25,9 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* About Section */}
           <div>
-            <div className="flex items-center gap-2 mb-3">
-              <div className="relative h-10 w-10">
-                <Image
-                  src="/logo.png"
-                  alt="MishBabyGuide"
-                  fill
-                  className="object-contain"
-                />
-              </div>
-              <h3 className="text-white text-lg font-semibold">
-                <span className="text-cyan-400">Mish</span>BabyGuide
-              </h3>
-            </div>
+            <h3 className="text-white text-lg font-semibold mb-4">
+              <span className="text-blue-400">Mish</span>BabyGuide
+            </h3>
             <p className="text-sm leading-relaxed">
               Your trusted source for honest baby product reviews and buying
               guides. Helping parents make informed decisions for their little

@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
+import { useState } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
-import Logo from "./Logo";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -11,29 +10,67 @@ const Navbar = () => {
 
   const categories = [
     {
-      name: "Nursery",
+      name: "Baby Clothing",
+      subcategories: [
+        "Bodysuits & Onesies",
+        "Sleepwear",
+        "Outerwear",
+        "Shoes & Socks",
+      ],
+    },
+    {
+      name: "Baby Essentials",
+      subcategories: [
+        "Diapers & Wipes",
+        "Baby Care",
+        "Health & Safety",
+        "Nursery Storage",
+      ],
+    },
+    {
+      name: "Bath Care & Accessories",
+      subcategories: [
+        "Bath Tubs",
+        "Towels & Washcloths",
+        "Bath Toys",
+        "Baby Toiletries",
+      ],
+    },
+    {
+      name: "Feeding & Mealtime",
+      subcategories: [
+        "Bottles & Nipples",
+        "Breast Pumps",
+        "High Chairs",
+        "Feeding Accessories",
+      ],
+    },
+    {
+      name: "Nursery & Lighting",
       subcategories: [
         "Cribs & Bassinets",
-        "Changing Tables",
-        "Nursery Decor",
+        "Nursery Furniture",
+        "Night Lights",
         "Monitors",
       ],
     },
     {
-      name: "Feeding",
-      subcategories: ["Bottles", "Breast Pumps", "High Chairs", "Baby Food"],
+      name: "Safety & Comfort",
+      subcategories: [
+        "Baby Gates",
+        "Car Seats",
+        "Baby Monitors",
+        "Sleep Safety",
+      ],
     },
     {
-      name: "Gear",
-      subcategories: ["Strollers", "Car Seats", "Baby Carriers", "Diaper Bags"],
-    },
-    {
-      name: "Bath & Care",
-      subcategories: ["Bath Tubs", "Skincare", "Grooming", "Diapers"],
-    },
-    {
-      name: "Toys & Books",
-      subcategories: ["Developmental Toys", "Books", "Play Mats", "Teethers"],
+      name: "Toys Plush & Games",
+      subcategories: [
+        "Plush Toys",
+        "Educational Toys",
+        "Activity Centers",
+        "Teething Toys",
+      ],
     },
   ];
 
@@ -43,7 +80,13 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="shrink-0">
-            <Logo size="md" showText={true} />
+            <Link href="/" className="flex items-center">
+              <span className="text-2xl font-bold text-cyan-600">Mish</span>
+              <span className="text-2xl font-bold text-gray-800">Baby</span>
+              <span className="text-sm font-normal text-gray-600 ml-2">
+                Guide
+              </span>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
@@ -72,9 +115,7 @@ const Navbar = () => {
                     {category.subcategories.map((sub) => (
                       <Link
                         key={sub}
-                        href={`/category/${category.name.toLowerCase()}/${sub
-                          .toLowerCase()
-                          .replace(/\s+/g, "-")}`}
+                        href={`/category/${category.name.toLowerCase()}/${sub.toLowerCase().replace(/\s+/g, "-")}`}
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-cyan-50 hover:text-cyan-600 transition"
                       >
                         {sub}
@@ -138,9 +179,7 @@ const Navbar = () => {
                 >
                   {category.name}
                   <ChevronDown
-                    className={`h-4 w-4 transition-transform ${
-                      openDropdown === category.name ? "rotate-180" : ""
-                    }`}
+                    className={`h-4 w-4 transition-transform ${openDropdown === category.name ? "rotate-180" : ""}`}
                   />
                 </button>
 
@@ -149,9 +188,7 @@ const Navbar = () => {
                     {category.subcategories.map((sub) => (
                       <Link
                         key={sub}
-                        href={`/category/${category.name.toLowerCase()}/${sub
-                          .toLowerCase()
-                          .replace(/\s+/g, "-")}`}
+                        href={`/category/${category.name.toLowerCase()}/${sub.toLowerCase().replace(/\s+/g, "-")}`}
                         className="block px-3 py-2 text-sm text-gray-600 hover:bg-cyan-50 rounded-md"
                       >
                         {sub}
