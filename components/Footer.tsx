@@ -72,7 +72,7 @@ const Footer = () => {
       </div>
 
       {/* Main Footer Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
           {/* About Section */}
           <div className="lg:col-span-1">
@@ -101,10 +101,10 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-gray-900 text-sm font-semibold uppercase tracking-wider mb-4">
+            <h3 className="text-gray-900 text-sm font-semibold uppercase tracking-wider mb-2">
               Quick Links
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-2">
               {quickLinks.map((link) => (
                 <li key={link.name}>
                   <Link
@@ -121,10 +121,10 @@ const Footer = () => {
 
           {/* Categories */}
           <div>
-            <h3 className="text-gray-900 text-sm font-semibold uppercase tracking-wider mb-4">
+            <h3 className="text-gray-900 text-sm font-semibold uppercase tracking-wider mb-2">
               Categories
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-2">
               {categories.map((category) => (
                 <li key={category.name}>
                   <Link
@@ -141,10 +141,10 @@ const Footer = () => {
 
           {/* Legal & Contact */}
           <div>
-            <h3 className="text-gray-900 text-sm font-semibold uppercase tracking-wider mb-4">
+            <h3 className="text-gray-900 text-sm font-semibold uppercase tracking-wider mb-2">
               Legal & Contact
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-2">
               {legal.map((item) => (
                 <li key={item.name}>
                   <Link
