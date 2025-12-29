@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Sparkles } from "lucide-react";
 
 import ProductCard from "./ProductCard";
+import SectionHeading from "./SectionHeading";
 
 interface Product {
   _id: string;
@@ -91,18 +92,13 @@ const FeaturedProducts = () => {
     return (
       <section id="featured-products" className="py-16 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-50 text-cyan-600 rounded-full mb-4">
-              <Sparkles className="h-4 w-4" />
-              <span className="text-sm font-semibold">Top Picks</span>
-            </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Our Featured Products
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Hand-picked essentials that parents love and trust
-            </p>
-          </div>
+          <SectionHeading
+            badge="Top Picks"
+            badgeIcon={<Sparkles className="h-4 w-4" />}
+            title="Our Featured Products"
+            subtitle="Hand-picked essentials that parents love and trust. Each product has been thoroughly tested and reviewed by our team."
+            className="mb-12"
+          />
 
           <div className="text-center py-12">
             <p className="text-gray-600 mb-4">
