@@ -2,36 +2,35 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Sparkles } from "lucide-react";
+import { BookOpen, TrendingUp } from "lucide-react";
 
-import ProductCard from "./ProductCard";
+import BlogCard from "./BlogCard";
 
-interface Product {
+interface Post {
   _id: string;
   title: string;
   slug: { current: string };
-  mainImage: {
+  mainImage?: {
     asset: {
       url: string;
     };
   };
-  price: string;
   excerpt: string;
-  amazonLink: string;
-  category?: {
+  publishedAt: string;
+  author?: string;
+  categories?: Array<{
     title: string;
-  };
+  }>;
 }
 
-const FeaturedProducts = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+const LatestReviews = () => {
+  const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch featured products from Sanity
-    const fetchProducts = async () => {
+    const fetchPosts = async () => {
       try {
-        const query = `*[_type == "product"] | order(publishedAt desc)[0...4] {
+        const query = `*[_type == "post"] | order(publishedAt desc)[0...6] {
           _id,
           title,
           slug,
@@ -40,10 +39,10 @@ const FeaturedProducts = () => {
               url
             }
           },
-          price,
           excerpt,
-          amazonLink,
-          category-> {
+          publishedAt,
+          author,
+          categories[]-> {
             title
           }
         }`;
@@ -53,28 +52,28 @@ const FeaturedProducts = () => {
         );
 
         const data = await response.json();
-        setProducts(data.result || []);
+        setPosts(data.result || []);
       } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error("Error fetching posts:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchProducts();
+    fetchPosts();
   }, []);
 
   // Loading skeleton
   if (loading) {
     return (
-      <section id="featured-products" className="py-16 md:py-20 bg-white">
+      <section className="py-16 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <div className="h-8 bg-gray-200 rounded w-64 mx-auto mb-4 animate-pulse"></div>
             <div className="h-4 bg-gray-200 rounded w-96 mx-auto animate-pulse"></div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            {[...Array(4)].map((_, i) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[...Array(3)].map((_, i) => (
               <div
                 key={i}
                 className="bg-gray-100 rounded-2xl h-96 animate-pulse"
@@ -86,27 +85,28 @@ const FeaturedProducts = () => {
     );
   }
 
-  // If no products found, show sample data or message
-  if (products.length === 0) {
+  // Empty state
+  if (posts.length === 0) {
     return (
-      <section id="featured-products" className="py-16 md:py-20 bg-white">
+      <section className="py-16 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-50 text-cyan-600 rounded-full mb-4">
-              <Sparkles className="h-4 w-4" />
-              <span className="text-sm font-semibold">Top Picks</span>
+              <BookOpen className="h-4 w-4" />
+              <span className="text-sm font-semibold">Latest Articles</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Our Featured Products
+              Latest Reviews & Guides
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Hand-picked essentials that parents love and trust
+              Expert insights and buying guides to help you choose the best
             </p>
           </div>
 
-          <div className="text-center py-12">
+          <div className="text-center py-12 bg-gray-50 rounded-2xl">
+            <BookOpen className="h-12 w-12 text-gray-400 mx-auto mb-4" />
             <p className="text-gray-600 mb-4">
-              No featured products yet. Add some products in Sanity Studio!
+              No blog posts yet. Start creating content in Sanity Studio!
             </p>
             <Link
               href="/studio"
@@ -121,48 +121,46 @@ const FeaturedProducts = () => {
   }
 
   return (
-    <section id="featured-products" className="py-16 md:py-20 bg-white">
+    <section className="py-16 md:py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-50 text-cyan-600 rounded-full mb-4">
-            <Sparkles className="h-4 w-4" />
-            <span className="text-sm font-semibold">Top Picks</span>
+            <TrendingUp className="h-4 w-4" />
+            <span className="text-sm font-semibold">Latest Articles</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Our Featured Products
+            Latest Reviews & Guides
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Hand-picked essentials that parents love and trust. Each product has
-            been thoroughly tested and reviewed by our team.
+            Expert insights, honest reviews, and buying guides to help you make
+            the best choices for your baby
           </p>
         </div>
 
-        {/* Products Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {products.map((product) => (
-            <ProductCard
-              key={product._id}
-              title={product.title}
-              slug={product.slug.current}
-              image={
-                product.mainImage?.asset?.url || "/placeholder-product.jpg"
-              }
-              price={product.price}
-              excerpt={product.excerpt}
-              amazonLink={product.amazonLink}
-              category={product.category?.title}
+        {/* Posts Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {posts.map((post) => (
+            <BlogCard
+              key={post._id}
+              title={post.title}
+              slug={post.slug.current}
+              mainImage={post.mainImage?.asset?.url}
+              excerpt={post.excerpt || "Read this article to learn more..."}
+              publishedAt={post.publishedAt}
+              author={post.author}
+              category={post.categories?.[0]?.title}
             />
           ))}
         </div>
 
         {/* View All Link */}
         <div className="text-center mt-12">
-          <a
-            href="/products"
-            className="inline-flex items-center gap-2 text-cyan-600 font-semibold hover:text-cyan-700 transition-colors group"
+          <Link
+            href="/blog"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-cyan-600 text-white font-semibold rounded-lg hover:bg-cyan-700 transition-all shadow-md hover:shadow-lg group"
           >
-            View All Products
+            View All Articles
             <svg
               className="h-5 w-5 group-hover:translate-x-1 transition-transform"
               fill="none"
@@ -176,11 +174,11 @@ const FeaturedProducts = () => {
                 d="M17 8l4 4m0 0l-4 4m4-4H3"
               />
             </svg>
-          </a>
+          </Link>
         </div>
       </div>
     </section>
   );
 };
 
-export default FeaturedProducts;
+export default LatestReviews;
