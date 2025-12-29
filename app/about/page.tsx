@@ -13,7 +13,7 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-linear-to-b from-cyan-50 to-white">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-linear-to-r bg-white py-20">
+      <section className="relative overflow-hidden bg-linear-to-r from-cyan-100 to-sky-100 py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
