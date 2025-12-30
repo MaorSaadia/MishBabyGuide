@@ -2,26 +2,11 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { getLatestPosts, Post } from "@/lib/sanity.client";
+import { getBlogCardImage } from "@/lib/sanity.image";
 import { BookOpen, TrendingUp } from "lucide-react";
 
 import BlogCard from "./BlogCard";
-
-interface Post {
-  _id: string;
-  title: string;
-  slug: { current: string };
-  mainImage?: {
-    asset: {
-      url: string;
-    };
-  };
-  excerpt: string;
-  publishedAt: string;
-  author?: string;
-  categories?: Array<{
-    title: string;
-  }>;
-}
 
 const LatestReviews = () => {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -29,37 +14,10 @@ const LatestReviews = () => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      try {
-        const query = `*[_type == "post"] | order(publishedAt desc)[0...6] {
-          _id,
-          title,
-          slug,
-          mainImage {
-            asset-> {
-              url
-            }
-          },
-          excerpt,
-          publishedAt,
-          author,
-          categories[]-> {
-            title
-          }
-        }`;
-
-        const response = await fetch(
-          `https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.api.sanity.io/v2024-01-01/data/query/production?query=${encodeURIComponent(query)}`
-        );
-
-        const data = await response.json();
-        setPosts(data.result || []);
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-      } finally {
-        setLoading(false);
-      }
+      const data = await getLatestPosts(6);
+      setPosts(data);
+      setLoading(false);
     };
-
     fetchPosts();
   }, []);
 
@@ -145,8 +103,10 @@ const LatestReviews = () => {
               key={post._id}
               title={post.title}
               slug={post.slug.current}
-              mainImage={post.mainImage?.asset?.url}
-              excerpt={post.excerpt || "Read this article to learn more..."}
+              mainImage={
+                post.mainImage ? getBlogCardImage(post.mainImage) : undefined
+              }
+              excerpt={post.excerpt}
               publishedAt={post.publishedAt}
               author={post.author}
               category={post.categories?.[0]?.title}

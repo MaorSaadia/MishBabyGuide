@@ -4,64 +4,21 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Sparkles } from "lucide-react";
 
-import ProductCard from "./ProductCard";
+import { getProductCardImage } from "@/lib/sanity.image";
+import { getFeaturedProducts, Product } from "@/lib/sanity.client";
 import SectionHeading from "./SectionHeading";
-
-interface Product {
-  _id: string;
-  title: string;
-  slug: { current: string };
-  mainImage: {
-    asset: {
-      url: string;
-    };
-  };
-  price: string;
-  excerpt: string;
-  amazonLink: string;
-  category?: {
-    title: string;
-  };
-}
+import ProductCard from "./ProductCard";
 
 const FeaturedProducts = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch featured products from Sanity
     const fetchProducts = async () => {
-      try {
-        const query = `*[_type == "product"] | order(publishedAt desc)[0...4] {
-          _id,
-          title,
-          slug,
-          mainImage {
-            asset-> {
-              url
-            }
-          },
-          price,
-          excerpt,
-          amazonLink,
-          category-> {
-            title
-          }
-        }`;
-
-        const response = await fetch(
-          `https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.api.sanity.io/v2024-01-01/data/query/production?query=${encodeURIComponent(query)}`
-        );
-
-        const data = await response.json();
-        setProducts(data.result || []);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      } finally {
-        setLoading(false);
-      }
+      const data = await getFeaturedProducts();
+      setProducts(data.slice(0, 4)); // Get top 4
+      setLoading(false);
     };
-
     fetchProducts();
   }, []);
 
@@ -142,7 +99,9 @@ const FeaturedProducts = () => {
               title={product.title}
               slug={product.slug.current}
               image={
-                product.mainImage?.asset?.url || "/placeholder-product.jpg"
+                product.mainImage
+                  ? getProductCardImage(product.mainImage)
+                  : "/placeholder.jpg"
               }
               price={product.price}
               excerpt={product.excerpt}
