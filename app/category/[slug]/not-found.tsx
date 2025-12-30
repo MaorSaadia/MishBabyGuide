@@ -1,4 +1,3 @@
-// app/category/[slug]/not-found.tsx
 import Link from "next/link";
 import { AlertCircle } from "lucide-react";
 
