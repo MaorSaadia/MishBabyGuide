@@ -7,6 +7,9 @@ import Footer from "@/components/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+  ),
   title: "MishBabyGuide - Honest Baby Product Reviews & Buying Guides",
   description:
     "Expert reviews and guides to help you choose the best baby products. From nursery essentials to feeding gear, we help parents make informed decisions.",
