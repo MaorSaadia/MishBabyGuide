@@ -43,6 +43,7 @@ export interface Product {
   excerpt: string;
   amazonLink: string;
   category?: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     _id(_id: any, _id1: string): unknown;
     title: string;
     slug: { current: string };
