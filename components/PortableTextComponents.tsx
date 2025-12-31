@@ -1,0 +1,88 @@
+// components/PortableTextComponents.tsx
+import Image from "next/image";
+import { PortableTextComponents } from "@portabletext/react";
+import { getImageUrl } from "@/lib/sanity.image";
+
+export const portableTextComponents: PortableTextComponents = {
+  block: {
+    h1: ({ children }) => (
+      <h1 className="text-4xl font-bold text-gray-900 mt-8 mb-4">{children}</h1>
+    ),
+    h2: ({ children }) => (
+      <h2 className="text-3xl font-bold text-gray-900 mt-8 mb-4">{children}</h2>
+    ),
+    h3: ({ children }) => (
+      <h3 className="text-2xl font-bold text-gray-900 mt-6 mb-3">{children}</h3>
+    ),
+    h4: ({ children }) => (
+      <h4 className="text-xl font-bold text-gray-900 mt-4 mb-2">{children}</h4>
+    ),
+    normal: ({ children }) => (
+      <p className="text-gray-700 leading-relaxed mb-4">{children}</p>
+    ),
+    blockquote: ({ children }) => (
+      <blockquote className="border-l-4 border-cyan-600 pl-4 italic text-gray-600 my-6">
+        {children}
+      </blockquote>
+    ),
+  },
+  list: {
+    bullet: ({ children }) => (
+      <ul className="list-disc list-inside space-y-2 mb-4 text-gray-700">
+        {children}
+      </ul>
+    ),
+    number: ({ children }) => (
+      <ol className="list-decimal list-inside space-y-2 mb-4 text-gray-700">
+        {children}
+      </ol>
+    ),
+  },
+  listItem: {
+    bullet: ({ children }) => <li className="ml-4">{children}</li>,
+    number: ({ children }) => <li className="ml-4">{children}</li>,
+  },
+  marks: {
+    strong: ({ children }) => (
+      <strong className="font-bold text-gray-900">{children}</strong>
+    ),
+    em: ({ children }) => <em className="italic">{children}</em>,
+    link: ({ children, value }) => {
+      const rel = !value?.href?.startsWith("/")
+        ? "noopener noreferrer"
+        : undefined;
+      return (
+        <a
+          href={value?.href}
+          rel={rel}
+          target={!value?.href?.startsWith("/") ? "_blank" : undefined}
+          className="text-cyan-600 hover:text-cyan-700 underline"
+        >
+          {children}
+        </a>
+      );
+    },
+  },
+  types: {
+    image: ({ value }) => {
+      if (!value?.asset) return null;
+      return (
+        <figure className="my-8">
+          <div className="relative w-full aspect-video rounded-lg overflow-hidden">
+            <Image
+              src={getImageUrl(value, 1200, 675)}
+              alt={value.alt || "Article image"}
+              fill
+              className="object-cover"
+            />
+          </div>
+          {value.caption && (
+            <figcaption className="text-center text-sm text-gray-500 mt-2">
+              {value.caption}
+            </figcaption>
+          )}
+        </figure>
+      );
+    },
+  },
+};

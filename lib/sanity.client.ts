@@ -43,6 +43,7 @@ export interface Product {
   excerpt: string;
   amazonLink: string;
   category?: {
+    _id(_id: any, _id1: string): unknown;
     title: string;
     slug: { current: string };
   };
@@ -212,8 +213,8 @@ export async function searchProducts(searchQuery: string): Promise<Product[]> {
 
 // Get related products
 export async function getRelatedProducts(
-  categoryId: string,
-  currentProductId: string
+  categoryId: string | unknown,
+  currentProductId: string | unknown
 ): Promise<Product[]> {
   try {
     const products = await client.fetch<Product[]>(relatedProductsQuery, {
