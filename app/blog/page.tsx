@@ -3,6 +3,7 @@ import { getAllPosts, getAllCategories } from "@/lib/sanity.client";
 import BlogCard from "@/components/BlogCard";
 import { getBlogCardImage } from "@/lib/sanity.image";
 import { BookOpen, Filter } from "lucide-react";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Blog - Baby Product Reviews & Guides | MishBabyGuide",
@@ -63,7 +64,7 @@ export default async function BlogPage({
               </span>
             </div>
             <div className="flex flex-wrap gap-3">
-              <a
+              <Link
                 href="/blog"
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                   !selectedCategory
@@ -72,7 +73,7 @@ export default async function BlogPage({
                 }`}
               >
                 All Posts
-              </a>
+              </Link>
               {categories.map((category) => (
                 <a
                   key={category.slug.current}
@@ -140,12 +141,12 @@ export default async function BlogPage({
             <p className="text-gray-600 mb-6">
               We couldn&apos;t find any articles in this category yet.
             </p>
-            <a
+            <Link
               href="/blog"
               className="inline-flex items-center gap-2 px-6 py-3 bg-cyan-600 text-white font-semibold rounded-lg hover:bg-cyan-700 transition-all"
             >
               View All Articles
-            </a>
+            </Link>
           </div>
         )}
 

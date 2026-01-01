@@ -1,11 +1,11 @@
-// app/search/page.tsx
 import { Metadata } from "next";
+import { Search, Package, BookOpen } from "lucide-react";
+
 import { searchProducts, getAllPosts } from "@/lib/sanity.client";
+import { getProductCardImage, getBlogCardImage } from "@/lib/sanity.image";
 import ProductCard from "@/components/ProductCard";
 import BlogCard from "@/components/BlogCard";
-import { getProductCardImage, getBlogCardImage } from "@/lib/sanity.image";
 import SearchComponent from "@/components/Search";
-import { Search, Package, BookOpen } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Search Results | MishBabyGuide",
