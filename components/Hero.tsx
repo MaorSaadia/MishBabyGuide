@@ -1,4 +1,3 @@
-import React from "react";
 import Link from "next/link";
 import { Search, Shield, Heart, Star } from "lucide-react";
 
@@ -57,7 +56,7 @@ const Hero = () => {
               </Link>
 
               <Link
-                href="/categories"
+                href="#categories-grid"
                 className="inline-flex items-center justify-center px-8 py-4 bg-white text-cyan-600 font-semibold rounded-lg border-2 border-cyan-600 hover:bg-cyan-50 transition-all"
               >
                 View All Categories

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Mail, Facebook, Instagram, Youtube } from "lucide-react";
+import { Facebook, Instagram, Mail, Youtube } from "lucide-react";
 import Logo from "./Logo";
 
 const Footer = () => {
@@ -19,11 +19,11 @@ const Footer = () => {
     { name: "Toys & Games", href: "/category/toys-games" },
   ];
 
-  const legal = [
+  const legal: Array<{ name: string; href: string; icon?: typeof Mail }> = [
     { name: "Privacy Policy", href: "/privacy-policy" },
     { name: "Terms of Service", href: "/terms" },
     { name: "Affiliate Disclaimer", href: "/disclaimer" },
-    { name: "Contact Us", href: "/contact", icon: Mail },
+    // { name: "Contact Us", href: "/contact", icon: Mail },
   ];
 
   const socialLinks = [
@@ -35,7 +35,7 @@ const Footer = () => {
   return (
     <footer className="bg-linear-to-b from-gray-50 to-white border-t border-gray-200">
       {/* Amazon Disclaimer */}
-      <div className="bg-linear-to-r from-cyan-50 to-blue-50 border-t-2 border-cyan-400 py-6">
+      {/* <div className="bg-linear-to-r from-cyan-50 to-blue-50 border-t-2 border-cyan-400 py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-start gap-3">
             <div className="shrink-0 mt-0.5">
@@ -69,7 +69,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -142,7 +142,7 @@ const Footer = () => {
           {/* Legal & Contact */}
           <div>
             <h3 className="text-gray-900 text-sm font-semibold uppercase tracking-wider mb-2">
-              Legal & Contact
+              Legal
             </h3>
             <ul className="space-y-2">
               {legal.map((item) => (
@@ -169,13 +169,13 @@ const Footer = () => {
             <p className="text-sm text-gray-600">
               © {currentYear} MishBabyGuide.com. All rights reserved.
             </p>
-            <p className="text-xs text-gray-500 text-center md:text-right max-w-2xl">
+            {/* <p className="text-xs text-gray-500 text-center md:text-right max-w-2xl">
               The information provided on this website is for general
               informational purposes only. We make every effort to ensure
               accuracy, but product specifications and prices may change. Always
               verify details on the retailer&apos;s site before making a
               purchase.
-            </p>
+            </p> */}
           </div>
         </div>
       </div>

@@ -113,7 +113,7 @@ const FeaturedProducts = () => {
 
         {/* View All Link */}
         <div className="text-center mt-12">
-          <a
+          <Link
             href="/products"
             className="inline-flex items-center gap-2 text-cyan-600 font-semibold hover:text-cyan-700 transition-colors group"
           >
@@ -131,7 +131,7 @@ const FeaturedProducts = () => {
                 d="M17 8l4 4m0 0l-4 4m4-4H3"
               />
             </svg>
-          </a>
+          </Link>
         </div>
       </div>
     </section>

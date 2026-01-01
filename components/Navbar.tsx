@@ -163,20 +163,6 @@ const Navbar = () => {
                   )}
                 </AnimatePresence>
               </div>
-
-              {/* Standard Links (from screenshot) */}
-              <Link
-                href="/bundles"
-                className="text-[15px] font-medium text-gray-700 hover:text-cyan-600 transition-colors"
-              >
-                Bundle Deals
-              </Link>
-              <Link
-                href="/deals"
-                className="text-[15px] font-medium text-gray-700 hover:text-cyan-600 transition-colors"
-              >
-                Deals
-              </Link>
             </div>
           </div>
 
@@ -225,19 +211,6 @@ const Navbar = () => {
                   <span className="text-gray-700 font-medium">{item.name}</span>
                 </Link>
               ))}
-              <div className="h-px bg-gray-100 my-2" />
-              <Link
-                href="/bundles"
-                className="block p-2 font-medium text-gray-700"
-              >
-                Bundle Deals
-              </Link>
-              <Link
-                href="/deals"
-                className="block p-2 font-medium text-gray-700"
-              >
-                Deals
-              </Link>
             </div>
           </motion.div>
         )}
