@@ -1,5 +1,4 @@
 "use client";
-
 import Link from "next/link";
 import { useState } from "react";
 import {
@@ -14,13 +13,16 @@ import {
   ShieldCheck,
   Gamepad2,
   LayoutGrid,
+  Search,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Logo from "./Logo";
+import SearchComponent from "./Search";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [showMobileSearch, setShowMobileSearch] = useState(false);
 
   const categories = [
     {
@@ -88,43 +90,36 @@ const Navbar = () => {
       transition: { duration: 0.15, ease: "easeIn" as const },
     },
   };
-  // Shared styles for top-level links to keep them consistent
+
   const navLinkStyles =
     "text-[15px] font-medium text-gray-700 hover:text-cyan-600 transition-colors";
 
   return (
-    <nav className="bg-white sticky top-0 z-50 border-b border-gray-200 shadow-sm font-sans">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+    <nav className="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between h-16">
           {/* Left Side: Logo & Desktop Menu */}
-          <div className="flex items-center gap-12">
+          <div className="flex items-center gap-8">
             {/* Logo */}
-            <div className="shrink-0 cursor-pointer">
-              <Logo size="md" />
-            </div>
+            <Link href="/" className="shrink-0">
+              <Logo />
+            </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center gap-8">
+            <div className="hidden lg:flex items-center gap-6">
               {/* CATEGORIES DROPDOWN */}
               <div
                 className="relative"
                 onMouseEnter={() => setIsDropdownOpen(true)}
                 onMouseLeave={() => setIsDropdownOpen(false)}
               >
-                <button
-                  className={`flex items-center gap-1 text-[15px] font-semibold transition-colors py-8 ${
-                    isDropdownOpen
-                      ? "text-cyan-600"
-                      : "text-gray-700 hover:text-cyan-600"
-                  }`}
-                >
+                <button className="flex items-center gap-1 text-[15px] font-medium text-gray-700 hover:text-cyan-600 transition-colors">
                   Categories
-                  <motion.div
-                    animate={{ rotate: isDropdownOpen ? 180 : 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <ChevronDown className="h-4 w-4" />
-                  </motion.div>
+                  <ChevronDown
+                    className={`w-4 h-4 transition-transform ${
+                      isDropdownOpen ? "rotate-180" : ""
+                    }`}
+                  />
                 </button>
 
                 {/* The Dropdown Menu */}
@@ -135,21 +130,21 @@ const Navbar = () => {
                       initial="hidden"
                       animate="visible"
                       exit="exit"
-                      className="absolute top-[80%] left-0 w-70 bg-white rounded-xl shadow-xl ring-1 ring-black/5 overflow-hidden z-50"
+                      className="absolute top-full left-0 mt-2 w-72 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden"
                     >
-                      <div className="max-h-[80vh] overflow-y-auto py-2">
+                      <div className="p-2">
                         {categories.map((item) => (
                           <Link
                             key={item.name}
                             href={item.href}
-                            className="flex items-center gap-4 px-4 py-3 hover:bg-gray-50 transition-colors group"
+                            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors group"
                           >
                             <div
-                              className={`h-10 w-10 rounded-full flex items-center justify-center shrink-0 ${item.color} group-hover:brightness-95 transition-all`}
+                              className={`${item.color} p-2 rounded-lg group-hover:scale-110 transition-transform`}
                             >
-                              <item.icon className="h-5 w-5" />
+                              <item.icon className="w-5 h-5" />
                             </div>
-                            <span className="text-gray-700 font-medium text-[15px] group-hover:text-cyan-700">
+                            <span className="text-sm font-medium text-gray-700 group-hover:text-cyan-600">
                               {item.name}
                             </span>
                           </Link>
@@ -160,7 +155,7 @@ const Navbar = () => {
                 </AnimatePresence>
               </div>
 
-              {/* NEW LINKS ADDED HERE */}
+              {/* NEW LINKS */}
               <Link href="/blog" className={navLinkStyles}>
                 Blog
               </Link>
@@ -170,73 +165,114 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Right Side: (Search, Cart, etc) */}
-          <div className="hidden lg:flex items-center gap-4">
-            {/* Icons go here */}
+          {/* Center/Right: Desktop Search Bar */}
+          <div className="hidden lg:flex flex-1 max-w-sm mx-8">
+            <SearchComponent />
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="lg:hidden">
+          {/* Right Side: Mobile Icons */}
+          <div className="flex items-center gap-2 lg:hidden">
+            {/* Mobile Search Icon */}
             <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              onClick={() => {
+                setShowMobileSearch(!showMobileSearch);
+                if (isMobileMenuOpen) setIsMobileMenuOpen(false);
+              }}
+              className="p-2 text-gray-700 hover:text-cyan-600 transition"
+              aria-label="Search"
+            >
+              <Search className="w-5 h-5" />
+            </button>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => {
+                setIsMobileMenuOpen(!isMobileMenuOpen);
+                if (showMobileSearch) setShowMobileSearch(false);
+              }}
               className="p-2 text-gray-600 hover:text-cyan-600"
             >
-              {isMobileMenuOpen ? <X /> : <Menu />}
+              {isMobileMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
             </button>
           </div>
         </div>
-      </div>
 
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="lg:hidden bg-white border-t border-gray-100"
-          >
-            <div className="px-4 py-4 space-y-2">
-              <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">
-                Categories
+        {/* Mobile Search Slide Panel */}
+        <AnimatePresence>
+          {showMobileSearch && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="lg:hidden overflow-hidden border-t border-gray-100"
+            >
+              <div className="py-4 max-h-[80vh] overflow-y-auto">
+                <SearchComponent onClose={() => setShowMobileSearch(false)} />
               </div>
-              {categories.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50"
-                >
-                  <div
-                    className={`h-8 w-8 rounded-full flex items-center justify-center ${item.color}`}
-                  >
-                    <item.icon className="h-4 w-4" />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="lg:hidden overflow-hidden border-t border-gray-100"
+            >
+              <div className="py-4 space-y-2 max-h-[70vh] overflow-y-auto">
+                {/* Categories Section */}
+                <div className="mb-4">
+                  <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider px-2 mb-2">
+                    Categories
                   </div>
-                  <span className="text-gray-700 font-medium">{item.name}</span>
-                </Link>
-              ))}
+                  {categories.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50"
+                    >
+                      <div className={`${item.color} p-2 rounded-lg`}>
+                        <item.icon className="w-4 h-4" />
+                      </div>
+                      <span className="text-sm font-medium text-gray-700">
+                        {item.name}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
 
-              {/* Mobile Separator and New Links */}
-              <div className="h-px bg-gray-100 my-3" />
-
-              <Link
-                href="/blog"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="block p-2 font-medium text-gray-700 hover:text-cyan-600"
-              >
-                Blog
-              </Link>
-              <Link
-                href="/about"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="block p-2 font-medium text-gray-700 hover:text-cyan-600"
-              >
-                About Us
-              </Link>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                {/* Mobile Separator and New Links */}
+                <div className="border-t border-gray-100 pt-2 space-y-1">
+                  <Link
+                    href="/blog"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="block p-2 font-medium text-gray-700 hover:text-cyan-600"
+                  >
+                    Blog
+                  </Link>
+                  <Link
+                    href="/about"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="block p-2 font-medium text-gray-700 hover:text-cyan-600"
+                  >
+                    About Us
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </nav>
   );
 };
