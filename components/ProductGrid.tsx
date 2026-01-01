@@ -1,8 +1,9 @@
-import React from "react";
-import ProductCard from "./ProductCard";
+import Link from "next/link";
+import { Package } from "lucide-react";
+
 import { Product } from "@/lib/sanity.client";
 import { getProductCardImage } from "@/lib/sanity.image";
-import { Package } from "lucide-react";
+import ProductCard from "./ProductCard";
 
 interface ProductGridProps {
   products: Product[];
@@ -36,14 +37,14 @@ const ProductGrid: React.FC<ProductGridProps> = ({
           No Products Found
         </h3>
         <p className="text-gray-600 mb-6">
-          We couldn&apos;t find any products in this category yet.
+          We couldn&apos;t find any products matching your filters.
         </p>
-        <a
+        <Link
           href="/products"
           className="inline-flex items-center gap-2 px-6 py-3 bg-cyan-600 text-white font-semibold rounded-lg hover:bg-cyan-700 transition-all"
         >
-          Browse All Products
-        </a>
+          View All Products
+        </Link>
       </div>
     );
   }
@@ -65,6 +66,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
           excerpt={product.excerpt}
           amazonLink={product.amazonLink}
           category={product.category?.title}
+          hasFullReview={product.hasFullReview}
         />
       ))}
     </div>

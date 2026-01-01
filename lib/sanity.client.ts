@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createClient } from "next-sanity";
 import {
   featuredProductsQuery,
@@ -43,16 +44,15 @@ export interface Product {
   excerpt: string;
   amazonLink: string;
   category?: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    _id(_id: any, _id1: string): unknown;
     title: string;
     slug: { current: string };
   };
   subcategory?: string;
   pros?: string[];
   cons?: string[];
-  review?: unknown[];
+  review?: any[];
   featured?: boolean;
+  hasFullReview?: boolean; // NEW FIELD
   publishedAt: string;
   seo?: {
     metaTitle?: string;
@@ -72,7 +72,7 @@ export interface Post {
     };
   };
   excerpt: string;
-  body?: unknown[];
+  body?: any[];
   publishedAt: string;
   author?: string;
   categories?: Array<{
@@ -200,11 +200,11 @@ export async function getAllProducts(): Promise<Product[]> {
 }
 
 // Search products
-export async function searchProducts(searchQuery: string): Promise<Product[]> {
+export async function searchProducts(query: string): Promise<Product[]> {
   try {
     const products = await client.fetch<Product[]>(searchProductsQuery, {
-      searchQuery,
-    });
+      query,
+    } as any);
     return products;
   } catch (error) {
     console.error("Error searching products:", error);
@@ -214,8 +214,8 @@ export async function searchProducts(searchQuery: string): Promise<Product[]> {
 
 // Get related products
 export async function getRelatedProducts(
-  categoryId: string | unknown,
-  currentProductId: string | unknown
+  categoryId: string,
+  currentProductId: string
 ): Promise<Product[]> {
   try {
     const products = await client.fetch<Product[]>(relatedProductsQuery, {

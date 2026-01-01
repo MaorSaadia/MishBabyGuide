@@ -2,7 +2,7 @@ import { groq } from "next-sanity";
 
 // Get all featured products
 export const featuredProductsQuery = groq`
-  *[_type == "product"] | order(publishedAt desc) {
+  *[_type == "product" && featured == true] | order(publishedAt desc) {
     _id,
     title,
     slug,
@@ -16,6 +16,7 @@ export const featuredProductsQuery = groq`
     rating,
     excerpt,
     amazonLink,
+    hasFullReview,
     category-> {
       title,
       slug
@@ -73,6 +74,7 @@ export const productsByCategoryQuery = groq`
     rating,
     excerpt,
     amazonLink,
+    hasFullReview,
     category-> {
       title,
       slug
@@ -104,9 +106,11 @@ export const productBySlugQuery = groq`
     rating,
     excerpt,
     amazonLink,
+    hasFullReview,
     category-> {
       title,
-      slug
+      slug,
+      _id
     },
     subcategory,
     pros,
@@ -210,6 +214,7 @@ export const allProductsQuery = groq`
     rating,
     excerpt,
     amazonLink,
+    hasFullReview,
     category-> {
       title,
       slug
