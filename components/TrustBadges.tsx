@@ -107,7 +107,7 @@ const TrustBadges = () => {
         </div>
 
         {/* Stats Section */}
-        <div className="mt-16 bg-linear-to-r from-cyan-600 to-cyan-700 rounded-3xl p-8 md:p-12 text-white shadow-xl">
+        {/* <div className="mt-16 bg-linear-to-r from-cyan-600 to-cyan-700 rounded-3xl p-8 md:p-12 text-white shadow-xl">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             <div className="space-y-2">
               <p className="text-4xl md:text-5xl font-bold">50+</p>
@@ -122,7 +122,7 @@ const TrustBadges = () => {
               <p className="text-cyan-100">Average Rating</p>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* CTA Section */}
         <div className="mt-12 text-center">

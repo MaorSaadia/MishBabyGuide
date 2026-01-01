@@ -412,7 +412,7 @@ export default function TermsOfServicePage() {
             </div>
 
             {/* Governing Law */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
+            {/* <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">
                 Governing Law and Jurisdiction
               </h2>
@@ -426,7 +426,7 @@ export default function TermsOfServicePage() {
                 shall be subject to the exclusive jurisdiction of the courts of
                 Israel.
               </p>
-            </div>
+            </div> */}
 
             {/* Severability */}
             <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">

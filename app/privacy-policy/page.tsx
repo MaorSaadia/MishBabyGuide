@@ -333,7 +333,7 @@ export default function PrivacyPolicyPage() {
             </div>
 
             {/* International Users */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
+            {/* <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">
                 International Users
               </h2>
@@ -347,7 +347,7 @@ export default function PrivacyPolicyPage() {
                 transfer of your information to countries outside your country
                 of residence.
               </p>
-            </div>
+            </div> */}
 
             {/* Third-Party Links */}
             <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">

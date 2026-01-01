@@ -22,8 +22,6 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  // I've added distinct colors to these icons to simulate the "Images" from your screenshot.
-  // You can easily replace the icon component with an <Image /> tag later.
   const categories = [
     {
       name: "All Products",
@@ -90,6 +88,9 @@ const Navbar = () => {
       transition: { duration: 0.15, ease: "easeIn" as const },
     },
   };
+  // Shared styles for top-level links to keep them consistent
+  const navLinkStyles =
+    "text-[15px] font-medium text-gray-700 hover:text-cyan-600 transition-colors";
 
   return (
     <nav className="bg-white sticky top-0 z-50 border-b border-gray-200 shadow-sm font-sans">
@@ -102,7 +103,7 @@ const Navbar = () => {
               <Logo size="md" />
             </div>
 
-            {/* Desktop Navigation - Matches Screenshot Layout */}
+            {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-8">
               {/* CATEGORIES DROPDOWN */}
               <div
@@ -136,7 +137,6 @@ const Navbar = () => {
                       exit="exit"
                       className="absolute top-[80%] left-0 w-70 bg-white rounded-xl shadow-xl ring-1 ring-black/5 overflow-hidden z-50"
                     >
-                      {/* Scrollable area if list gets too long */}
                       <div className="max-h-[80vh] overflow-y-auto py-2">
                         {categories.map((item) => (
                           <Link
@@ -144,15 +144,11 @@ const Navbar = () => {
                             href={item.href}
                             className="flex items-center gap-4 px-4 py-3 hover:bg-gray-50 transition-colors group"
                           >
-                            {/* Circle Image Placeholder */}
                             <div
                               className={`h-10 w-10 rounded-full flex items-center justify-center shrink-0 ${item.color} group-hover:brightness-95 transition-all`}
                             >
-                              {/* Replace this Icon with <Image src={item.img} /> for real photos */}
                               <item.icon className="h-5 w-5" />
                             </div>
-
-                            {/* Text */}
                             <span className="text-gray-700 font-medium text-[15px] group-hover:text-cyan-700">
                               {item.name}
                             </span>
@@ -163,12 +159,20 @@ const Navbar = () => {
                   )}
                 </AnimatePresence>
               </div>
+
+              {/* NEW LINKS ADDED HERE */}
+              <Link href="/blog" className={navLinkStyles}>
+                Blog
+              </Link>
+              <Link href="/about" className={navLinkStyles}>
+                About Us
+              </Link>
             </div>
           </div>
 
-          {/* Right Side: (Search, Cart, etc - simplified for now) */}
+          {/* Right Side: (Search, Cart, etc) */}
           <div className="hidden lg:flex items-center gap-4">
-            {/* You can add Search / Cart icons here later */}
+            {/* Icons go here */}
           </div>
 
           {/* Mobile Menu Button */}
@@ -183,7 +187,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu (Simplified Vertical List) */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -211,6 +215,24 @@ const Navbar = () => {
                   <span className="text-gray-700 font-medium">{item.name}</span>
                 </Link>
               ))}
+
+              {/* Mobile Separator and New Links */}
+              <div className="h-px bg-gray-100 my-3" />
+
+              <Link
+                href="/blog"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block p-2 font-medium text-gray-700 hover:text-cyan-600"
+              >
+                Blog
+              </Link>
+              <Link
+                href="/about"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block p-2 font-medium text-gray-700 hover:text-cyan-600"
+              >
+                About Us
+              </Link>
             </div>
           </motion.div>
         )}
