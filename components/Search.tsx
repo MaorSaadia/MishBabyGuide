@@ -10,21 +10,24 @@ interface SearchProps {
 
 const Search: React.FC<SearchProps> = ({ onClose }) => {
   const [query, setQuery] = useState("");
-  const [recentSearches, setRecentSearches] = useState<string[]>(() => {
-    const saved = localStorage.getItem("recentSearches");
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      } catch (e) {
-        return [];
-      }
-    }
-    return [];
-  });
+  const [recentSearches, setRecentSearches] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Load recent searches from localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem("recentSearches");
+    if (saved) {
+      try {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setRecentSearches(JSON.parse(saved));
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        setRecentSearches([]);
+      }
+    }
+  }, []);
 
   // Keyboard shortcut (Ctrl+K or Cmd+K)
   useEffect(() => {
