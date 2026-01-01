@@ -44,6 +44,7 @@ export interface Product {
   excerpt: string;
   amazonLink: string;
   category?: {
+    _id(_id: any, _id1: string): unknown;
     title: string;
     slug: { current: string };
   };

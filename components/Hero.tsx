@@ -210,12 +210,12 @@ const Hero = () => {
               </div>
 
               {/* Floating badges */}
-              <div className="absolute -top-4 -right-4 bg-white rounded-full p-4 shadow-xl animate-bounce">
+              {/* <div className="absolute -top-4 -right-4 bg-white rounded-full p-4 shadow-xl animate-bounce">
                 <div className="text-center">
                   <p className="text-2xl font-bold text-cyan-600">50+</p>
                   <p className="text-xs text-gray-600">Reviews</p>
                 </div>
-              </div>
+              </div> */}
 
               {/* <div className="absolute -bottom-4 -left-4 bg-white rounded-full p-4 shadow-xl">
                 <div className="flex items-center gap-1">

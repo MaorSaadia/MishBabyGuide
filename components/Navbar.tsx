@@ -27,7 +27,7 @@ const Navbar = () => {
   const categories = [
     {
       name: "All Products",
-      href: "/all-products",
+      href: "/products",
       icon: LayoutGrid,
       color: "bg-emerald-100 text-emerald-600",
     },
@@ -44,8 +44,8 @@ const Navbar = () => {
       color: "bg-orange-100 text-orange-600",
     },
     {
-      name: "Bath Care",
-      href: "/category/bath-care",
+      name: "Bath Care & Accessories",
+      href: "/category/bath-care-accessories",
       icon: Bath,
       color: "bg-purple-100 text-purple-600",
     },
@@ -69,7 +69,7 @@ const Navbar = () => {
     },
     {
       name: "Toys & Games",
-      href: "/category/toys-games",
+      href: "/category/toys-plush-games",
       icon: Gamepad2,
       color: "bg-yellow-100 text-yellow-600",
     },

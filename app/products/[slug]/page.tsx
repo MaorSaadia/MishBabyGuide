@@ -77,7 +77,7 @@ export default async function ProductPage({
 
   // Get related products
   const relatedProducts = product.category?._id
-    ? await getRelatedProducts(product.category._id, product._id)
+    ? await getRelatedProducts(String(product.category._id), product._id)
     : [];
 
   // Prepare images for gallery
