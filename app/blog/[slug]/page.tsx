@@ -13,6 +13,7 @@ import ShareButtons from "@/components/ShareButtons";
 import ProductCard from "@/components/ProductCard";
 import { portableTextComponents } from "@/components/PortableTextComponents";
 import { Calendar, Clock, User, Tag } from "lucide-react";
+import Link from "next/link";
 
 // Generate static params for all posts
 export async function generateStaticParams() {
@@ -106,14 +107,14 @@ export default async function BlogPostPage({
             {post.categories && post.categories.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-4">
                 {post.categories.map((category) => (
-                  <a
+                  <Link
                     key={category.slug.current}
                     href={`/blog?category=${category.slug.current}`}
                     className="inline-flex items-center gap-1 px-3 py-1 bg-cyan-50 text-cyan-600 rounded-full text-sm font-medium hover:bg-cyan-100 transition-colors"
                   >
                     <Tag className="h-3 w-3" />
                     {category.title}
-                  </a>
+                  </Link>
                 ))}
               </div>
             )}

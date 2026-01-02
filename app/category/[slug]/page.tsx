@@ -1,14 +1,16 @@
-// app/category/[slug]/page.tsx
+import Link from "next/link";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Tag } from "lucide-react";
 import {
   getCategoryBySlug,
   getProductsByCategory,
   getAllCategories,
 } from "@/lib/sanity.client";
+import { generateItemListSchema, renderJsonLd } from "@/lib/structuredData";
+import { getProductCardImage } from "@/lib/sanity.image";
 import Breadcrumb from "@/components/Breadcrumb";
 import ProductGrid from "@/components/ProductGrid";
-import { Tag } from "lucide-react";
 
 // Generate static params for all categories (for static generation)
 export async function generateStaticParams() {
@@ -66,6 +68,17 @@ export default async function CategoryPage({
   if (!category) {
     notFound();
   }
+
+  const categorySchema = generateItemListSchema(
+    category.title,
+    products.map((product) => ({
+      name: product.title,
+      url: `/products/${product.slug.current}`,
+      image: product.mainImage
+        ? getProductCardImage(product.mainImage)
+        : undefined,
+    }))
+  );
 
   return (
     <div className="min-h-screen bg-white">
@@ -125,12 +138,12 @@ export default async function CategoryPage({
               Check out our comprehensive buying guides to make the best
               decision for your little one.
             </p>
-            <a
+            <Link
               href="/guides"
               className="inline-flex items-center gap-2 px-8 py-4 bg-cyan-600 text-white font-semibold rounded-lg hover:bg-cyan-700 transition-all shadow-md hover:shadow-lg"
             >
               View Buying Guides
-            </a>
+            </Link>
           </div>
         )}
       </div>
@@ -138,16 +151,7 @@ export default async function CategoryPage({
       {/* Schema.org Structured Data for Category */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "CollectionPage",
-            name: category.title,
-            description: category.description,
-            url: `${process.env.NEXT_PUBLIC_SITE_URL}/category/${slug}`,
-            numberOfItems: products.length,
-          }),
-        }}
+        dangerouslySetInnerHTML={renderJsonLd(categorySchema)}
       />
     </div>
   );

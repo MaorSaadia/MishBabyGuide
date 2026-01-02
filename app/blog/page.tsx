@@ -75,7 +75,7 @@ export default async function BlogPage({
                 All Posts
               </Link>
               {categories.map((category) => (
-                <a
+                <Link
                   key={category.slug.current}
                   href={`/blog?category=${category.slug.current}`}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
@@ -85,7 +85,7 @@ export default async function BlogPage({
                   }`}
                 >
                   {category.title}
-                </a>
+                </Link>
               ))}
             </div>
           </div>
