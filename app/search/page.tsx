@@ -67,9 +67,9 @@ export default async function SearchPage({
             results
           </p>
 
-          <div className="max-w-2xl">
+          {/* <div className="max-w-2xl">
             <SearchComponent />
-          </div>
+          </div> */}
         </div>
 
         {totalResults === 0 ? (

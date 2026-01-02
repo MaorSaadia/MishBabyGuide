@@ -14,6 +14,7 @@ const Search: React.FC<SearchProps> = ({ onClose }) => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Load recent searches from localStorage
   useEffect(() => {
@@ -46,6 +47,28 @@ const Search: React.FC<SearchProps> = ({ onClose }) => {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node) &&
+        inputRef.current &&
+        !inputRef.current.contains(e.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
 
   const handleSearch = (searchQuery: string) => {
     if (!searchQuery.trim()) return;
@@ -95,7 +118,7 @@ const Search: React.FC<SearchProps> = ({ onClose }) => {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onFocus={() => setIsOpen(true)}
-            placeholder="Search products and articles..."
+            placeholder="Search products..."
             className="w-full pl-12 pr-24 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:bg-white transition-all"
           />
           <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2">
@@ -104,11 +127,11 @@ const Search: React.FC<SearchProps> = ({ onClose }) => {
             </kbd>
             {query && (
               <button
-                type="button"
-                onClick={() => setQuery("")}
-                className="p-1 hover:bg-gray-200 rounded"
+          type="button"
+          onClick={() => setQuery("")}
+          className="p-1 hover:bg-gray-200 rounded"
               >
-                <X className="h-4 w-4 text-gray-400" />
+          <X className="h-4 w-4 text-gray-400" />
               </button>
             )}
           </div>
@@ -118,14 +141,17 @@ const Search: React.FC<SearchProps> = ({ onClose }) => {
       {/* Backdrop for desktop only */}
       {isOpen && (
         <div
-          className="hidden lg:block fixed inset-0 bg-black/20 z-40"
+          className="hidden lg:block fixed inset-0 z-40"
           onClick={() => setIsOpen(false)}
         />
       )}
 
       {/* Search Dropdown - Now displays inline on mobile instead of absolute */}
       {isOpen && (
-        <div className="mt-3 bg-white rounded-lg shadow-lg border border-gray-200 lg:absolute lg:top-full lg:left-0 lg:right-0 lg:mt-2 lg:shadow-xl lg:z-50">
+        <div
+          ref={dropdownRef}
+          className="mt-3 bg-white rounded-lg shadow-lg border border-gray-200 lg:absolute lg:top-full lg:left-0 lg:right-0 lg:mt-2 lg:shadow-xl lg:z-50"
+        >
           {/* Recent Searches */}
           {recentSearches.length > 0 && (
             <div className="p-4 border-b border-gray-100">
@@ -175,7 +201,7 @@ const Search: React.FC<SearchProps> = ({ onClose }) => {
           </div>
 
           {/* Tips */}
-          <div className="p-4 bg-gray-50 text-xs text-gray-500 rounded-b-lg">
+          <div className="hidden sm:block p-4 bg-gray-50 text-xs text-gray-500 rounded-b-lg">
             <p>
               💡 Tip: Press{" "}
               <kbd className="px-1 py-0.5 bg-white border rounded">Enter</kbd>{" "}
@@ -185,14 +211,6 @@ const Search: React.FC<SearchProps> = ({ onClose }) => {
             </p>
           </div>
         </div>
-      )}
-
-      {/* Backdrop for desktop only */}
-      {isOpen && (
-        <div
-          className="hidden lg:block fixed inset-0 bg-black/20 z-40"
-          onClick={() => setIsOpen(false)}
-        />
       )}
     </div>
   );

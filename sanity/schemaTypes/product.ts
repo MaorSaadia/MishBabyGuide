@@ -70,12 +70,12 @@ export default defineType({
       to: [{ type: "category" }],
       validation: (Rule) => Rule.required(),
     }),
-    defineField({
-      name: "subcategory",
-      title: "Subcategory",
-      type: "string",
-      description: "e.g., Bodysuits & Onesies, Bath Tubs",
-    }),
+    // defineField({
+    //   name: "subcategory",
+    //   title: "Subcategory",
+    //   type: "string",
+    //   description: "e.g., Bodysuits & Onesies, Bath Tubs",
+    // }),
     defineField({
       name: "excerpt",
       title: "Short Description",
