@@ -54,7 +54,7 @@ const LatestReviews = () => {
               <span className="text-sm font-semibold">Latest Articles</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Latest Reviews & Guides
+              Latest Blogs & Guides
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Expert insights and buying guides to help you choose the best
@@ -88,7 +88,7 @@ const LatestReviews = () => {
             <span className="text-sm font-semibold">Latest Articles</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Latest Reviews & Guides
+            Latest Blogs & Guides
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Expert insights, honest reviews, and buying guides to help you make

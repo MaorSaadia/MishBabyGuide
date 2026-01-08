@@ -41,19 +41,19 @@ export default defineType({
           scheme: ["http", "https"],
         }),
     }),
-    defineField({
-      name: "price",
-      title: "Price",
-      type: "string",
-      description: "e.g., $29.99 or $29.99 - $49.99",
-    }),
-    defineField({
-      name: "rating",
-      title: "Our Rating",
-      type: "number",
-      validation: (Rule) => Rule.min(1).max(5),
-      description: "Rate from 1 to 5 stars",
-    }),
+    // defineField({
+    //   name: "price",
+    //   title: "Price",
+    //   type: "string",
+    //   description: "e.g., $29.99 or $29.99 - $49.99",
+    // }),
+    // defineField({
+    //   name: "rating",
+    //   title: "Our Rating",
+    //   type: "number",
+    //   validation: (Rule) => Rule.min(1).max(5),
+    //   description: "Rate from 1 to 5 stars",
+    // }),
     defineField({
       name: "mainImage",
       title: "Main Product Image",
@@ -70,12 +70,6 @@ export default defineType({
       to: [{ type: "category" }],
       validation: (Rule) => Rule.required(),
     }),
-    // defineField({
-    //   name: "subcategory",
-    //   title: "Subcategory",
-    //   type: "string",
-    //   description: "e.g., Bodysuits & Onesies, Bath Tubs",
-    // }),
     defineField({
       name: "excerpt",
       title: "Short Description",
