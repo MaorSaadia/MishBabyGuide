@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Metadata } from "next";
 import { Search, Package, BookOpen } from "lucide-react";
 
