@@ -7,6 +7,8 @@ import { structure } from "./structure";
 // Import schemas
 import post from "./schemaTypes/post";
 import category from "./schemaTypes/category";
+import blogCategory from "./schemaTypes/blogCategory";
+import productCategory from "./schemaTypes/productCategory";
 import product from "./schemaTypes/product";
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
@@ -23,6 +25,6 @@ export default defineConfig({
     visionTool({ defaultApiVersion: "2024-12-06" }),
   ],
   schema: {
-    types: [post, category, product],
+    types: [post, category, productCategory, blogCategory, product],
   },
 });

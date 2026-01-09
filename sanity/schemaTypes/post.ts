@@ -36,9 +36,9 @@ export default defineType({
     }),
     defineField({
       name: "categories",
-      title: "Categories",
+      title: "Blog Categories",
       type: "array",
-      of: [{ type: "reference", to: { type: "category" } }],
+      of: [{ type: "reference", to: { type: "blogCategory" } }],
     }),
     defineField({
       name: "publishedAt",

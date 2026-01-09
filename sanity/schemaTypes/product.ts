@@ -65,9 +65,9 @@ export default defineType({
     }),
     defineField({
       name: "category",
-      title: "Category",
+      title: "Product Category",
       type: "reference",
-      to: [{ type: "category" }],
+      to: [{ type: "productCategory" }],
       validation: (Rule) => Rule.required(),
     }),
     defineField({

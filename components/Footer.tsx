@@ -169,13 +169,10 @@ const Footer = () => {
             <p className="text-sm text-gray-600">
               © {currentYear} MishBabyGuide.com. All rights reserved.
             </p>
-            {/* <p className="text-xs text-gray-500 text-center md:text-right max-w-2xl">
-              The information provided on this website is for general
-              informational purposes only. We make every effort to ensure
-              accuracy, but product specifications and prices may change. Always
-              verify details on the retailer&apos;s site before making a
-              purchase.
-            </p> */}
+            <p className="text-xs text-gray-500 text-center md:text-right max-w-2xl">
+              As an Amazon Associate, we earn from qualifying purchases at no
+              additional cost to you.
+            </p>
           </div>
         </div>
       </div>
