@@ -42,19 +42,33 @@ export const latestPostsQuery = groq`
     author,
     categories[]-> {
       title,
-      slug
+      slug,
+      color
     }
   }
 `;
 
-// Get all categories
-export const allCategoriesQuery = groq`
-  *[_type == "category"] | order(title asc) {
+// Get all PRODUCT categories
+export const allProductCategoriesQuery = groq`
+  *[_type == "productCategory"] | order(order asc) {
     _id,
     title,
     slug,
     description,
-    icon
+    icon,
+    order
+  }
+`;
+
+// Get all BLOG categories
+export const allBlogCategoriesQuery = groq`
+  *[_type == "blogCategory"] | order(order asc) {
+    _id,
+    title,
+    slug,
+    description,
+    color,
+    order
   }
 `;
 
@@ -144,7 +158,8 @@ export const postBySlugQuery = groq`
     author,
     categories[]-> {
       title,
-      slug
+      slug,
+      color
     },
     relatedProducts[]-> {
       _id,
@@ -156,7 +171,8 @@ export const postBySlugQuery = groq`
         }
       },
       price,
-      amazonLink
+      amazonLink,
+      hasFullReview
     },
     seo {
       metaTitle,
@@ -165,14 +181,25 @@ export const postBySlugQuery = groq`
   }
 `;
 
-// Get category by slug
-export const categoryBySlugQuery = groq`
-  *[_type == "category" && slug.current == $slug][0] {
+// Get PRODUCT category by slug
+export const productCategoryBySlugQuery = groq`
+  *[_type == "productCategory" && slug.current == $slug][0] {
     _id,
     title,
     slug,
     description,
     icon
+  }
+`;
+
+// Get BLOG category by slug
+export const blogCategoryBySlugQuery = groq`
+  *[_type == "blogCategory" && slug.current == $slug][0] {
+    _id,
+    title,
+    slug,
+    description,
+    color
   }
 `;
 
@@ -193,7 +220,8 @@ export const allPostsQuery = groq`
     author,
     categories[]-> {
       title,
-      slug
+      slug,
+      color
     }
   }
 `;
@@ -243,6 +271,7 @@ export const searchProductsQuery = groq`
     rating,
     excerpt,
     amazonLink,
+    hasFullReview,
     category-> {
       title,
       slug
@@ -265,6 +294,7 @@ export const relatedProductsQuery = groq`
     price,
     rating,
     excerpt,
-    amazonLink
+    amazonLink,
+    hasFullReview
   }
 `;

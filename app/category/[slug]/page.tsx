@@ -6,6 +6,7 @@ import {
   getCategoryBySlug,
   getProductsByCategory,
   getAllCategories,
+  getProductCategoryBySlug,
 } from "@/lib/sanity.client";
 import { generateItemListSchema, renderJsonLd } from "@/lib/structuredData";
 import { getProductCardImage } from "@/lib/sanity.image";
@@ -60,7 +61,7 @@ export default async function CategoryPage({
 
   // Fetch category and products
   const [category, products] = await Promise.all([
-    getCategoryBySlug(slug),
+    getProductCategoryBySlug(slug),
     getProductsByCategory(slug),
   ]);
 

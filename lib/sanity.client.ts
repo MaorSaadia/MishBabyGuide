@@ -3,11 +3,13 @@ import { createClient } from "next-sanity";
 import {
   featuredProductsQuery,
   latestPostsQuery,
-  allCategoriesQuery,
+  allProductCategoriesQuery,
+  allBlogCategoriesQuery,
   productsByCategoryQuery,
   productBySlugQuery,
   postBySlugQuery,
-  categoryBySlugQuery,
+  productCategoryBySlugQuery,
+  blogCategoryBySlugQuery,
   allPostsQuery,
   allProductsQuery,
   searchProductsQuery,
@@ -44,7 +46,7 @@ export interface Product {
   excerpt: string;
   amazonLink: string;
   category?: {
-    _id(_id: any, _id1: string): unknown;
+    _id: string;
     title: string;
     slug: { current: string };
   };
@@ -53,7 +55,7 @@ export interface Product {
   cons?: string[];
   review?: any[];
   featured?: boolean;
-  hasFullReview?: boolean; // NEW FIELD
+  hasFullReview?: boolean;
   publishedAt: string;
   seo?: {
     metaTitle?: string;
@@ -79,6 +81,7 @@ export interface Post {
   categories?: Array<{
     title: string;
     slug: { current: string };
+    color?: string;
   }>;
   relatedProducts?: Product[];
   seo?: {
@@ -87,12 +90,22 @@ export interface Post {
   };
 }
 
-export interface Category {
+export interface ProductCategory {
   _id: string;
   title: string;
   slug: { current: string };
   description?: string;
   icon?: string;
+  order?: number;
+}
+
+export interface BlogCategory {
+  _id: string;
+  title: string;
+  slug: { current: string };
+  description?: string;
+  color?: string;
+  order?: number;
 }
 
 // Fetch featured products
@@ -117,15 +130,35 @@ export async function getLatestPosts(limit: number = 6): Promise<Post[]> {
   }
 }
 
-// Fetch all categories
-export async function getAllCategories(): Promise<Category[]> {
+// Fetch all product categories
+export async function getAllProductCategories(): Promise<ProductCategory[]> {
   try {
-    const categories = await client.fetch<Category[]>(allCategoriesQuery);
+    const categories = await client.fetch<ProductCategory[]>(
+      allProductCategoriesQuery
+    );
     return categories;
   } catch (error) {
-    console.error("Error fetching categories:", error);
+    console.error("Error fetching product categories:", error);
     return [];
   }
+}
+
+// Fetch all blog categories
+export async function getAllBlogCategories(): Promise<BlogCategory[]> {
+  try {
+    const categories = await client.fetch<BlogCategory[]>(
+      allBlogCategoriesQuery
+    );
+    return categories;
+  } catch (error) {
+    console.error("Error fetching blog categories:", error);
+    return [];
+  }
+}
+
+// Legacy function for backward compatibility
+export async function getAllCategories(): Promise<ProductCategory[]> {
+  return getAllProductCategories();
 }
 
 // Fetch products by category
@@ -163,19 +196,44 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
   }
 }
 
-// Fetch category by slug
-export async function getCategoryBySlug(
+// Fetch product category by slug
+export async function getProductCategoryBySlug(
   slug: string
-): Promise<Category | null> {
+): Promise<ProductCategory | null> {
   try {
-    const category = await client.fetch<Category>(categoryBySlugQuery, {
+    const category = await client.fetch<ProductCategory>(
+      productCategoryBySlugQuery,
+      {
+        slug,
+      }
+    );
+    return category;
+  } catch (error) {
+    console.error("Error fetching product category:", error);
+    return null;
+  }
+}
+
+// Fetch blog category by slug
+export async function getBlogCategoryBySlug(
+  slug: string
+): Promise<BlogCategory | null> {
+  try {
+    const category = await client.fetch<BlogCategory>(blogCategoryBySlugQuery, {
       slug,
     });
     return category;
   } catch (error) {
-    console.error("Error fetching category:", error);
+    console.error("Error fetching blog category:", error);
     return null;
   }
+}
+
+// Legacy function for backward compatibility
+export async function getCategoryBySlug(
+  slug: string
+): Promise<ProductCategory | null> {
+  return getProductCategoryBySlug(slug);
 }
 
 // Fetch all posts
