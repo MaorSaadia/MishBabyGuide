@@ -6,6 +6,7 @@ import {
   Link2,
   Ban,
 } from "lucide-react";
+import Link from "next/link";
 
 export default function TermsOfServicePage() {
   const lastUpdated = "December 29, 2025";
@@ -480,14 +481,14 @@ export default function TermsOfServicePage() {
                 <p>Website: mishbaby-guide.vercel.app</p>
                 <p>
                   Main Store:{" "}
-                  <a
+                  <Link
                     href="https://mishbaby.com"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="underline hover:text-cyan-100"
                   >
                     mishbaby.com
-                  </a>
+                  </Link>
                 </p>
                 <p className="mt-4 text-sm opacity-90">
                   We typically respond to inquiries within 2-3 business days.

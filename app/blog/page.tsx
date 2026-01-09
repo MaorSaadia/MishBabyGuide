@@ -157,12 +157,12 @@ export default async function BlogPage({
             Get the latest baby product reviews and parenting tips delivered to
             your inbox
           </p>
-          <a
+          <Link
             href="/contact"
             className="inline-flex items-center gap-2 px-8 py-4 bg-white text-cyan-600 font-bold rounded-lg hover:bg-gray-100 transition-all shadow-lg"
           >
             Subscribe to Newsletter
-          </a>
+          </Link>
         </div> */}
       </div>
     </div>

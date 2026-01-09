@@ -106,13 +106,13 @@ export default async function SearchPage({
                     "baby monitor",
                     "high chair",
                   ].map((term) => (
-                    <a
+                    <Link
                       key={term}
                       href={`/search?q=${encodeURIComponent(term)}`}
                       className="px-4 py-2 bg-white border border-gray-200 rounded-full text-sm hover:border-cyan-600 hover:text-cyan-600 transition-colors"
                     >
                       {term}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </div>

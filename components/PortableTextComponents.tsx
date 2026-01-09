@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { PortableTextComponents } from "@portabletext/react";
 import { getImageUrl } from "@/lib/sanity.image";
+import Link from "next/link";
 
 export const portableTextComponents: PortableTextComponents = {
   block: {
@@ -52,14 +53,14 @@ export const portableTextComponents: PortableTextComponents = {
         ? "noopener noreferrer"
         : undefined;
       return (
-        <a
+        <Link
           href={value?.href}
           rel={rel}
           target={!value?.href?.startsWith("/") ? "_blank" : undefined}
           className="text-cyan-600 hover:text-cyan-700 underline"
         >
           {children}
-        </a>
+        </Link>
       );
     },
   },

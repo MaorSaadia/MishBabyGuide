@@ -87,14 +87,14 @@ const Footer = () => {
             {/* Social Media */}
             <div className="flex gap-3">
               {socialLinks.map((social) => (
-                <a
+                <Link
                   key={social.name}
                   href={social.href}
                   className="w-10 h-10 bg-gray-100 hover:bg-cyan-100 rounded-lg flex items-center justify-center text-gray-600 hover:text-cyan-600 transition-all duration-200 group"
                   aria-label={social.name}
                 >
                   <social.icon className="h-5 w-5 group-hover:scale-110 transition-transform" />
-                </a>
+                </Link>
               ))}
             </div>
           </div>

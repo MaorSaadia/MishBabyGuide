@@ -7,6 +7,7 @@ import {
   Users,
   ThumbsUp,
 } from "lucide-react";
+import Link from "next/link";
 
 interface Badge {
   icon: React.ReactNode;
@@ -130,18 +131,18 @@ const TrustBadges = () => {
             Join thousands of parents making confident choices
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
+            <Link
               href="#featured-products"
               className="inline-flex items-center justify-center px-8 py-4 bg-cyan-600 text-white font-semibold rounded-lg hover:bg-cyan-700 transition-all shadow-md hover:shadow-lg"
             >
               Start Exploring
-            </a>
-            <a
+            </Link>
+            <Link
               href="/about"
               className="inline-flex items-center justify-center px-8 py-4 bg-white text-cyan-600 font-semibold rounded-lg border-2 border-cyan-600 hover:bg-cyan-50 transition-all"
             >
               Learn More About Us
-            </a>
+            </Link>
           </div>
         </div>
       </div>

@@ -12,6 +12,7 @@ import ImageGallery from "@/components/ImageGallery";
 import RelatedProducts from "@/components/RelatedProducts";
 import { portableTextComponents } from "@/components/PortableTextComponents";
 import { ExternalLink, Check, X, Tag, ShoppingCart } from "lucide-react";
+import Link from "next/link";
 
 // Generate static params for all products
 export async function generateStaticParams() {
@@ -128,12 +129,12 @@ export default async function ProductPage({
               {product.category && (
                 <div className="flex items-center gap-2">
                   <Tag className="h-4 w-4 text-cyan-600" />
-                  <a
+                  <Link
                     href={`/category/${product.category.slug.current}`}
                     className="text-sm font-medium text-cyan-600 hover:text-cyan-700"
                   >
                     {product.category.title}
-                  </a>
+                  </Link>
                 </div>
               )}
 
@@ -160,7 +161,7 @@ export default async function ProductPage({
               )}
 
               {/* Primary CTA */}
-              <a
+              <Link
                 href={product.amazonLink}
                 target="_blank"
                 rel="nofollow noopener noreferrer"
@@ -169,7 +170,7 @@ export default async function ProductPage({
                 <ShoppingCart className="h-6 w-6" />
                 View on Amazon
                 <ExternalLink className="h-5 w-5" />
-              </a>
+              </Link>
 
               {/* Secondary Info */}
               <p className="text-sm text-gray-500 text-center">
@@ -242,7 +243,7 @@ export default async function ProductPage({
               Get the {product.title} on Amazon{" "}
               {product.price && `for ${product.price}`}
             </p>
-            <a
+            <Link
               href={product.amazonLink}
               target="_blank"
               rel="nofollow noopener noreferrer"
@@ -251,7 +252,7 @@ export default async function ProductPage({
               <ShoppingCart className="h-6 w-6" />
               Buy on Amazon
               <ExternalLink className="h-5 w-5" />
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -313,7 +314,7 @@ export default async function ProductPage({
 
       {/* Sticky Bottom CTA (Mobile) */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 lg:hidden z-40 shadow-lg">
-        <a
+        <Link
           href={product.amazonLink}
           target="_blank"
           rel="nofollow noopener noreferrer"
@@ -321,7 +322,7 @@ export default async function ProductPage({
         >
           Buy on Amazon {product.price && `- ${product.price}`}
           <ExternalLink className="h-5 w-5" />
-        </a>
+        </Link>
       </div>
     </>
   );

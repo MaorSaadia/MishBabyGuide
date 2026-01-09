@@ -6,6 +6,7 @@ import {
   AlertCircle,
   Award,
 } from "lucide-react";
+import Link from "next/link";
 
 export default function DisclaimerPage() {
   const lastUpdated = "December 29, 2025";
@@ -531,14 +532,14 @@ export default function DisclaimerPage() {
                 <p>Website: mishbaby-guide.vercel.app</p>
                 <p>
                   Main Store:{" "}
-                  <a
+                  <Link
                     href="https://mishbaby.com"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="underline hover:text-cyan-100"
                   >
                     mishbaby.com
-                  </a>
+                  </Link>
                 </p>
                 <p className="mt-4 text-sm opacity-90">
                   Follow us on social media for daily parenting tips and product

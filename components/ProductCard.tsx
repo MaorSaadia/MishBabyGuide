@@ -95,7 +95,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         {hasFullReview ? (
           <div className="flex flex-col sm:flex-row gap-3 pt-2">
             {/* View on Amazon Button */}
-            <a
+            <Link
               href={amazonLink}
               target="_blank"
               rel="nofollow noopener noreferrer"
@@ -103,7 +103,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             >
               View on Amazon
               <ExternalLink className="h-4 w-4" />
-            </a>
+            </Link>
 
             {/* Read Review Link */}
             <Link
@@ -117,7 +117,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         ) : (
           <div className="pt-2">
             {/* Amazon Button Only */}
-            <a
+            <Link
               href={amazonLink}
               target="_blank"
               rel="nofollow noopener noreferrer"
@@ -125,7 +125,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             >
               Buy on Amazon
               <ExternalLink className="h-4 w-4" />
-            </a>
+            </Link>
           </div>
         )}
       </div>

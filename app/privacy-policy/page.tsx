@@ -1,4 +1,5 @@
 import { Shield, Lock, Eye, Cookie, FileText, Mail } from "lucide-react";
+import Link from "next/link";
 
 export default function PrivacyPolicyPage() {
   const lastUpdated = "December 29, 2025";
@@ -173,14 +174,14 @@ export default function PrivacyPolicyPage() {
                   </p>
                   <p className="text-gray-700 leading-relaxed">
                     For more information on how Google uses data, please visit{" "}
-                    <a
+                    <Link
                       href="https://policies.google.com/privacy"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-cyan-600 hover:text-cyan-700 underline"
                     >
                       Google&apos;s Privacy Policy
-                    </a>
+                    </Link>
                     .
                   </p>
                 </div>
@@ -397,14 +398,14 @@ export default function PrivacyPolicyPage() {
                     <p>Website: mishbaby-guide.vercel.app</p>
                     <p>
                       Main Store:{" "}
-                      <a
+                      <Link
                         href="https://mishbaby.com"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="underline hover:text-cyan-100"
                       >
                         mishbaby.com
-                      </a>
+                      </Link>
                     </p>
                   </div>
                 </div>

@@ -124,7 +124,7 @@ export default async function AllProductsPage({
                 </span>
               </div>
               <div className="flex flex-wrap gap-3">
-                <a
+                <Link
                   href={
                     selectedType
                       ? `/products?type=${selectedType}`
@@ -137,9 +137,9 @@ export default async function AllProductsPage({
                   }`}
                 >
                   All Categories
-                </a>
+                </Link>
                 {categories.map((category) => (
-                  <a
+                  <Link
                     key={category.slug.current}
                     href={`/products?category=${category.slug.current}${selectedType ? `&type=${selectedType}` : ""}`}
                     className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
@@ -149,7 +149,7 @@ export default async function AllProductsPage({
                     }`}
                   >
                     {category.title}
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>
