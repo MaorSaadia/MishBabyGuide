@@ -22,7 +22,7 @@ export default function StickyBuyFooter({
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50">
       {/* Desktop Footer */}
-      <div className="hidden md:block bg-gradient-to-r from-cyan-600 to-cyan-700 shadow-2xl border-t-4 border-cyan-500">
+      <div className="hidden md:block bg-linear-to-r from-cyan-600 to-cyan-700 shadow-2xl border-t-4 border-cyan-500">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between gap-6">
             {/* Product Info */}
@@ -51,7 +51,7 @@ export default function StickyBuyFooter({
                 className="group relative px-8 py-4 bg-white text-cyan-600 font-bold text-lg rounded-lg hover:bg-gray-50 transition-all shadow-lg hover:shadow-xl overflow-hidden"
               >
                 {/* Animated background */}
-                <div className="absolute inset-0 bg-gradient-to-r from-gray-50 to-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-linear-to-r from-gray-50 to-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                 {/* Button content */}
                 <div className="relative flex items-center gap-3">
@@ -61,7 +61,7 @@ export default function StickyBuyFooter({
                 </div>
 
                 {/* Shine effect */}
-                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-linear-to-r from-transparent via-white/30 to-transparent" />
               </Link>
 
               {/* Dismiss Button */}
@@ -104,7 +104,7 @@ export default function StickyBuyFooter({
             href={amazonLink}
             target="_blank"
             rel="nofollow noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full px-6 py-3 bg-gradient-to-r from-cyan-600 to-cyan-700 text-white font-bold rounded-lg hover:from-cyan-700 hover:to-cyan-800 transition-all shadow-lg active:scale-95"
+            className="flex items-center justify-center gap-2 w-full px-6 py-3 bg-linear-to-r from-cyan-600 to-cyan-700 text-white font-bold rounded-lg hover:from-cyan-700 hover:to-cyan-800 transition-all shadow-lg active:scale-95"
           >
             <ShoppingCart className="h-5 w-5" />
             Buy on Amazon
