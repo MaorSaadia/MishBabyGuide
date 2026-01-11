@@ -159,11 +159,7 @@ export default async function AllProductsPage({
         {/* Products Count */}
         <div className="mb-8">
           <p className="text-gray-600">
-            <span className="font-semibold text-gray-900">
-              {filteredProducts.length}
-            </span>{" "}
-            {filteredProducts.length === 1 ? "product" : "products"} found
-            {selectedCategory && (
+            {/* {selectedCategory && (
               <>
                 {" "}
                 in{" "}
@@ -175,7 +171,7 @@ export default async function AllProductsPage({
                   }
                 </span>
               </>
-            )}
+            )} */}
             {selectedType && (
               <>
                 {" "}
@@ -213,7 +209,7 @@ export default async function AllProductsPage({
             </Link>
           </div>
 
-          <div className="bg-linear-to-br from-purple-50 to-purple-100 rounded-2xl p-8">
+          <div className="bg-linear-to-br from-sky-50 to-sky-100 rounded-2xl p-8">
             <div className="text-4xl mb-4">⚡</div>
             <h3 className="text-xl font-bold text-gray-900 mb-2">
               Quick Recommendations
@@ -224,7 +220,7 @@ export default async function AllProductsPage({
             </p>
             <Link
               href="/products?type=quick"
-              className="inline-flex items-center gap-2 text-purple-600 font-semibold hover:text-purple-700"
+              className="inline-flex items-center gap-2 text-sky-600 font-semibold hover:text-sky-700"
             >
               View Quick Picks →
             </Link>
