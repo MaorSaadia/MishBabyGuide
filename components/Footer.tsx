@@ -18,13 +18,11 @@ const Footer = () => {
 
   const quickLinks = [
     { name: "About Us", href: "/about" },
-    { name: "Buying Guides", href: "/guides" },
     { name: "Product Reviews", href: "/products?type=full" },
     { name: "Blog", href: "/blog" },
   ];
 
   const categories = [
-    { name: "Baby Clothing", href: "/category/baby-clothing" },
     { name: "Baby Essentials", href: "/category/baby-essentials" },
     { name: "Feeding & Mealtime", href: "/category/feeding-mealtime" },
     { name: "Toys & Games", href: "/category/toys-games" },
@@ -34,7 +32,6 @@ const Footer = () => {
     { name: "Privacy Policy", href: "/privacy-policy" },
     { name: "Terms of Service", href: "/terms" },
     { name: "Affiliate Disclaimer", href: "/disclaimer" },
-    // { name: "Contact Us", href: "/contact", icon: Mail },
   ];
 
   const socialLinks = [

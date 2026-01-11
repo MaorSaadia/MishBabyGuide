@@ -48,7 +48,7 @@ export default function AboutPage() {
                   >
                     mishbaby.com
                   </Link>
-                  . Over time, we&apos;ve built a community of over 200,000
+                  . Over time, we&apos;ve built a community of over 300,000
                   parents across social media who trust us for honest advice and
                   quality recommendations.
                 </p>
@@ -88,10 +88,10 @@ export default function AboutPage() {
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                      200K+ Community
+                      300K+ Community
                     </h3>
                     <p className="text-gray-700">
-                      Over 200,000 parents trust us across all social media
+                      Over 300,000 parents trust us across all social media
                       platforms for honest reviews and recommendations.
                     </p>
                   </div>

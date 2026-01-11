@@ -241,7 +241,7 @@ export default async function BlogPostPage({
 
         {/* Author Bio (Optional) */}
         {post.author && (
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-12 mb-8">
             <div className="bg-gray-50 rounded-2xl p-8">
               <div className="flex items-start gap-4">
                 <div className="shrink-0 w-16 h-16 bg-cyan-600 rounded-full flex items-center justify-center text-white text-2xl font-bold">
