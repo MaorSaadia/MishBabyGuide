@@ -15,6 +15,7 @@ import { portableTextComponents } from "@/components/PortableTextComponents";
 import Breadcrumb from "@/components/Breadcrumb";
 import ImageGallery from "@/components/ImageGallery";
 import RelatedProducts from "@/components/RelatedProducts";
+import StickyBuyFooter from "@/components/StickyBuyFooter";
 
 // Generate static params for all products
 export async function generateStaticParams() {
@@ -99,7 +100,7 @@ export default async function ProductPage({
 
   return (
     <>
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gray-50 pb-24 md:pb-32">
         {/* Container */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Breadcrumb */}
@@ -132,19 +133,6 @@ export default async function ProductPage({
 
                 {/* Right: Product Info */}
                 <div className="space-y-6">
-                  {/* Category Badge */}
-                  {/* {product.category && (
-                    <div className="flex items-center gap-2">
-                      <Tag className="h-4 w-4 text-cyan-600" />
-                      <Link
-                        href={`/category/${product.category.slug.current}`}
-                        className="text-sm font-medium text-cyan-600 hover:text-cyan-700"
-                      >
-                        {product.category.title}
-                      </Link>
-                    </div>
-                  )} */}
-
                   {/* Product Title */}
                   <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
                     {product.title}
@@ -271,17 +259,6 @@ export default async function ProductPage({
 
               {/* RIGHT: Product Info Section */}
               <div className="space-y-6">
-                {/* Category Badge */}
-                {/* {product.category && (
-                  <Link
-                    href={`/category/${product.category.slug.current}`}
-                    className="inline-flex items-center gap-2 text-sm font-medium text-cyan-600 hover:text-cyan-700"
-                  >
-                    <Tag className="h-4 w-4" />
-                    {product.category.title}
-                  </Link>
-                )} */}
-
                 {/* Title & Excerpt */}
                 <div>
                   <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -336,6 +313,13 @@ export default async function ProductPage({
         )}
       </div>
 
+      {/* Sticky Buy Footer - NEW! */}
+      <StickyBuyFooter
+        amazonLink={product.amazonLink}
+        productTitle={product.title}
+        price={product.price}
+      />
+
       {/* Product Schema Markup */}
       <script
         type="application/ld+json"
@@ -383,19 +367,6 @@ export default async function ProductPage({
           }),
         }}
       />
-
-      {/* Sticky Bottom CTA (Mobile) */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 lg:hidden z-40 shadow-lg">
-        <Link
-          href={product.amazonLink}
-          target="_blank"
-          rel="nofollow noopener noreferrer"
-          className="flex items-center justify-center gap-2 w-full px-6 py-3 bg-cyan-600 text-white font-bold rounded-lg hover:bg-cyan-700 transition-all"
-        >
-          Buy on Amazon {product.price && `- ${product.price}`}
-          <ExternalLink className="h-5 w-5" />
-        </Link>
-      </div>
     </>
   );
 }
