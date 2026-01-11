@@ -1,19 +1,20 @@
+import Link from "next/link";
+import Image from "next/image";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Image from "next/image";
+import { Calendar, Clock, User, Tag } from "lucide-react";
 import { PortableText } from "@portabletext/react";
+
 import { getPostBySlug, getAllPosts } from "@/lib/sanity.client";
 import {
   getImageUrl,
   getBlogCardImage,
   getProductCardImage,
 } from "@/lib/sanity.image";
+import { portableTextComponents } from "@/components/PortableTextComponents";
 import Breadcrumb from "@/components/Breadcrumb";
 import ShareButtons from "@/components/ShareButtons";
 import ProductCard from "@/components/ProductCard";
-import { portableTextComponents } from "@/components/PortableTextComponents";
-import { Calendar, Clock, User, Tag } from "lucide-react";
-import Link from "next/link";
 
 // Generate static params for all posts
 export async function generateStaticParams() {

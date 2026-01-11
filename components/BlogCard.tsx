@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Calendar, ArrowRight, Clock } from "lucide-react";
+import { Calendar, ArrowRight } from "lucide-react";
 
 interface BlogCardProps {
   title: string;
@@ -10,7 +10,6 @@ interface BlogCardProps {
   publishedAt: string;
   author?: string;
   category?: string;
-  readTime?: string;
 }
 
 const BlogCard: React.FC<BlogCardProps> = ({
@@ -21,7 +20,6 @@ const BlogCard: React.FC<BlogCardProps> = ({
   publishedAt,
   author,
   category,
-  readTime = "5 min read",
 }) => {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -82,10 +80,10 @@ const BlogCard: React.FC<BlogCardProps> = ({
             <Calendar className="h-4 w-4" />
             <time dateTime={publishedAt}>{formatDate(publishedAt)}</time>
           </div>
-          <div className="flex items-center gap-1">
+          {/* <div className="flex items-center gap-1">
             <Clock className="h-4 w-4" />
             <span>{readTime}</span>
-          </div>
+          </div> */}
         </div>
 
         {/* Title */}

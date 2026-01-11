@@ -1,9 +1,10 @@
-import { Metadata } from "next";
-import { getAllPosts, getAllCategories } from "@/lib/sanity.client";
-import BlogCard from "@/components/BlogCard";
-import { getBlogCardImage } from "@/lib/sanity.image";
-import { BookOpen, Filter } from "lucide-react";
 import Link from "next/link";
+import { Metadata } from "next";
+import { BookOpen, Filter } from "lucide-react";
+
+import BlogCard from "@/components/BlogCard";
+import { getAllPosts, getAllBlogCategories } from "@/lib/sanity.client";
+import { getBlogCardImage } from "@/lib/sanity.image";
 
 export const metadata: Metadata = {
   title: "Blog - Baby Product Reviews & Guides | MishBabyGuide",
@@ -26,7 +27,7 @@ export default async function BlogPage({
 
   const [posts, categories] = await Promise.all([
     getAllPosts(),
-    getAllCategories(),
+    getAllBlogCategories(),
   ]);
 
   // Filter posts by category if selected
