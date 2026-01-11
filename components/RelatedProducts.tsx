@@ -76,9 +76,9 @@ const RelatedProducts: React.FC<RelatedProductsProps> = ({
                   </Link>
 
                   {/* Description */}
-                  <p className="text-gray-600 text-sm line-clamp-2 leading-relaxed">
+                  {/* <p className="text-gray-600 text-sm line-clamp-2 leading-relaxed">
                     {product.excerpt}
-                  </p>
+                  </p> */}
 
                   {/* Buttons */}
                   <div className="flex gap-2 pt-2">

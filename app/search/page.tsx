@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Metadata } from "next";
 import { Search, Package, BookOpen } from "lucide-react";
 
@@ -96,7 +95,7 @@ export default async function SearchPage({
                 </ul>
               </div>
 
-              <div className="mt-8">
+              {/* <div className="mt-8">
                 <p className="text-sm font-medium text-gray-700 mb-3">
                   Popular searches:
                 </p>
@@ -116,7 +115,7 @@ export default async function SearchPage({
                     </Link>
                   ))}
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         ) : (

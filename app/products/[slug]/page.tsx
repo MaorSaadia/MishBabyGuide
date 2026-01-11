@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ExternalLink, Check, X, Tag, ShoppingCart } from "lucide-react";
+import { ExternalLink, Check, X, ShoppingCart } from "lucide-react";
 import { PortableText } from "@portabletext/react";
 
 import {
@@ -133,7 +133,7 @@ export default async function ProductPage({
                 {/* Right: Product Info */}
                 <div className="space-y-6">
                   {/* Category Badge */}
-                  {product.category && (
+                  {/* {product.category && (
                     <div className="flex items-center gap-2">
                       <Tag className="h-4 w-4 text-cyan-600" />
                       <Link
@@ -143,7 +143,7 @@ export default async function ProductPage({
                         {product.category.title}
                       </Link>
                     </div>
-                  )}
+                  )} */}
 
                   {/* Product Title */}
                   <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
@@ -272,7 +272,7 @@ export default async function ProductPage({
               {/* RIGHT: Product Info Section */}
               <div className="space-y-6">
                 {/* Category Badge */}
-                {product.category && (
+                {/* {product.category && (
                   <Link
                     href={`/category/${product.category.slug.current}`}
                     className="inline-flex items-center gap-2 text-sm font-medium text-cyan-600 hover:text-cyan-700"
@@ -280,7 +280,7 @@ export default async function ProductPage({
                     <Tag className="h-4 w-4" />
                     {product.category.title}
                   </Link>
-                )}
+                )} */}
 
                 {/* Title & Excerpt */}
                 <div>
@@ -297,7 +297,7 @@ export default async function ProductPage({
                 {/* Product Description */}
                 {product.shortDescription &&
                 product.shortDescription.length > 0 ? (
-                  <div className="prose prose-lg max-w-none bg-white rounded-xl p-6 border border-gray-200">
+                  <div className="prose prose-lg max-w-none bg-white rounded-xl p-6 py-1 border border-gray-200">
                     <PortableText
                       value={product.shortDescription as any}
                       components={portableTextComponents}

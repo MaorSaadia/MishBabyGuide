@@ -19,7 +19,18 @@ const ProductGrid: React.FC<ProductGridProps> = ({
 }) => {
   const [displayedProducts, setDisplayedProducts] = useState<Product[]>([]);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const [productsPerPage] = useState(5);
+  const [productsPerPage, setProductsPerPage] = useState(20);
+
+  // Determine products per page based on screen size
+  useEffect(() => {
+    const updateProductsPerPage = () => {
+      setProductsPerPage(window.innerWidth >= 768 ? 16 : 12);
+    };
+
+    updateProductsPerPage();
+    window.addEventListener("resize", updateProductsPerPage);
+    return () => window.removeEventListener("resize", updateProductsPerPage);
+  }, []);
 
   // Initialize displayed products
   useEffect(() => {
@@ -38,7 +49,6 @@ const ProductGrid: React.FC<ProductGridProps> = ({
   };
 
   const hasMore = displayedProducts.length < products.length;
-
   // Loading skeleton
   if (loading) {
     return (

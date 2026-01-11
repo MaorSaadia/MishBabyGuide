@@ -30,7 +30,6 @@ const Logo: React.FC<LogoProps> = ({
           fill
           className="object-contain transition-transform group-hover:scale-105"
           priority
-          quality={100}
           unoptimized
         />
       </div>

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { Search as SearchIcon, X, Clock, TrendingUp } from "lucide-react";
+import { Search as SearchIcon, X, Clock } from "lucide-react";
 
 interface SearchProps {
   onClose?: () => void;
@@ -98,13 +98,13 @@ const Search: React.FC<SearchProps> = ({ onClose }) => {
     localStorage.removeItem("recentSearches");
   };
 
-  const popularSearches = [
-    "baby stroller",
-    "car seat",
-    "baby monitor",
-    "high chair",
-    "baby carrier",
-  ];
+  // const popularSearches = [
+  //   "baby stroller",
+  //   "car seat",
+  //   "baby monitor",
+  //   "high chair",
+  //   "baby carrier",
+  // ];
 
   return (
     <div className="relative w-full">
@@ -127,11 +127,11 @@ const Search: React.FC<SearchProps> = ({ onClose }) => {
             </kbd>
             {query && (
               <button
-          type="button"
-          onClick={() => setQuery("")}
-          className="p-1 hover:bg-gray-200 rounded"
+                type="button"
+                onClick={() => setQuery("")}
+                className="p-1 hover:bg-gray-200 rounded"
               >
-          <X className="h-4 w-4 text-gray-400" />
+                <X className="h-4 w-4 text-gray-400" />
               </button>
             )}
           </div>
@@ -182,7 +182,7 @@ const Search: React.FC<SearchProps> = ({ onClose }) => {
           )}
 
           {/* Popular Searches */}
-          <div className="p-4">
+          {/* <div className="p-4">
             <div className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-3">
               <TrendingUp className="h-4 w-4" />
               Popular Searches
@@ -198,7 +198,7 @@ const Search: React.FC<SearchProps> = ({ onClose }) => {
                 </button>
               ))}
             </div>
-          </div>
+          </div> */}
 
           {/* Tips */}
           <div className="hidden sm:block p-4 bg-gray-50 text-xs text-gray-500 rounded-b-lg">

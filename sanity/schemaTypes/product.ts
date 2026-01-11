@@ -62,7 +62,7 @@ export default defineType({
       title: "Short Excerpt",
       type: "text",
       rows: 3,
-      validation: (Rule) => Rule.required(),
+      // validation: (Rule) => Rule.required(),
       description:
         "Brief summary for cards and previews (1-2 sentences, always required)",
     }),
@@ -79,6 +79,7 @@ export default defineType({
           type: "block",
           styles: [
             { title: "Normal", value: "normal" },
+            { title: "H2", value: "h2" },
             { title: "H3", value: "h3" },
           ],
           lists: [
@@ -97,20 +98,20 @@ export default defineType({
         "📝 Rich text product description with formatting, emojis, bullets (for short product pages when Full Review is OFF)",
       hidden: ({ document }) => document?.hasFullReview === true,
     }),
-    defineField({
-      name: "additionalImages",
-      title: "Additional Images",
-      type: "array",
-      of: [
-        {
-          type: "image",
-          options: { hotspot: true },
-        },
-      ],
-      description: "📸 2-4 extra product images (for short product pages)",
-      validation: (Rule) => Rule.max(4),
-      hidden: ({ document }) => document?.hasFullReview === true,
-    }),
+    // defineField({
+    //   name: "additionalImages",
+    //   title: "Additional Images",
+    //   type: "array",
+    //   of: [
+    //     {
+    //       type: "image",
+    //       options: { hotspot: true },
+    //     },
+    //   ],
+    //   description: "📸 2-4 extra product images (for short product pages)",
+    //   validation: (Rule) => Rule.max(4),
+    //   hidden: ({ document }) => document?.hasFullReview === true,
+    // }),
 
     // ========================================
     // FULL REVIEW FIELDS (only fill if hasFullReview = true)
