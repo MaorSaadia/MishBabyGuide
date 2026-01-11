@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Tag } from "lucide-react";
+
 import {
   getCategoryBySlug,
   getProductsByCategory,
