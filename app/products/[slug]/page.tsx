@@ -103,20 +103,22 @@ export default async function ProductPage({
         {/* Container */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Breadcrumb */}
-          <Breadcrumb
-            items={[
-              { label: "Products", href: "/products" },
-              ...(product.category
-                ? [
-                    {
-                      label: product.category.title,
-                      href: `/category/${product.category.slug.current}`,
-                    },
-                  ]
-                : []),
-              { label: product.title },
-            ]}
-          />
+          <div className="hidden sm:block">
+            <Breadcrumb
+              items={[
+                { label: "Products", href: "/products" },
+                ...(product.category
+                  ? [
+                      {
+                        label: product.category.title,
+                        href: `/category/${product.category.slug.current}`,
+                      },
+                    ]
+                  : []),
+                { label: product.title },
+              ]}
+            />
+          </div>
 
           {product.hasFullReview ? (
             // ==================== FULL REVIEW LAYOUT ====================

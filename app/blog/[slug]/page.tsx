@@ -12,7 +12,6 @@ import {
   getProductCardImage,
 } from "@/lib/sanity.image";
 import { portableTextComponents } from "@/components/PortableTextComponents";
-import Breadcrumb from "@/components/Breadcrumb";
 import ShareButtons from "@/components/ShareButtons";
 import ProductCard from "@/components/ProductCard";
 
@@ -98,9 +97,9 @@ export default async function BlogPostPage({
         {/* Container */}
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Breadcrumb */}
-          <Breadcrumb
+          {/* <Breadcrumb
             items={[{ label: "Blog", href: "/blog" }, { label: post.title }]}
-          />
+          /> */}
 
           {/* Hero Section */}
           <header className="mb-8">
