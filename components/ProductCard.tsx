@@ -18,18 +18,16 @@ const ProductCard: React.FC<ProductCardProps> = ({
   title,
   slug,
   image,
-  price,
   excerpt,
   amazonLink,
   category,
-  hasFullReview = false,
 }) => {
   return (
     <div className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group border border-gray-100 flex flex-col h-full">
       {/* Image Section */}
       <Link
         href={`/products/${slug}`}
-        className="block relative h-72 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden"
+        className="block relative h-72 bg-linear-to-br from-gray-50 to-gray-100 overflow-hidden"
       >
         <Image
           src={image}
@@ -51,7 +49,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <div className="p-6 flex flex-col grow">
         {/* Product Title */}
         <Link href={`/products/${slug}`} className="mb-3">
-          <h3 className="text-lg font-bold text-gray-900 hover:text-cyan-600 transition-colors line-clamp-2 min-h-[3.5rem] leading-snug">
+          <h3 className="text-lg font-bold text-gray-900 hover:text-cyan-600 transition-colors line-clamp-2 min-h-14 leading-snug">
             {title}
           </h3>
         </Link>
