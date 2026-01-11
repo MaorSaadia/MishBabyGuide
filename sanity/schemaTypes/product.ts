@@ -30,7 +30,7 @@ export default defineType({
       type: "boolean",
       initialValue: false,
       description:
-        "✅ Toggle ON to create a dedicated review page. ❌ OFF for quick recommendations with Amazon link only.",
+        "✅ Toggle ON to create a dedicated full review page. ❌ OFF for short product page with Amazon link.",
     }),
     defineField({
       name: "amazonLink",
@@ -59,11 +59,57 @@ export default defineType({
     }),
     defineField({
       name: "excerpt",
-      title: "Short Description",
+      title: "Short Excerpt",
       type: "text",
       rows: 3,
       validation: (Rule) => Rule.required(),
-      description: "Brief summary for cards and previews (always required)",
+      description:
+        "Brief summary for cards and previews (1-2 sentences, always required)",
+    }),
+
+    // ========================================
+    // SHORT PRODUCT PAGE FIELDS (when hasFullReview = false)
+    // ========================================
+    defineField({
+      name: "shortDescription",
+      title: "Product Description",
+      type: "array",
+      of: [
+        {
+          type: "block",
+          styles: [
+            { title: "Normal", value: "normal" },
+            { title: "H3", value: "h3" },
+          ],
+          lists: [
+            { title: "Bullet", value: "bullet" },
+            { title: "Numbered", value: "number" },
+          ],
+          marks: {
+            decorators: [
+              { title: "Strong", value: "strong" },
+              { title: "Emphasis", value: "em" },
+            ],
+          },
+        },
+      ],
+      description:
+        "📝 Rich text product description with formatting, emojis, bullets (for short product pages when Full Review is OFF)",
+      hidden: ({ document }) => document?.hasFullReview === true,
+    }),
+    defineField({
+      name: "additionalImages",
+      title: "Additional Images",
+      type: "array",
+      of: [
+        {
+          type: "image",
+          options: { hotspot: true },
+        },
+      ],
+      description: "📸 2-4 extra product images (for short product pages)",
+      validation: (Rule) => Rule.max(4),
+      hidden: ({ document }) => document?.hasFullReview === true,
     }),
 
     // ========================================
@@ -156,8 +202,7 @@ export default defineType({
           title: "Keywords",
         },
       ],
-      description: "🔍 Only needed for full reviews",
-      hidden: ({ document }) => !document?.hasFullReview,
+      description: "🔍 SEO settings",
     }),
   ],
   preview: {
@@ -165,27 +210,14 @@ export default defineType({
       title: "title",
       media: "mainImage",
       category: "category.title",
-      rating: "rating",
       hasFullReview: "hasFullReview",
     },
-    prepare({ title, media, category, rating, hasFullReview }) {
+    prepare({ title, media, category, hasFullReview }) {
       return {
         title: title,
-        subtitle: `${category} ${hasFullReview ? "📝 Full Review" : "⚡ Quick Rec"} ${rating ? `- ⭐ ${rating}/5` : ""}`,
+        subtitle: `${category} ${hasFullReview ? "📝 Full Review" : "⚡ Short Page"}`,
         media: media,
       };
     },
   },
-  orderings: [
-    {
-      title: "Published Date, New",
-      name: "publishedAtDesc",
-      by: [{ field: "publishedAt", direction: "desc" }],
-    },
-    {
-      title: "Rating, High to Low",
-      name: "ratingDesc",
-      by: [{ field: "rating", direction: "desc" }],
-    },
-  ],
 });

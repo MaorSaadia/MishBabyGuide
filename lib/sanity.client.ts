@@ -26,6 +26,9 @@ export const client = createClient({
 
 // Type definitions
 export interface Product {
+  additionalImages: any;
+  keyFeatures: boolean;
+  shortDescription: any;
   _id: string;
   title: string;
   slug: { current: string };

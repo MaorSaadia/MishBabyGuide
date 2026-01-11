@@ -119,6 +119,8 @@ export const productBySlugQuery = groq`
     price,
     rating,
     excerpt,
+    shortDescription,        // ← ADD THIS
+    additionalImages,        // ← ADD THIS
     amazonLink,
     hasFullReview,
     category-> {
