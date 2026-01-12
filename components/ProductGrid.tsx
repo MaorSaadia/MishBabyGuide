@@ -24,7 +24,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
   // Determine products per page based on screen size
   useEffect(() => {
     const updateProductsPerPage = () => {
-      setProductsPerPage(window.innerWidth >= 768 ? 16 : 12);
+      setProductsPerPage(window.innerWidth >= 768 ? 12 : 10);
     };
 
     updateProductsPerPage();

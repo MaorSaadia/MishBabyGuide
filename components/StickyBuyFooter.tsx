@@ -72,13 +72,13 @@ export default function StickyBuyFooter({
       <div className="md:hidden bg-white border-t-2 border-cyan-500 shadow-2xl">
         <div className="px-4 py-3">
           {/* Dismiss Button - Top Right */}
-          <button
+          {/* <button
             onClick={() => setIsDismissed(true)}
             className="absolute top-2 right-2 p-1 text-gray-400 hover:text-gray-600 transition-colors"
             aria-label="Dismiss"
           >
             <X className="h-4 w-4" />
-          </button>
+          </button> */}
 
           {/* CTA Button */}
           <Link

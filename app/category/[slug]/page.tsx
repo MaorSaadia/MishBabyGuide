@@ -121,7 +121,7 @@ export default async function CategoryPage({
           </div>
 
           {/* Product Count */}
-          <div className="flex items-center gap-2 text-sm text-gray-500">
+          <div className="flex items-center gap-2 text-sm text-gray-500 -mt-4 -mb-6">
             <span className="font-medium text-gray-900">{products.length}</span>
             <span>{products.length === 1 ? "product" : "products"} found</span>
           </div>
@@ -131,7 +131,7 @@ export default async function CategoryPage({
         <ProductGrid products={products} />
 
         {/* Bottom CTA */}
-        {products.length > 0 && (
+        {/* {products.length > 0 && (
           <div className="mt-16 text-center bg-linear-to-r from-cyan-50 to-blue-50 rounded-2xl p-8 md:p-12">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
               Need Help Choosing?
@@ -147,7 +147,7 @@ export default async function CategoryPage({
               View Buying Guides
             </Link>
           </div>
-        )}
+        )} */}
       </div>
 
       {/* Schema.org Structured Data for Category */}

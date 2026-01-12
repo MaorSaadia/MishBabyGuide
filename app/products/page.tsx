@@ -49,8 +49,8 @@ export default async function AllProductsPage({
   }
 
   // Separate products
-  const fullReviewProducts = filteredProducts.filter((p) => p.hasFullReview);
-  const quickRecommendations = filteredProducts.filter((p) => !p.hasFullReview);
+  // const fullReviewProducts = filteredProducts.filter((p) => p.hasFullReview);
+  // const quickRecommendations = filteredProducts.filter((p) => !p.hasFullReview);
 
   return (
     <div className="min-h-screen bg-white">
@@ -89,7 +89,7 @@ export default async function AllProductsPage({
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }`}
               >
-                All Products ({products.length})
+                All Products
               </Link>
               <Link
                 href="/products?type=full"
@@ -99,7 +99,7 @@ export default async function AllProductsPage({
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }`}
               >
-                📝 Full Reviews ({fullReviewProducts.length})
+                📝 Full Reviews
               </Link>
               <Link
                 href="/products?type=quick"
@@ -109,7 +109,7 @@ export default async function AllProductsPage({
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }`}
               >
-                ⚡ Quick Recommendations ({quickRecommendations.length})
+                ⚡ Quick Recommendations
               </Link>
             </div>
           </div>
@@ -172,7 +172,7 @@ export default async function AllProductsPage({
                 </span>
               </>
             )} */}
-            {selectedType && (
+            {/* {selectedType && (
               <>
                 {" "}
                 <span className="font-semibold text-cyan-600">
@@ -183,7 +183,7 @@ export default async function AllProductsPage({
                   )
                 </span>
               </>
-            )}
+            )} */}
           </p>
         </div>
 

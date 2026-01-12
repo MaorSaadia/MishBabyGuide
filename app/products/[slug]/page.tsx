@@ -271,22 +271,22 @@ export default async function ProductPage({
                     />
                   </div>
                 ) : null}
-                <div className="bg-linear-to-br from-cyan-600 to-cyan-700 rounded-2xl p-8 text-white shadow-xl">
-                  <h3 className="text-2xl font-bold mb-3">Ready to Buy?</h3>
-                  <p className="text-cyan-50 mb-6">
+                <div className="bg-linear-to-br from-cyan-600 to-cyan-700 rounded-2xl p-6 text-white shadow-xl -mb-12 ">
+                  <h3 className="text-2xl font-bold mb-1">Ready to Buy?</h3>
+                  <p className="text-cyan-50 mb-4">
                     Get the {product.title} on Amazon
                   </p>
                   <Link
                     href={product.amazonLink}
                     target="_blank"
                     rel="nofollow noopener noreferrer"
-                    className="inline-flex items-center gap-3 px-8 py-4 bg-white text-cyan-600 text-lg font-bold rounded-lg hover:bg-gray-50 transition-all shadow-md hover:shadow-xl w-full justify-center"
+                    className="inline-flex items-center gap-3 px-8 py-3 bg-white text-cyan-600 text-lg font-bold rounded-lg hover:bg-gray-50 transition-all shadow-md hover:shadow-xl w-full justify-center"
                   >
                     <ShoppingCart className="h-5 w-5" />
                     Buy on Amazon
                     <ExternalLink className="h-5 w-5" />
                   </Link>
-                  <p className="text-xs text-cyan-100 mt-4 text-center">
+                  <p className="text-xs text-cyan-100 mt-3 text-center">
                     As an Amazon Associate, we earn from qualifying purchases
                   </p>
                 </div>
@@ -297,7 +297,7 @@ export default async function ProductPage({
 
         {/* Related Products */}
         {relatedProducts.length > 0 && (
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mb-12">
             <RelatedProducts products={relatedProducts} />
           </div>
         )}
