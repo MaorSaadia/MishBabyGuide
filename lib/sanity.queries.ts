@@ -1,9 +1,11 @@
+// lib/sanity.queries.ts
 import { groq } from "next-sanity";
 
-// Get all featured products
-export const featuredProductsQuery = groq`
-  *[_type == "product" && featured == true] | order(publishedAt desc) {
+// Get all products (both types)
+export const allProductsQuery = groq`
+  *[_type in ["productReview", "productRecommendation"]] | order(publishedAt desc) {
     _id,
+    _type,
     title,
     slug,
     mainImage {
@@ -12,11 +14,182 @@ export const featuredProductsQuery = groq`
         url
       }
     },
-    price,
-    rating,
     excerpt,
     amazonLink,
-    hasFullReview,
+    category-> {
+      _id,
+      title,
+      slug
+    },
+    featured,
+    publishedAt
+  }
+`;
+
+// Get featured products (both types)
+export const featuredProductsQuery = groq`
+  *[_type in ["productReview", "productRecommendation"] && featured == true] | order(publishedAt desc) {
+    _id,
+    _type,
+    title,
+    slug,
+    mainImage {
+      asset-> {
+        _id,
+        url
+      }
+    },
+    excerpt,
+    amazonLink,
+    category-> {
+      _id,
+      title,
+      slug
+    },
+    publishedAt
+  }
+`;
+
+// Get product by slug (checks both types)
+export const productBySlugQuery = groq`
+  *[_type in ["productReview", "productRecommendation"] && slug.current == $slug][0] {
+    _id,
+    _type,
+    title,
+    slug,
+    mainImage {
+      asset-> {
+        _id,
+        url
+      }
+    },
+    excerpt,
+    amazonLink,
+    category-> {
+      _id,
+      title,
+      slug
+    },
+    featured,
+    publishedAt,
+    seo {
+      metaTitle,
+      metaDescription,
+      keywords
+    },
+    
+    // Product Review fields
+    _type == "productReview" => {
+      gallery[] {
+        asset-> {
+          _id,
+          url
+        }
+      },
+      pros,
+      cons,
+      review
+    },
+    
+    // Product Recommendation fields
+    _type == "productRecommendation" => {
+      additionalImages[] {
+        asset-> {
+          _id,
+          url
+        }
+      },
+      description
+    }
+  }
+`;
+
+// Get products by category (both types)
+export const productsByCategoryQuery = groq`
+  *[_type in ["productReview", "productRecommendation"] && category->slug.current == $slug] | order(publishedAt desc) {
+    _id,
+    _type,
+    title,
+    slug,
+    mainImage {
+      asset-> {
+        _id,
+        url
+      }
+    },
+    excerpt,
+    amazonLink,
+    category-> {
+      _id,
+      title,
+      slug
+    },
+    publishedAt
+  }
+`;
+
+// Get related products (same category, both types)
+export const relatedProductsQuery = groq`
+  *[_type in ["productReview", "productRecommendation"] && category._ref == $categoryId && _id != $currentProductId][0...3] {
+    _id,
+    _type,
+    title,
+    slug,
+    mainImage {
+      asset-> {
+        _id,
+        url
+      }
+    },
+    excerpt,
+    amazonLink,
+    category-> {
+      title,
+      slug
+    }
+  }
+`;
+
+// Search products (both types)
+export const searchProductsQuery = groq`
+  *[_type in ["productReview", "productRecommendation"] && (
+    title match $query + "*" ||
+    excerpt match $query + "*"
+  )] | order(publishedAt desc) {
+    _id,
+    _type,
+    title,
+    slug,
+    mainImage {
+      asset-> {
+        _id,
+        url
+      }
+    },
+    excerpt,
+    amazonLink,
+    category-> {
+      title,
+      slug
+    }
+  }
+`;
+
+// Get only product reviews
+export const productReviewsQuery = groq`
+  *[_type == "productReview"] | order(publishedAt desc) {
+    _id,
+    _type,
+    title,
+    slug,
+    mainImage {
+      asset-> {
+        _id,
+        url
+      }
+    },
+    excerpt,
+    amazonLink,
     category-> {
       title,
       slug
@@ -25,7 +198,30 @@ export const featuredProductsQuery = groq`
   }
 `;
 
-// Get latest blog posts
+// Get only product recommendations
+export const productRecommendationsQuery = groq`
+  *[_type == "productRecommendation"] | order(publishedAt desc) {
+    _id,
+    _type,
+    title,
+    slug,
+    mainImage {
+      asset-> {
+        _id,
+        url
+      }
+    },
+    excerpt,
+    amazonLink,
+    category-> {
+      title,
+      slug
+    },
+    publishedAt
+  }
+`;
+
+// BLOG QUERIES (unchanged)
 export const latestPostsQuery = groq`
   *[_type == "post"] | order(publishedAt desc)[0...6] {
     _id,
@@ -48,163 +244,6 @@ export const latestPostsQuery = groq`
   }
 `;
 
-// Get all PRODUCT categories
-export const allProductCategoriesQuery = groq`
-  *[_type == "productCategory"] | order(order asc) {
-    _id,
-    title,
-    slug,
-    description,
-    icon,
-    order
-  }
-`;
-
-// Get all BLOG categories
-export const allBlogCategoriesQuery = groq`
-  *[_type == "blogCategory"] | order(order asc) {
-    _id,
-    title,
-    slug,
-    description,
-    color,
-    order
-  }
-`;
-
-// Get products by category
-export const productsByCategoryQuery = groq`
-  *[_type == "product" && category->slug.current == $slug] | order(publishedAt desc) {
-    _id,
-    title,
-    slug,
-    mainImage {
-      asset-> {
-        _id,
-        url
-      }
-    },
-    price,
-    rating,
-    excerpt,
-    amazonLink,
-    hasFullReview,
-    category-> {
-      title,
-      slug
-    },
-    subcategory,
-    publishedAt
-  }
-`;
-
-// Get single product by slug
-export const productBySlugQuery = groq`
-  *[_type == "product" && slug.current == $slug][0] {
-    _id,
-    title,
-    slug,
-    mainImage {
-      asset-> {
-        _id,
-        url
-      }
-    },
-    gallery[] {
-      asset-> {
-        _id,
-        url
-      }
-    },
-    price,
-    rating,
-    excerpt,
-    shortDescription,        
-    amazonLink,
-    hasFullReview,
-    category-> {
-      title,
-      slug,
-      _id
-    },
-    subcategory,
-    pros,
-    cons,
-    review,
-    featured,
-    publishedAt,
-    seo {
-      metaTitle,
-      metaDescription,
-      keywords
-    }
-  }
-`;
-
-// Get single post by slug
-export const postBySlugQuery = groq`
-  *[_type == "post" && slug.current == $slug][0] {
-    _id,
-    title,
-    slug,
-    mainImage {
-      asset-> {
-        _id,
-        url
-      }
-    },
-    excerpt,
-    body,
-    publishedAt,
-    author,
-    categories[]-> {
-      title,
-      slug,
-      color
-    },
-    relatedProducts[]-> {
-      _id,
-      title,
-      slug,
-      mainImage {
-        asset-> {
-          url
-        }
-      },
-      price,
-      amazonLink,
-      hasFullReview
-    },
-    seo {
-      metaTitle,
-      metaDescription
-    }
-  }
-`;
-
-// Get PRODUCT category by slug
-export const productCategoryBySlugQuery = groq`
-  *[_type == "productCategory" && slug.current == $slug][0] {
-    _id,
-    title,
-    slug,
-    description,
-    icon
-  }
-`;
-
-// Get BLOG category by slug
-export const blogCategoryBySlugQuery = groq`
-  *[_type == "blogCategory" && slug.current == $slug][0] {
-    _id,
-    title,
-    slug,
-    description,
-    color
-  }
-`;
-
-// Get all posts for blog page
 export const allPostsQuery = groq`
   *[_type == "post"] | order(publishedAt desc) {
     _id,
@@ -227,9 +266,8 @@ export const allPostsQuery = groq`
   }
 `;
 
-// Get all products
-export const allProductsQuery = groq`
-  *[_type == "product"] | order(publishedAt desc) {
+export const postBySlugQuery = groq`
+  *[_type == "post" && slug.current == $slug][0] {
     _id,
     title,
     slug,
@@ -239,63 +277,61 @@ export const allProductsQuery = groq`
         url
       }
     },
-    price,
-    rating,
     excerpt,
-    amazonLink,
-    hasFullReview,
-    category-> {
+    body,
+    publishedAt,
+    author,
+    categories[]-> {
       title,
-      slug
+      slug,
+      color
     },
-    featured,
-    publishedAt
-  }
-`;
-
-// Search products by query
-export const searchProductsQuery = groq`
-  *[_type == "product" && (
-    title match $query + "*" ||
-    excerpt match $query + "*"
-  )] | order(publishedAt desc) {
-    _id,
-    title,
-    slug,
-    mainImage {
-      asset-> {
-        _id,
-        url
-      }
-    },
-    price,
-    rating,
-    excerpt,
-    amazonLink,
-    hasFullReview,
-    category-> {
-      title,
-      slug
+    seo {
+      metaTitle,
+      metaDescription
     }
   }
 `;
 
-// Get related products (same category, exclude current product)
-export const relatedProductsQuery = groq`
-  *[_type == "product" && category._ref == $categoryId && _id != $currentProductId][0...4] {
+// CATEGORY QUERIES (unchanged)
+export const allProductCategoriesQuery = groq`
+  *[_type == "productCategory"] | order(order asc) {
     _id,
     title,
     slug,
-    mainImage {
-      asset-> {
-        _id,
-        url
-      }
-    },
-    price,
-    rating,
-    excerpt,
-    amazonLink,
-    hasFullReview
+    description,
+    icon,
+    order
+  }
+`;
+
+export const allBlogCategoriesQuery = groq`
+  *[_type == "blogCategory"] | order(order asc) {
+    _id,
+    title,
+    slug,
+    description,
+    color,
+    order
+  }
+`;
+
+export const productCategoryBySlugQuery = groq`
+  *[_type == "productCategory" && slug.current == $slug][0] {
+    _id,
+    title,
+    slug,
+    description,
+    icon
+  }
+`;
+
+export const blogCategoryBySlugQuery = groq`
+  *[_type == "blogCategory" && slug.current == $slug][0] {
+    _id,
+    title,
+    slug,
+    description,
+    color
   }
 `;

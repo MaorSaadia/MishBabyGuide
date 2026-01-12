@@ -6,10 +6,10 @@ import { structure } from "./structure";
 
 // Import schemas
 import post from "./schemaTypes/post";
-import category from "./schemaTypes/category";
 import blogCategory from "./schemaTypes/blogCategory";
 import productCategory from "./schemaTypes/productCategory";
-import product from "./schemaTypes/product";
+import productRecommendation from "./schemaTypes/productRecommendation";
+import productReview from "./schemaTypes/productReview";
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
@@ -25,6 +25,12 @@ export default defineConfig({
     visionTool({ defaultApiVersion: "2024-12-06" }),
   ],
   schema: {
-    types: [post, category, productCategory, blogCategory, product],
+    types: [
+      post,
+      productCategory,
+      blogCategory,
+      productReview,
+      productRecommendation,
+    ],
   },
 });

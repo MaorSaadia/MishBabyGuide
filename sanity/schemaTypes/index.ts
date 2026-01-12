@@ -1,15 +1,17 @@
 // schemas/index.ts
+import productReview from "./productReview";
+import productRecommendation from "./productRecommendation";
 import productCategory from "./productCategory";
 import blogCategory from "./blogCategory";
 import post from "./post";
-import product from "./product";
 
 export const schemaTypes = [
-  // Categories (separate types)
+  // Products
+  productReview,
+  productRecommendation,
   productCategory,
-  blogCategory,
 
-  // Content
-  product,
+  // Blog
   post,
+  blogCategory,
 ];

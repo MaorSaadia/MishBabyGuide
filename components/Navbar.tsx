@@ -101,9 +101,7 @@ const Navbar = () => {
           {/* Left Side: Logo & Desktop Menu */}
           <div className="flex items-center gap-8">
             {/* Logo */}
-            <Link href="/" className="shrink-0">
-              <Logo />
-            </Link>
+            <Logo />
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-6">

@@ -1,6 +1,10 @@
-// app/products/page.tsx
 import { Metadata } from "next";
-import { getAllProducts, getAllCategories } from "@/lib/sanity.client";
+import {
+  getAllProducts,
+  getAllProductCategories,
+  getProductReviews,
+  getProductRecommendations,
+} from "@/lib/sanity.client";
 import ProductGrid from "@/components/ProductGrid";
 import { Package, Filter } from "lucide-react";
 import Link from "next/link";
@@ -23,34 +27,26 @@ export default async function AllProductsPage({
 }) {
   const params = await searchParams;
   const selectedCategory = params.category;
-  const selectedType = params.type; // 'full' or 'quick'
+  const selectedType = params.type; // 'reviews' or 'recommendations'
 
-  const [products, categories] = await Promise.all([
-    getAllProducts(),
-    getAllCategories(),
-  ]);
+  const categories = await getAllProductCategories();
 
-  // Filter by category
-  let filteredProducts = selectedCategory
+  // Fetch products based on type filter
+  let products;
+  if (selectedType === "reviews") {
+    products = await getProductReviews();
+  } else if (selectedType === "recommendations") {
+    products = await getProductRecommendations();
+  } else {
+    products = await getAllProducts();
+  }
+
+  // Filter by category if selected
+  const filteredProducts = selectedCategory
     ? products.filter(
         (product) => product.category?.slug.current === selectedCategory
       )
     : products;
-
-  // Filter by type (full review or quick recommendation)
-  if (selectedType === "full") {
-    filteredProducts = filteredProducts.filter(
-      (product) => product.hasFullReview
-    );
-  } else if (selectedType === "quick") {
-    filteredProducts = filteredProducts.filter(
-      (product) => !product.hasFullReview
-    );
-  }
-
-  // Separate products
-  // const fullReviewProducts = filteredProducts.filter((p) => p.hasFullReview);
-  // const quickRecommendations = filteredProducts.filter((p) => !p.hasFullReview);
 
   return (
     <div className="min-h-screen bg-white">
@@ -92,9 +88,9 @@ export default async function AllProductsPage({
                 All Products
               </Link>
               <Link
-                href="/products?type=full"
+                href="/products?type=reviews"
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                  selectedType === "full"
+                  selectedType === "reviews"
                     ? "bg-cyan-600 text-white"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }`}
@@ -102,9 +98,9 @@ export default async function AllProductsPage({
                 📝 Full Reviews
               </Link>
               <Link
-                href="/products?type=quick"
+                href="/products?type=recommendations"
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                  selectedType === "quick"
+                  selectedType === "recommendations"
                     ? "bg-cyan-600 text-white"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }`}
@@ -159,31 +155,11 @@ export default async function AllProductsPage({
         {/* Products Count */}
         <div className="mb-8">
           <p className="text-gray-600">
-            {/* {selectedCategory && (
-              <>
-                {" "}
-                in{" "}
-                <span className="font-semibold text-cyan-600">
-                  {
-                    categories.find(
-                      (cat) => cat.slug.current === selectedCategory
-                    )?.title
-                  }
-                </span>
-              </>
-            )} */}
-            {/* {selectedType && (
-              <>
-                {" "}
-                <span className="font-semibold text-cyan-600">
-                  (
-                  {selectedType === "full"
-                    ? "Full Reviews"
-                    : "Quick Recommendations"}
-                  )
-                </span>
-              </>
-            )} */}
+            Showing{" "}
+            <span className="font-semibold text-cyan-600">
+              {filteredProducts.length}
+            </span>{" "}
+            products
           </p>
         </div>
 
@@ -202,7 +178,7 @@ export default async function AllProductsPage({
               expert opinion.
             </p>
             <Link
-              href="/products?type=full"
+              href="/products?type=reviews"
               className="inline-flex items-center gap-2 text-cyan-600 font-semibold hover:text-cyan-700"
             >
               View Full Reviews →
@@ -219,7 +195,7 @@ export default async function AllProductsPage({
               shopping decisions.
             </p>
             <Link
-              href="/products?type=quick"
+              href="/products?type=recommendations"
               className="inline-flex items-center gap-2 text-sky-600 font-semibold hover:text-sky-700"
             >
               View Quick Picks →

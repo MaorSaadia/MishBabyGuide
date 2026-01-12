@@ -9,6 +9,8 @@ import {
   getProductBySlug,
   getRelatedProducts,
   getAllProducts,
+  isProductReview,
+  isProductRecommendation,
 } from "@/lib/sanity.client";
 import { getImageUrl, getProductCardImage } from "@/lib/sanity.image";
 import { portableTextComponents } from "@/components/PortableTextComponents";
@@ -41,8 +43,7 @@ export async function generateMetadata({
     };
   }
 
-  const title =
-    product.seo?.metaTitle || `${product.title} - Review | MishBabyGuide`;
+  const title = product.seo?.metaTitle || `${product.title} | MishBabyGuide`;
   const description = product.seo?.metaDescription || product.excerpt;
   const imageUrl = product.mainImage
     ? getProductCardImage(product.mainImage)
@@ -84,24 +85,40 @@ export default async function ProductPage({
     ? await getRelatedProducts(String(product.category._id), product._id)
     : [];
 
-  // Prepare images for gallery
-  const galleryImages = [
-    {
-      url: product.mainImage
-        ? getImageUrl(product.mainImage, 800)
-        : "/placeholder-product.jpg",
-      alt: product.title,
-    },
-    ...(product.gallery?.map((img) => ({
-      url: getImageUrl(img, 800),
-      alt: product.title,
-    })) || []),
-  ];
+  // Check product type
+  const isReview = isProductReview(product);
+  const isRecommendation = isProductRecommendation(product);
+
+  // Prepare images
+  let galleryImages: { url: string; alt: string }[] = [];
+
+  if (isReview && product.gallery) {
+    galleryImages = [
+      {
+        url: product.mainImage
+          ? getImageUrl(product.mainImage, 800)
+          : "/placeholder-product.jpg",
+        alt: product.title,
+      },
+      ...product.gallery.map((img) => ({
+        url: getImageUrl(img, 800),
+        alt: product.title,
+      })),
+    ];
+  } else {
+    galleryImages = [
+      {
+        url: product.mainImage
+          ? getImageUrl(product.mainImage, 800)
+          : "/placeholder-product.jpg",
+        alt: product.title,
+      },
+    ];
+  }
 
   return (
     <>
       <div className="min-h-screen bg-gray-50 pb-24 md:pb-32">
-        {/* Container */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Breadcrumb */}
           <div className="hidden sm:block">
@@ -121,31 +138,25 @@ export default async function ProductPage({
             />
           </div>
 
-          {product.hasFullReview ? (
-            // ==================== FULL REVIEW LAYOUT ====================
+          {isReview ? (
+            // ==================== PRODUCT REVIEW (FULL REVIEW) ====================
             <>
-              {/* Product Header Section */}
               <div className="grid lg:grid-cols-2 gap-12 mb-12">
-                {/* Left: Image Gallery */}
                 <div>
                   <ImageGallery images={galleryImages} />
                 </div>
 
-                {/* Right: Product Info */}
                 <div className="space-y-6">
-                  {/* Product Title */}
                   <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
                     {product.title}
                   </h1>
 
-                  {/* Excerpt */}
                   {product.excerpt && (
                     <p className="text-lg text-gray-600 leading-relaxed">
                       {product.excerpt}
                     </p>
                   )}
 
-                  {/* Primary CTA */}
                   <Link
                     href={product.amazonLink}
                     target="_blank"
@@ -157,17 +168,15 @@ export default async function ProductPage({
                     <ExternalLink className="h-5 w-5" />
                   </Link>
 
-                  {/* Secondary Info */}
                   <p className="text-sm text-gray-500 text-center">
                     As an Amazon Associate, we earn from qualifying purchases
                   </p>
                 </div>
               </div>
 
-              {/* Pros & Cons Section */}
+              {/* Pros & Cons */}
               {(product.pros?.length || product.cons?.length) && (
                 <div className="grid md:grid-cols-2 gap-6 mb-12">
-                  {/* Pros */}
                   {product.pros && product.pros.length > 0 && (
                     <div className="bg-green-50 rounded-2xl p-6 border border-green-200">
                       <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
@@ -185,7 +194,6 @@ export default async function ProductPage({
                     </div>
                   )}
 
-                  {/* Cons */}
                   {product.cons && product.cons.length > 0 && (
                     <div className="bg-red-50 rounded-2xl p-6 border border-red-200">
                       <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
@@ -224,8 +232,7 @@ export default async function ProductPage({
               <div className="bg-linear-to-r from-cyan-600 to-cyan-700 rounded-2xl p-8 text-center text-white mb-12">
                 <h3 className="text-2xl font-bold mb-2">Ready to Buy?</h3>
                 <p className="text-cyan-100 mb-6">
-                  Get the {product.title} on Amazon{" "}
-                  {product.price && `for ${product.price}`}
+                  Get the {product.title} on Amazon
                 </p>
                 <Link
                   href={product.amazonLink}
@@ -239,17 +246,16 @@ export default async function ProductPage({
                 </Link>
               </div>
             </>
-          ) : (
-            // ==================== SHORT PRODUCT PAGE ====================
+          ) : isRecommendation ? (
+            // ==================== PRODUCT RECOMMENDATION (QUICK PRODUCT) ====================
             <div className="grid lg:grid-cols-2 gap-12 mb-12">
-              {/* Left: Image Gallery */}
+              {/* LEFT: Images */}
               <div>
                 <ImageGallery images={galleryImages} />
               </div>
 
-              {/* RIGHT: Product Info Section */}
+              {/* RIGHT: Product Info */}
               <div className="space-y-6">
-                {/* Title & Excerpt */}
                 <div>
                   <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 -mt-6 lg:mt-0">
                     {product.title}
@@ -261,17 +267,16 @@ export default async function ProductPage({
                   )}
                 </div>
 
-                {/* Product Description */}
-                {product.shortDescription &&
-                product.shortDescription.length > 0 ? (
+                {product.description && product.description.length > 0 && (
                   <div className="prose prose-lg max-w-none bg-white rounded-xl p-6 py-1 border border-gray-200">
                     <PortableText
-                      value={product.shortDescription as any}
+                      value={product.description as any}
                       components={portableTextComponents}
                     />
                   </div>
-                ) : null}
-                <div className="bg-linear-to-br from-cyan-600 to-cyan-700 rounded-2xl p-6 text-white shadow-xl -mb-12 ">
+                )}
+
+                <div className="bg-linear-to-br from-cyan-600 to-cyan-700 rounded-2xl p-6 text-white shadow-xl -mb-12">
                   <h3 className="text-2xl font-bold mb-1">Ready to Buy?</h3>
                   <p className="text-cyan-50 mb-4">
                     Get the {product.title} on Amazon
@@ -292,7 +297,7 @@ export default async function ProductPage({
                 </div>
               </div>
             </div>
-          )}
+          ) : null}
         </div>
 
         {/* Related Products */}
@@ -303,7 +308,7 @@ export default async function ProductPage({
         )}
       </div>
 
-      {/* Sticky Buy Footer - NEW! */}
+      {/* Sticky Buy Footer */}
       <StickyBuyFooter
         amazonLink={product.amazonLink}
         productTitle={product.title}
@@ -327,30 +332,10 @@ export default async function ProductPage({
               "@type": "Offer",
               url: product.amazonLink,
               priceCurrency: "USD",
-              price: product.price?.replace(/[^0-9.]/g, ""),
               availability: "https://schema.org/InStock",
               seller: {
                 "@type": "Organization",
                 name: "Amazon",
-              },
-            },
-            ...(product.rating && {
-              aggregateRating: {
-                "@type": "AggregateRating",
-                ratingValue: product.rating,
-                bestRating: 5,
-                worstRating: 1,
-              },
-            }),
-            review: {
-              "@type": "Review",
-              reviewRating: {
-                "@type": "Rating",
-                ratingValue: product.rating || 5,
-              },
-              author: {
-                "@type": "Organization",
-                name: "MishBabyGuide",
               },
             },
           }),
@@ -360,4 +345,4 @@ export default async function ProductPage({
   );
 }
 
-export const revalidate = 3600; // Revalidate every hour
+export const revalidate = 3600;
