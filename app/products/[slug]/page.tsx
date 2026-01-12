@@ -138,16 +138,6 @@ export default async function ProductPage({
                     {product.title}
                   </h1>
 
-                  {/* Price */}
-                  {product.price && (
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-3xl font-bold text-cyan-600">
-                        {product.price}
-                      </span>
-                      <span className="text-sm text-gray-500">on Amazon</span>
-                    </div>
-                  )}
-
                   {/* Excerpt */}
                   {product.excerpt && (
                     <p className="text-lg text-gray-600 leading-relaxed">
@@ -261,7 +251,7 @@ export default async function ProductPage({
               <div className="space-y-6">
                 {/* Title & Excerpt */}
                 <div>
-                  <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                  <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 -mt-6 lg:mt-0">
                     {product.title}
                   </h1>
                   {product.excerpt && (
@@ -317,7 +307,6 @@ export default async function ProductPage({
       <StickyBuyFooter
         amazonLink={product.amazonLink}
         productTitle={product.title}
-        price={product.price}
       />
 
       {/* Product Schema Markup */}

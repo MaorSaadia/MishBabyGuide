@@ -1,19 +1,17 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
+import { useState } from "react";
 import { ExternalLink, ShoppingCart, X } from "lucide-react";
 
 interface StickyBuyFooterProps {
   amazonLink: string;
   productTitle: string;
-  price?: string;
 }
 
 export default function StickyBuyFooter({
   amazonLink,
   productTitle,
-  price,
 }: StickyBuyFooterProps) {
   const [isDismissed, setIsDismissed] = useState(false);
 
@@ -26,7 +24,7 @@ export default function StickyBuyFooter({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between gap-6">
             {/* Product Info */}
-            <div className="flex-1 min-w-0">
+            <div className="hidden: sm:block flex-1 min-w-0">
               <h3 className="text-white font-bold text-lg truncate mb-1">
                 {productTitle}
               </h3>
@@ -35,15 +33,8 @@ export default function StickyBuyFooter({
               </p>
             </div>
 
-            {/* Price & CTA */}
+            {/*CTA */}
             <div className="flex items-center gap-4">
-              {price && (
-                <div className="text-right">
-                  <p className="text-cyan-100 text-sm">Price</p>
-                  <p className="text-white font-bold text-2xl">{price}</p>
-                </div>
-              )}
-
               <Link
                 href={amazonLink}
                 target="_blank"
@@ -88,16 +79,6 @@ export default function StickyBuyFooter({
           >
             <X className="h-4 w-4" />
           </button>
-
-          {/* Content */}
-          <div className="space-y-2 mb-3">
-            <h4 className="text-sm font-semibold text-gray-900 pr-6 line-clamp-1">
-              {productTitle}
-            </h4>
-            {price && (
-              <p className="text-xl font-bold text-cyan-600">{price}</p>
-            )}
-          </div>
 
           {/* CTA Button */}
           <Link
