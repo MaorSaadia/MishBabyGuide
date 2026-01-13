@@ -103,7 +103,6 @@ const FeaturedProducts = () => {
                   ? getProductCardImage(product.mainImage)
                   : "/placeholder.jpg"
               }
-              price={product.price}
               excerpt={product.excerpt}
               amazonLink={product.amazonLink}
               category={product.category?.title}
