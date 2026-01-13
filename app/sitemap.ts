@@ -1,17 +1,12 @@
 import { MetadataRoute } from "next";
-import {
-  getAllProducts,
-  getAllPosts,
-  getAllCategories,
-} from "@/lib/sanity.client";
+import { getAllPosts, getAllCategories } from "@/lib/sanity.client";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "https://mish-baby-guide.vercel.app";
 
   // Fetch all dynamic content
-  const [products, posts, categories] = await Promise.all([
-    getAllProducts(),
+  const [posts, categories] = await Promise.all([
     getAllPosts(),
     getAllCategories(),
   ]);
@@ -77,14 +72,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   // Product pages (only full reviews get their own pages)
-  const productPages = products
-    .filter((product) => product.hasFullReview)
-    .map((product) => ({
-      url: `${baseUrl}/products/${product.slug.current}`,
-      lastModified: new Date(product.publishedAt),
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    }));
+  // const productPages = products
+  //   .filter((product) => product.hasFullReview)
+  //   .map((product) => ({
+  //     url: `${baseUrl}/products/${product.slug.current}`,
+  //     lastModified: new Date(product.publishedAt),
+  //     changeFrequency: "monthly" as const,
+  //     priority: 0.7,
+  //   }));
 
   // Blog post pages
   const postPages = posts.map((post) => ({
@@ -94,5 +89,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
-  return [...staticPages, ...categoryPages, ...productPages, ...postPages];
+  return [...staticPages, ...categoryPages, ...postPages];
 }

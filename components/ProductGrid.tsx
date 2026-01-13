@@ -98,11 +98,9 @@ const ProductGrid: React.FC<ProductGridProps> = ({
                 ? getProductCardImage(product.mainImage)
                 : "/placeholder-product.jpg"
             }
-            price={product.price}
             excerpt={product.excerpt}
             amazonLink={product.amazonLink}
             category={product.category?.title}
-            hasFullReview={product.hasFullReview}
           />
         ))}
       </div>
