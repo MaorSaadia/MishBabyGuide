@@ -3,31 +3,31 @@ import { Search, Shield, Heart, Star } from "lucide-react";
 
 const Hero = () => {
   return (
-    <section className="relative bg-linear-to-b from-cyan-50 to-white overflow-hidden">
+    <section className="relative bg-linear-to-b from-cyan-50 to-white dark:from-gray-900 dark:to-gray-800 overflow-hidden">
       {/* Decorative Elements */}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-100 rounded-full filter blur-3xl opacity-30 -mr-32 -mt-32"></div>
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-cyan-100 rounded-full filter blur-3xl opacity-20 -ml-48 -mb-48"></div>
+      <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-100 dark:bg-cyan-900 rounded-full filter blur-3xl opacity-30 -mr-32 -mt-32"></div>
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-cyan-100 dark:bg-cyan-900 rounded-full filter blur-3xl opacity-20 -ml-48 -mb-48"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 relative">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
           <div className="text-center md:text-left space-y-6">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-sm border border-cyan-100">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 rounded-full shadow-sm border border-cyan-100 dark:border-cyan-800">
               <Star className="h-4 w-4 text-cyan-600 fill-cyan-600" />
-              <span className="text-sm font-medium text-gray-700">
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
                 Trusted by 10,000+ Parents
               </span>
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-gray-100 leading-tight">
               Find the Best <span className="text-cyan-600">Baby Products</span>
               , Trusted by Parents
             </h1>
 
             {/* Subheading */}
-            <p className="text-lg md:text-xl text-gray-600 leading-relaxed">
+            <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
               Honest, detailed reviews and buying guides to help you make
               confident decisions for your little one. From nursery essentials
               to feeding gear, we&apos;ve tested it all.

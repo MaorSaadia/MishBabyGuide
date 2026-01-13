@@ -19,6 +19,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import Logo from "./Logo";
 import SearchComponent from "./Search";
+import { ThemeToggle } from "./ThemeToggle";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -93,10 +94,10 @@ const Navbar = () => {
   };
 
   const navLinkStyles =
-    "text-[15px] font-medium text-gray-700 hover:text-cyan-600 transition-colors";
+    "text-[15px] font-medium text-gray-700 dark:text-gray-200 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors";
 
   return (
-    <nav className="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
+    <nav className="sticky top-0 z-50 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 shadow-sm">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Left Side: Logo & Desktop Menu */}
@@ -112,7 +113,7 @@ const Navbar = () => {
                 onMouseEnter={() => setIsDropdownOpen(true)}
                 onMouseLeave={() => setIsDropdownOpen(false)}
               >
-                <button className="flex items-center gap-1 text-[15px] font-medium text-gray-700 hover:text-cyan-600 transition-colors">
+                <button className="flex items-center gap-1 text-[15px] font-medium text-gray-700 dark:text-gray-200 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">
                   Categories
                   <ChevronDown
                     className={`w-4 h-4 transition-transform ${
@@ -129,21 +130,21 @@ const Navbar = () => {
                       initial="hidden"
                       animate="visible"
                       exit="exit"
-                      className="absolute top-full left-0 mt-2 w-72 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden"
+                      className="absolute top-full left-0 mt-2 w-72 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden"
                     >
                       <div className="p-2">
                         {categories.map((item) => (
                           <Link
                             key={item.name}
                             href={item.href}
-                            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors group"
+                            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors group"
                           >
                             <div
                               className={`${item.color} p-2 rounded-lg group-hover:scale-110 transition-transform`}
                             >
                               <item.icon className="w-5 h-5" />
                             </div>
-                            <span className="text-sm font-medium text-gray-700 group-hover:text-cyan-600">
+                            <span className="text-sm font-medium text-gray-700 dark:text-gray-200 group-hover:text-cyan-600 dark:group-hover:text-cyan-400">
                               {item.name}
                             </span>
                           </Link>
@@ -172,6 +173,11 @@ const Navbar = () => {
             <SearchComponent />
           </div>
 
+          {/* Theme Toggle */}
+          <div className="hidden lg:flex">
+            <ThemeToggle />
+          </div>
+
           {/* Right Side: Mobile Icons */}
           <div className="flex items-center gap-2 lg:hidden">
             {/* Mobile Search Icon */}
@@ -180,7 +186,7 @@ const Navbar = () => {
                 setShowMobileSearch(!showMobileSearch);
                 if (isMobileMenuOpen) setIsMobileMenuOpen(false);
               }}
-              className="p-2 text-gray-700 hover:text-cyan-600 transition"
+              className="p-2 text-gray-700 dark:text-gray-200 hover:text-cyan-600 dark:hover:text-cyan-400 transition"
               aria-label="Search"
             >
               <Search className="w-5 h-5" />
@@ -192,7 +198,7 @@ const Navbar = () => {
                 setIsMobileMenuOpen(!isMobileMenuOpen);
                 if (showMobileSearch) setShowMobileSearch(false);
               }}
-              className="p-2 text-gray-600 hover:text-cyan-600"
+              className="p-2 text-gray-600 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400"
             >
               {isMobileMenuOpen ? (
                 <X className="w-6 h-6" />
@@ -211,7 +217,7 @@ const Navbar = () => {
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="lg:hidden overflow-hidden border-t border-gray-100"
+              className="lg:hidden overflow-hidden border-t border-gray-100 dark:border-gray-700"
             >
               <div className="py-4 max-h-[80vh] overflow-y-auto">
                 <SearchComponent onClose={() => setShowMobileSearch(false)} />
@@ -228,12 +234,12 @@ const Navbar = () => {
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="lg:hidden overflow-hidden border-t border-gray-100"
+              className="lg:hidden overflow-hidden border-t border-gray-100 dark:border-gray-700"
             >
               <div className="py-4 space-y-2 max-h-[70vh] overflow-y-auto">
                 {/* Categories Section */}
                 <div className="mb-4">
-                  <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider px-2 mb-2">
+                  <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider px-2 mb-2">
                     Categories
                   </div>
                   {categories.map((item) => (
@@ -241,12 +247,12 @@ const Navbar = () => {
                       key={item.name}
                       href={item.href}
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50"
+                      className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
                     >
                       <div className={`${item.color} p-2 rounded-lg`}>
                         <item.icon className="w-4 h-4" />
                       </div>
-                      <span className="text-sm font-medium text-gray-700">
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
                         {item.name}
                       </span>
                     </Link>
@@ -254,11 +260,11 @@ const Navbar = () => {
                 </div>
 
                 {/* Mobile Separator and New Links */}
-                <div className="border-t border-gray-100 pt-2 space-y-1">
+                <div className="border-t border-gray-100 dark:border-gray-700 pt-2 space-y-1">
                   <Link
                     href="/reviews"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center gap-2 p-2 font-medium text-gray-700 hover:text-cyan-600"
+                    className="flex items-center gap-2 p-2 font-medium text-gray-700 dark:text-gray-200 hover:text-cyan-600 dark:hover:text-cyan-400"
                   >
                     <FileText className="w-4 h-4" />
                     Products Review
@@ -266,17 +272,20 @@ const Navbar = () => {
                   <Link
                     href="/blog"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="block p-2 font-medium text-gray-700 hover:text-cyan-600"
+                    className="block p-2 font-medium text-gray-700 dark:text-gray-200 hover:text-cyan-600 dark:hover:text-cyan-400"
                   >
                     Blog
                   </Link>
                   <Link
                     href="/about"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="block p-2 font-medium text-gray-700 hover:text-cyan-600"
+                    className="block p-2 font-medium text-gray-700 dark:text-gray-200 hover:text-cyan-600 dark:hover:text-cyan-400"
                   >
                     About Us
                   </Link>
+                  <div className="flex items-center justify-center p-2">
+                    <ThemeToggle />
+                  </div>
                 </div>
               </div>
             </motion.div>

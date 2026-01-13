@@ -58,7 +58,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-linear-to-b from-gray-50 to-white border-t border-gray-200">
+    <footer className="bg-linear-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 border-t border-gray-200 dark:border-gray-700">
       {/* Amazon Disclaimer */}
       {/* <div className="bg-linear-to-r from-cyan-50 to-blue-50 border-t-2 border-cyan-400 py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -104,7 +104,7 @@ const Footer = () => {
             <div className="mb-4">
               <Logo size="md" />
             </div>
-            <p className="text-sm text-gray-600 leading-relaxed mb-6">
+            <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-6">
               Your trusted source for honest baby product reviews and buying
               guides. Helping parents make informed decisions for their little
               ones.
@@ -115,7 +115,7 @@ const Footer = () => {
                 <Link
                   key={social.name}
                   href={social.href}
-                  className="w-10 h-10 bg-gray-100 hover:bg-cyan-100 rounded-lg flex items-center justify-center text-gray-600 hover:text-cyan-600 transition-all duration-200 group"
+                  className="w-10 h-10 bg-gray-100 dark:bg-gray-700 hover:bg-cyan-100 dark:hover:bg-cyan-900 rounded-lg flex items-center justify-center text-gray-600 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition-all duration-200 group"
                   aria-label={social.name}
                 >
                   <social.icon className="h-5 w-5 group-hover:scale-110 transition-transform" />
@@ -126,7 +126,7 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-gray-900 text-sm font-semibold uppercase tracking-wider mb-2">
+            <h3 className="text-gray-900 dark:text-gray-100 text-sm font-semibold uppercase tracking-wider mb-2">
               Quick Links
             </h3>
             <ul className="space-y-2">
@@ -134,7 +134,7 @@ const Footer = () => {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-sm text-gray-600 hover:text-cyan-600 transition-colors inline-flex items-center group"
+                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors inline-flex items-center group"
                   >
                     <span className="w-0 group-hover:w-2 h-0.5 bg-cyan-600 transition-all duration-200 mr-0 group-hover:mr-2"></span>
                     {link.name}
@@ -146,7 +146,7 @@ const Footer = () => {
 
           {/* Categories */}
           <div>
-            <h3 className="text-gray-900 text-sm font-semibold uppercase tracking-wider mb-2">
+            <h3 className="text-gray-900 dark:text-gray-100 text-sm font-semibold uppercase tracking-wider mb-2">
               Categories
             </h3>
             <ul className="space-y-2">
@@ -154,7 +154,7 @@ const Footer = () => {
                 <li key={category.name}>
                   <Link
                     href={category.href}
-                    className="text-sm text-gray-600 hover:text-cyan-600 transition-colors inline-flex items-center group"
+                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors inline-flex items-center group"
                   >
                     <span className="w-0 group-hover:w-2 h-0.5 bg-cyan-600 transition-all duration-200 mr-0 group-hover:mr-2"></span>
                     {category.name}
@@ -166,7 +166,7 @@ const Footer = () => {
 
           {/* Legal & Contact */}
           <div>
-            <h3 className="text-gray-900 text-sm font-semibold uppercase tracking-wider mb-2">
+            <h3 className="text-gray-900 dark:text-gray-100 text-sm font-semibold uppercase tracking-wider mb-2">
               Legal
             </h3>
             <ul className="space-y-2">
@@ -174,7 +174,7 @@ const Footer = () => {
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="text-sm text-gray-600 hover:text-cyan-600 transition-colors inline-flex items-center group"
+                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors inline-flex items-center group"
                   >
                     <span className="w-0 group-hover:w-2 h-0.5 bg-cyan-600 transition-all duration-200 mr-0 group-hover:mr-2"></span>
                     {item.icon && <item.icon className="h-4 w-4 mr-2" />}
@@ -188,13 +188,13 @@ const Footer = () => {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-gray-200 bg-white">
+      <div className="border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
               © {currentYear} MishBabyGuide.com. All rights reserved.
             </p>
-            <p className="text-xs text-gray-500 text-center md:text-right max-w-2xl">
+            <p className="text-xs text-gray-500 dark:text-gray-500 text-center md:text-right max-w-2xl">
               As an Amazon Associate, we earn from qualifying purchases at no
               additional cost to you.
             </p>
