@@ -229,7 +229,6 @@ export default async function BlogPostPage({
                           ? getProductCardImage(product.mainImage)
                           : "/placeholder-product.jpg"
                       }
-                      price={product.price}
                       excerpt={product.excerpt || "Check out this product"}
                       amazonLink={product.amazonLink}
                     />

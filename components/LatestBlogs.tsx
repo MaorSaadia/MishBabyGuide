@@ -8,7 +8,7 @@ import { BookOpen, TrendingUp } from "lucide-react";
 
 import BlogCard from "./BlogCard";
 
-const LatestReviews = () => {
+const LatestBlogs = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -141,4 +141,4 @@ const LatestReviews = () => {
   );
 };
 
-export default LatestReviews;
+export default LatestBlogs;

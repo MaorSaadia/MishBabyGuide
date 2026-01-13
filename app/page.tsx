@@ -1,7 +1,7 @@
 import CategoriesGrid from "@/components/CategoriesGrid";
 import FeaturedProducts from "@/components/FeaturedProducts";
 import Hero from "@/components/Hero";
-import LatestReviews from "@/components/LatestReviews";
+import LatestBlogs from "@/components/LatestBlogs";
 import TrustBadges from "@/components/TrustBadges";
 import { getFeaturedProducts } from "@/lib/sanity.client";
 import { getProductCardImage } from "@/lib/sanity.image";
@@ -26,7 +26,7 @@ export default async function Home() {
       <Hero />
       <FeaturedProducts />
       <CategoriesGrid />
-      <LatestReviews />
+      <LatestBlogs />
       <TrustBadges />
       <script
         type="application/ld+json"

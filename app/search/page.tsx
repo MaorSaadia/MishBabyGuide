@@ -139,11 +139,9 @@ export default async function SearchPage({
                           ? getProductCardImage(product.mainImage)
                           : "/placeholder-product.jpg"
                       }
-                      price={product.price}
                       excerpt={product.excerpt}
                       amazonLink={product.amazonLink}
                       category={product.category?.title}
-                      hasFullReview={product.hasFullReview}
                     />
                   ))}
                 </div>

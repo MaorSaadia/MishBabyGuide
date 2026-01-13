@@ -1,4 +1,3 @@
-import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ExternalLink, ArrowRight } from "lucide-react";
@@ -7,11 +6,9 @@ interface ProductCardProps {
   title: string;
   slug: string;
   image: string;
-  price: string;
   excerpt: string;
   amazonLink: string;
   category?: string;
-  hasFullReview?: boolean;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
