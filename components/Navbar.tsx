@@ -14,6 +14,7 @@ import {
   UtensilsCrossed,
   Lamp,
   Package,
+  FileText,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Logo from "./Logo";
@@ -154,6 +155,9 @@ const Navbar = () => {
               </div>
 
               {/* NEW LINKS */}
+              <Link href="/reviews" className={navLinkStyles}>
+                Products Review
+              </Link>
               <Link href="/blog" className={navLinkStyles}>
                 Blog
               </Link>
@@ -251,6 +255,14 @@ const Navbar = () => {
 
                 {/* Mobile Separator and New Links */}
                 <div className="border-t border-gray-100 pt-2 space-y-1">
+                  <Link
+                    href="/reviews"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center gap-2 p-2 font-medium text-gray-700 hover:text-cyan-600"
+                  >
+                    <FileText className="w-4 h-4" />
+                    Products Review
+                  </Link>
                   <Link
                     href="/blog"
                     onClick={() => setIsMobileMenuOpen(false)}

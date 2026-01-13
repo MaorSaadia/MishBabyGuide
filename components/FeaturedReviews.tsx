@@ -2,46 +2,48 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Sparkles } from "lucide-react";
+import { FileText, Star } from "lucide-react";
 
 import { getProductCardImage } from "@/lib/sanity.image";
-import {
-  getFeaturedProducts,
-  Product,
-  isProductReview,
-  isProductRecommendation,
-} from "@/lib/sanity.client";
-import SectionHeading from "./SectionHeading";
-import ProductCard from "./ProductCard";
-import ReviewCard from "./ReviewCard";
+import { getProductReviews, ProductReview } from "@/lib/sanity.client";
+import ProductReviewCard from "./ProductReviewCard";
 
-const FeaturedProducts = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+const FeaturedReviews = () => {
+  const [reviews, setReviews] = useState<ProductReview[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      const data = await getFeaturedProducts();
-      setProducts(data.slice(0, 4));
+    const fetchReviews = async () => {
+      const data = await getProductReviews();
+      // Get featured reviews or latest 3
+      const featuredReviews = data
+        .filter((review) => review.featured)
+        .slice(0, 3);
+
+      if (featuredReviews.length > 0) {
+        setReviews(featuredReviews);
+      } else {
+        setReviews(data.slice(0, 3));
+      }
       setLoading(false);
     };
-    fetchProducts();
+    fetchReviews();
   }, []);
 
   // Loading skeleton
   if (loading) {
     return (
-      <section id="featured-products" className="py-16 md:py-20 bg-white">
+      <section className="py-16 md:py-20 bg-linear-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <div className="h-8 bg-gray-200 rounded w-64 mx-auto mb-4 animate-pulse"></div>
             <div className="h-4 bg-gray-200 rounded w-96 mx-auto animate-pulse"></div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            {[...Array(4)].map((_, i) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[...Array(3)].map((_, i) => (
               <div
                 key={i}
-                className="bg-gray-100 rounded-2xl h-96 animate-pulse"
+                className="bg-gray-100 rounded-2xl h-125 animate-pulse"
               ></div>
             ))}
           </div>
@@ -50,22 +52,28 @@ const FeaturedProducts = () => {
     );
   }
 
-  // If no products
-  if (products.length === 0) {
+  // If no reviews found
+  if (reviews.length === 0) {
     return (
-      <section id="featured-products" className="py-16 md:py-20 bg-white">
+      <section className="py-16 md:py-20 bg-linear-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="Top Picks"
-            badgeIcon={<Sparkles className="h-4 w-4" />}
-            title="Our Featured Products"
-            subtitle="Hand-picked essentials that parents love and trust."
-            className="mb-12"
-          />
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-50 text-cyan-600 rounded-full mb-4">
+              <FileText className="h-4 w-4" />
+              <span className="text-sm font-semibold">In-Depth Reviews</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Featured Product Reviews
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Comprehensive reviews with pros, cons, and expert analysis to help
+              you make informed decisions.
+            </p>
+          </div>
 
           <div className="text-center py-12">
             <p className="text-gray-600 mb-4">
-              No featured products yet. Add some products in Sanity Studio!
+              No product reviews yet. Add some reviews in Sanity Studio!
             </p>
             <Link
               href="/studio"
@@ -80,69 +88,49 @@ const FeaturedProducts = () => {
   }
 
   return (
-    <section id="featured-products" className="py-16 md:py-20 bg-white">
+    <section className="py-16 md:py-20 bg-linear-to-b from-gray-50 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-50 text-cyan-600 rounded-full mb-4">
-            <Sparkles className="h-4 w-4" />
-            <span className="text-sm font-semibold">Top Picks</span>
+            <FileText className="h-4 w-4" />
+            <span className="text-sm font-semibold">In-Depth Reviews</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Our Featured Products
+            Featured Product Reviews
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Hand-picked essentials that parents love and trust. Reviews and
-            recommendations to help you choose the best.
+            Comprehensive reviews with pros, cons, and expert analysis to help
+            you make informed decisions.
           </p>
         </div>
 
-        {/* Products Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {products.map((product) => {
-            const imageUrl = product.mainImage
-              ? getProductCardImage(product.mainImage)
-              : "/placeholder.jpg";
-
-            // Render ReviewCard for reviews, ProductCard for recommendations
-            if (isProductReview(product)) {
-              return (
-                <ReviewCard
-                  key={product._id}
-                  title={product.title}
-                  slug={product.slug.current}
-                  image={imageUrl}
-                  excerpt={product.excerpt}
-                  amazonLink={product.amazonLink}
-                  category={product.category?.title}
-                  prosCount={product.pros?.length || 0}
-                  consCount={product.cons?.length || 0}
-                />
-              );
-            } else if (isProductRecommendation(product)) {
-              return (
-                <ProductCard
-                  key={product._id}
-                  title={product.title}
-                  slug={product.slug.current}
-                  image={imageUrl}
-                  excerpt={product.excerpt}
-                  amazonLink={product.amazonLink}
-                  category={product.category?.title}
-                />
-              );
-            }
-            return null;
-          })}
+        {/* Reviews Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {reviews.map((review) => (
+            <ProductReviewCard
+              key={review._id}
+              title={review.title}
+              slug={review.slug.current}
+              image={
+                review.mainImage
+                  ? getProductCardImage(review.mainImage)
+                  : "/placeholder.jpg"
+              }
+              excerpt={review.excerpt}
+              amazonLink={review.amazonLink}
+              category={review.category?.title}
+            />
+          ))}
         </div>
 
-        {/* View All Links */}
-        <div className="flex justify-center gap-6 mt-12">
+        {/* View All Link */}
+        <div className="text-center mt-12">
           <Link
             href="/reviews"
-            className="inline-flex items-center gap-2 text-cyan-600 font-semibold hover:text-cyan-700 transition-colors group"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-cyan-600 text-white font-semibold rounded-lg hover:bg-cyan-700 transition-all group"
           >
-            All Reviews
+            View All Reviews
             <svg
               className="h-5 w-5 group-hover:translate-x-1 transition-transform"
               fill="none"
@@ -157,30 +145,31 @@ const FeaturedProducts = () => {
               />
             </svg>
           </Link>
-          <span className="text-gray-400">|</span>
-          <Link
-            href="/products"
-            className="inline-flex items-center gap-2 text-cyan-600 font-semibold hover:text-cyan-700 transition-colors group"
-          >
-            All Products
-            <svg
-              className="h-5 w-5 group-hover:translate-x-1 transition-transform"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17 8l4 4m0 0l-4 4m4-4H3"
-              />
-            </svg>
-          </Link>
+        </div>
+
+        {/* Info Banner */}
+        <div className="mt-16 bg-linear-to-br from-cyan-50 to-blue-50 rounded-2xl p-8 border border-cyan-100">
+          <div className="flex flex-col md:flex-row items-center gap-6">
+            <div className="shrink-0">
+              <div className="w-16 h-16 bg-cyan-100 rounded-full flex items-center justify-center">
+                <Star className="w-8 h-8 text-cyan-600 fill-cyan-600" />
+              </div>
+            </div>
+            <div className="flex-1 text-center md:text-left">
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
+                Why Trust Our Reviews?
+              </h3>
+              <p className="text-gray-600">
+                Every product is personally tested and evaluated. We provide
+                honest, detailed reviews covering pros, cons, and real-world
+                performance to help you choose the best for your baby.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   );
 };
 
-export default FeaturedProducts;
+export default FeaturedReviews;

@@ -1,46 +1,36 @@
 // app/products/page.tsx
 import { Metadata } from "next";
 import {
-  getAllProducts,
   getAllProductCategories,
-  getProductReviews,
   getProductRecommendations,
 } from "@/lib/sanity.client";
 import ProductGrid from "@/components/ProductGrid";
-import { Package, Filter } from "lucide-react";
+import { Package, Zap } from "lucide-react";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "All Products - Baby Product Reviews | MishBabyGuide",
+  title: "Quick Product Recommendations - Baby Products | MishBabyGuide",
   description:
-    "Browse all our recommended baby products. From full reviews to quick recommendations, find everything you need for your little one.",
+    "Browse our curated quick recommendations for baby products. Fast, reliable picks to help you make the right choice.",
   openGraph: {
-    title: "All Products - MishBabyGuide",
-    description: "Browse all our recommended baby products",
+    title: "Quick Product Recommendations - MishBabyGuide",
+    description: "Browse our curated quick recommendations for baby products",
     type: "website",
   },
 };
 
-export default async function AllProductsPage({
+export default async function ProductsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ category?: string; type?: string }>;
+  searchParams: Promise<{ category?: string }>;
 }) {
   const params = await searchParams;
   const selectedCategory = params.category;
-  const selectedType = params.type; // 'reviews' or 'recommendations'
 
   const categories = await getAllProductCategories();
 
-  // Fetch products based on type filter
-  let products;
-  if (selectedType === "reviews") {
-    products = await getProductReviews();
-  } else if (selectedType === "recommendations") {
-    products = await getProductRecommendations();
-  } else {
-    products = await getAllProducts();
-  }
+  // Only fetch quick recommendations
+  const products = await getProductRecommendations();
 
   // Filter by category if selected
   const filteredProducts = selectedCategory
@@ -54,153 +44,91 @@ export default async function AllProductsPage({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-50 text-cyan-600 rounded-full mb-4">
-            <Package className="h-4 w-4" />
-            <span className="text-sm font-semibold">All Products</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-sky-50 text-sky-600 rounded-full mb-4">
+            <Zap className="h-4 w-4" />
+            <span className="text-sm font-semibold">Quick Recommendations</span>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Our Product Recommendations
+            Our Quick Product Picks
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Discover the best baby products we recommend. Full reviews and quick
-            picks to help you make the right choice.
+            Curated baby products we recommend. Perfect for fast shopping
+            decisions.
           </p>
         </div>
 
-        {/* Filters */}
-        <div className="mb-12 space-y-6">
-          {/* Type Filter */}
-          <div>
+        {/* Category Filter */}
+        {categories.length > 0 && (
+          <div className="mb-12">
             <div className="flex items-center gap-3 mb-4">
-              <Filter className="h-5 w-5 text-gray-600" />
+              <Package className="h-5 w-5 text-gray-600" />
               <span className="text-sm font-medium text-gray-700">
-                Filter by type:
+                Filter by category:
               </span>
             </div>
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/products"
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                  !selectedType
-                    ? "bg-cyan-600 text-white"
+                  !selectedCategory
+                    ? "bg-sky-600 text-white"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }`}
               >
-                All Products
+                All Categories
               </Link>
-              <Link
-                href="/products?type=reviews"
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                  selectedType === "reviews"
-                    ? "bg-cyan-600 text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
-              >
-                📝 Full Reviews
-              </Link>
-              <Link
-                href="/products?type=recommendations"
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                  selectedType === "recommendations"
-                    ? "bg-cyan-600 text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
-              >
-                ⚡ Quick Recommendations
-              </Link>
-            </div>
-          </div>
-
-          {/* Category Filter */}
-          {categories.length > 0 && (
-            <div>
-              <div className="flex items-center gap-3 mb-4">
-                <Filter className="h-5 w-5 text-gray-600" />
-                <span className="text-sm font-medium text-gray-700">
-                  Filter by category:
-                </span>
-              </div>
-              <div className="flex flex-wrap gap-3">
+              {categories.map((category) => (
                 <Link
-                  href={
-                    selectedType
-                      ? `/products?type=${selectedType}`
-                      : "/products"
-                  }
+                  key={category.slug.current}
+                  href={`/products?category=${category.slug.current}`}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                    !selectedCategory
-                      ? "bg-cyan-600 text-white"
+                    selectedCategory === category.slug.current
+                      ? "bg-sky-600 text-white"
                       : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                   }`}
                 >
-                  All Categories
+                  {category.title}
                 </Link>
-                {categories.map((category) => (
-                  <Link
-                    key={category.slug.current}
-                    href={`/products?category=${category.slug.current}${selectedType ? `&type=${selectedType}` : ""}`}
-                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                      selectedCategory === category.slug.current
-                        ? "bg-cyan-600 text-white"
-                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                    }`}
-                  >
-                    {category.title}
-                  </Link>
-                ))}
-              </div>
+              ))}
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* Products Count */}
         <div className="mb-8">
           <p className="text-gray-600">
             Showing{" "}
-            <span className="font-semibold text-cyan-600">
+            <span className="font-semibold text-sky-600">
               {filteredProducts.length}
             </span>{" "}
-            products
+            quick recommendations
           </p>
         </div>
 
         {/* Products Grid */}
         <ProductGrid products={filteredProducts} />
 
-        {/* Info Banner */}
-        <div className="mt-16 grid md:grid-cols-2 gap-6">
+        {/* Info Banner - Link to Reviews */}
+        <div className="mt-16">
           <div className="bg-linear-to-br from-cyan-50 to-cyan-100 rounded-2xl p-8">
-            <div className="text-4xl mb-4">📝</div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">
-              Full Reviews
-            </h3>
-            <p className="text-gray-600 mb-4">
-              In-depth reviews with pros, cons, detailed analysis, and our
-              expert opinion.
-            </p>
-            <Link
-              href="/products?type=reviews"
-              className="inline-flex items-center gap-2 text-cyan-600 font-semibold hover:text-cyan-700"
-            >
-              View Full Reviews →
-            </Link>
-          </div>
-
-          <div className="bg-linear-to-br from-sky-50 to-sky-100 rounded-2xl p-8">
-            <div className="text-4xl mb-4">⚡</div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">
-              Quick Recommendations
-            </h3>
-            <p className="text-gray-600 mb-4">
-              Products we recommend with quick descriptions. Perfect for fast
-              shopping decisions.
-            </p>
-            <Link
-              href="/products?type=recommendations"
-              className="inline-flex items-center gap-2 text-sky-600 font-semibold hover:text-sky-700"
-            >
-              View Quick Picks →
-            </Link>
+            <div className="flex flex-col md:flex-row items-center gap-6">
+              <div className="text-5xl">📝</div>
+              <div className="flex-1 text-center md:text-left">
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  Looking for Full Reviews?
+                </h3>
+                <p className="text-gray-600 mb-4">
+                  Check out our in-depth reviews with pros, cons, detailed
+                  analysis, and expert opinions.
+                </p>
+                <Link
+                  href="/reviews"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-cyan-600 text-white font-semibold rounded-full hover:bg-cyan-700 transition-colors"
+                >
+                  View Full Reviews →
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </div>

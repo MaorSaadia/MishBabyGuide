@@ -1,15 +1,18 @@
 import CategoriesGrid from "@/components/CategoriesGrid";
 import FeaturedProducts from "@/components/FeaturedProducts";
+import FeaturedReviews from "@/components/FeaturedReviews";
 import Hero from "@/components/Hero";
 import LatestBlogs from "@/components/LatestBlogs";
 import TrustBadges from "@/components/TrustBadges";
-import { getFeaturedProducts } from "@/lib/sanity.client";
+import { getFeaturedProducts, getProductReviews } from "@/lib/sanity.client";
 import { getProductCardImage } from "@/lib/sanity.image";
 import { generateItemListSchema, renderJsonLd } from "@/lib/structuredData";
 
 export default async function Home() {
   const featuredProducts = await getFeaturedProducts();
+  const productReviews = await getProductReviews();
 
+  // Schema for featured products
   const featuredSchema = generateItemListSchema(
     "Featured Baby Products",
     featuredProducts.slice(0, 4).map((product) => ({
@@ -21,16 +24,33 @@ export default async function Home() {
     }))
   );
 
+  // Schema for featured reviews
+  const reviewsSchema = generateItemListSchema(
+    "Featured Product Reviews",
+    productReviews.slice(0, 3).map((review) => ({
+      name: review.title,
+      url: `/products/${review.slug.current}`,
+      image: review.mainImage
+        ? getProductCardImage(review.mainImage)
+        : undefined,
+    }))
+  );
+
   return (
     <>
       <Hero />
       <FeaturedProducts />
+      <FeaturedReviews />
       <CategoriesGrid />
       <LatestBlogs />
       <TrustBadges />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={renderJsonLd(featuredSchema)}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={renderJsonLd(reviewsSchema)}
       />
     </>
   );
