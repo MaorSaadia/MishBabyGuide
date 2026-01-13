@@ -20,7 +20,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   urlPrefix = "/products",
 }) => {
   return (
-    <div className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group border border-gray-100 flex flex-col h-full">
+    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group border border-gray-100 dark:border-gray-900 flex flex-col h-full">
       {/* Image Section */}
       <Link
         href={`/products/${slug}`}
@@ -43,10 +43,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
       </Link>
 
       {/* Content Section */}
-      <div className="p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col grow">
+      <div className="p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col grow bg-white dark:bg-gray-800">
         {/* Product Title */}
         <Link href={`/products/${slug}`} className="mb-2 sm:mb-3">
-          <h3 className="text-sm sm:text-base md:text-lg font-bold text-gray-900 hover:text-cyan-600 transition-colors line-clamp-3 min-h-10 sm:min-h-12 md:min-h-14 leading-tight sm:leading-snug">
+          <h3 className="text-sm sm:text-base md:text-lg font-bold text-gray-900 dark:text-gray-100 hover:text-cyan-600 transition-colors line-clamp-3 min-h-10 sm:min-h-12 md:min-h-14 leading-tight sm:leading-snug">
             {title}
           </h3>
         </Link>
@@ -73,7 +73,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             href={amazonLink}
             target="_blank"
             rel="nofollow noopener noreferrer"
-            className="inline-flex items-center justify-center px-3 sm:px-4 py-2 sm:py-2.5 md:py-3 bg-white text-cyan-600 text-xs sm:text-sm font-semibold rounded-lg border-2 border-cyan-600 hover:bg-cyan-50 transition-all"
+            className="inline-flex items-center justify-center px-3 sm:px-4 py-2 sm:py-2.5 md:py-3 bg-white dark:bg-gray-800 text-cyan-600 text-xs sm:text-sm font-semibold rounded-lg border-2 border-cyan-600 hover:bg-cyan-50 transition-all"
             title="View on Amazon"
           >
             <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4" />

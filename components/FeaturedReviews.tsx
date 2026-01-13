@@ -33,7 +33,7 @@ const FeaturedReviews = () => {
   // Loading skeleton
   if (loading) {
     return (
-      <section className="py-16 md:py-20 bg-linear-to-b from-gray-50 to-white">
+      <section className="py-16 md:py-20 bg-linear-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <div className="h-8 bg-gray-200 rounded w-64 mx-auto mb-4 animate-pulse"></div>
@@ -55,10 +55,10 @@ const FeaturedReviews = () => {
   // If no reviews found
   if (reviews.length === 0) {
     return (
-      <section className="py-16 md:py-20 bg-linear-to-b from-gray-50 to-white">
+      <section className="py-16 md:py-20 bg-linear-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-50 text-cyan-600 rounded-full mb-4">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-50 dark:bg-gray-800 text-cyan-600 rounded-full mb-4">
               <FileText className="h-4 w-4" />
               <span className="text-sm font-semibold">In-Depth Reviews</span>
             </div>
@@ -77,7 +77,7 @@ const FeaturedReviews = () => {
             </p>
             <Link
               href="/studio"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-cyan-600 text-white font-semibold rounded-lg hover:bg-cyan-700 transition-all"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-cyan-600 text-white dark:text-gray-800 font-semibold rounded-lg hover:bg-cyan-700 transition-all"
             >
               Go to Studio
             </Link>
@@ -88,18 +88,18 @@ const FeaturedReviews = () => {
   }
 
   return (
-    <section className="py-16 md:py-20 bg-linear-to-b from-gray-50 to-white">
+    <section className="py-16 md:py-20 bg-linear-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-50 text-cyan-600 rounded-full mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-50 dark:bg-gray-700 text-cyan-600 rounded-full mb-4">
             <FileText className="h-4 w-4" />
             <span className="text-sm font-semibold">In-Depth Reviews</span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
             Featured Product Reviews
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             Comprehensive reviews with pros, cons, and expert analysis to help
             you make informed decisions.
           </p>

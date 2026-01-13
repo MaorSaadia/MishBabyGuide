@@ -20,7 +20,7 @@ const ProductReviewCard = ({
   excerpt,
 }: ProductReviewCardProps) => {
   return (
-    <article className="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 flex flex-col h-full">
+    <article className="group bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-900 flex flex-col h-full">
       {/* Image Container */}
       <Link
         href={`/reviews/${slug}`}
@@ -46,13 +46,13 @@ const ProductReviewCard = ({
       <div className="p-6 flex flex-col grow">
         {/* Title */}
         <Link href={`/products/${slug}`}>
-          <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-cyan-600 transition-colors line-clamp-2">
+          <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-3 group-hover:text-cyan-600 transition-colors line-clamp-2">
             {title}
           </h3>
         </Link>
 
         {/* Excerpt */}
-        <p className="text-gray-600 text-sm mb-4 line-clamp-3 grow">
+        <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-3 grow">
           {excerpt}
         </p>
 
