@@ -9,6 +9,7 @@ interface ProductCardProps {
   excerpt: string;
   amazonLink: string;
   category?: string;
+  urlPrefix?: string; // "/products" or "/reviews"
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
@@ -16,6 +17,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   slug,
   image,
   amazonLink,
+  urlPrefix = "/products",
 }) => {
   return (
     <div className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group border border-gray-100 flex flex-col h-full">
@@ -58,7 +60,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <div className="flex flex-col sm:flex-row gap-2 mt-auto">
           {/* View Product Button */}
           <Link
-            href={`/products/${slug}`}
+            href={`${urlPrefix || "/products"}/${slug}`}
             className="flex-1 inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 md:py-3 bg-cyan-600 text-white text-xs sm:text-sm font-semibold rounded-lg hover:bg-cyan-700 transition-all shadow-sm hover:shadow-md"
           >
             <span className="hidden sm:inline">View Product</span>

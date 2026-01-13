@@ -1,3 +1,4 @@
+// app/products/page.tsx
 import { Metadata } from "next";
 import {
   getAllProducts,
