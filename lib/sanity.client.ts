@@ -96,6 +96,7 @@ export function isProductRecommendation(
 }
 
 export interface Post {
+  relatedProducts: boolean;
   _id: string;
   title: string;
   slug: { current: string };
