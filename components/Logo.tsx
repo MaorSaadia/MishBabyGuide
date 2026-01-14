@@ -37,9 +37,11 @@ const Logo: React.FC<LogoProps> = ({
         <div className="flex flex-col">
           <span className="text-lg font-bold leading-tight">
             <span className="text-cyan-600">Mish</span>
-            <span className="text-gray-600">Baby</span>
+            <span className="text-gray-600 dark:text-gray-300">Baby</span>
           </span>
-          <span className="text-xs text-gray-600 font-medium">Guide</span>
+          <span className="text-xs text-gray-600 dark:text-gray-300 font-medium">
+            Guide
+          </span>
         </div>
       )}
     </Link>

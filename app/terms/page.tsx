@@ -12,16 +12,18 @@ export default function TermsOfServicePage() {
   const lastUpdated = "December 29, 2025";
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-cyan-50 to-white">
+    <div className="min-h-screen bg-linear-to-b from-cyan-50 to-white dark:from-gray-900 dark:to-gray-900">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-linear-to-r from-cyan-100 to-sky-100 py-16">
+      <section className="relative overflow-hidden bg-linear-to-r from-cyan-100 to-sky-100 dark:from-cyan-900/20 dark:to-sky-900/20 py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <Scale className="w-16 h-16 text-cyan-600 mx-auto mb-4" />
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <Scale className="w-16 h-16 text-cyan-600 dark:text-cyan-400 mx-auto mb-4" />
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
               Terms of Service
             </h1>
-            <p className="text-lg text-gray-700">Last Updated: {lastUpdated}</p>
+            <p className="text-lg text-gray-700 dark:text-gray-300">
+              Last Updated: {lastUpdated}
+            </p>
           </div>
         </div>
       </section>
@@ -31,14 +33,14 @@ export default function TermsOfServicePage() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             {/* Introduction */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 md:p-12 mb-8">
               <div className="flex items-start gap-4 mb-6">
-                <FileCheck className="w-8 h-8 text-cyan-600 shrink-0 mt-1" />
+                <FileCheck className="w-8 h-8 text-cyan-600 dark:text-cyan-400 shrink-0 mt-1" />
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
                     Agreement to Terms
                   </h2>
-                  <p className="text-gray-700 leading-relaxed mb-4">
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                     Welcome to Mish Baby Guide. These Terms of Service
                     (&quot;Terms&quot;) govern your access to and use of our
                     website located at{" "}
@@ -48,12 +50,12 @@ export default function TermsOfServicePage() {
                     (the &quot;Website&quot;), operated by Mish Baby Guide
                     (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;).
                   </p>
-                  <p className="text-gray-700 leading-relaxed mb-4">
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                     By accessing or using our Website, you agree to be bound by
                     these Terms and our Privacy Policy. If you do not agree to
                     these Terms, please do not use our Website.
                   </p>
-                  <p className="text-gray-700 leading-relaxed">
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                     We reserve the right to modify these Terms at any time. Your
                     continued use of the Website after any changes constitutes
                     acceptance of the new Terms.
@@ -63,14 +65,14 @@ export default function TermsOfServicePage() {
             </div>
 
             {/* Important Disclaimer - Highlighted */}
-            <div className="bg-amber-50 border-2 border-amber-300 rounded-2xl p-8 md:p-12 mb-8">
+            <div className="bg-amber-50 dark:bg-amber-900/20 border-2 border-amber-300 dark:border-amber-700 rounded-2xl p-8 md:p-12 mb-8">
               <div className="flex items-start gap-4 mb-6">
-                <AlertTriangle className="w-10 h-10 text-amber-600 shrink-0 mt-1" />
+                <AlertTriangle className="w-10 h-10 text-amber-600 dark:text-amber-400 shrink-0 mt-1" />
                 <div className="flex-1">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
                     Product Recommendations Disclaimer
                   </h2>
-                  <p className="text-gray-700 leading-relaxed mb-4">
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                     <strong>IMPORTANT:</strong> The product recommendations,
                     reviews, and information provided on this Website are for
                     informational purposes only and should not be considered as
@@ -78,11 +80,11 @@ export default function TermsOfServicePage() {
                   </p>
 
                   <div className="space-y-4">
-                    <div className="bg-white rounded-lg p-4">
-                      <h3 className="font-semibold text-gray-900 mb-2">
+                    <div className="bg-white dark:bg-gray-800 rounded-lg p-4">
+                      <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
                         No Guarantees
                       </h3>
-                      <p className="text-gray-700">
+                      <p className="text-gray-700 dark:text-gray-300">
                         We make no representations or warranties about the
                         suitability, reliability, availability, or accuracy of
                         the products we recommend. Every child is different, and
@@ -90,11 +92,11 @@ export default function TermsOfServicePage() {
                       </p>
                     </div>
 
-                    <div className="bg-white rounded-lg p-4">
-                      <h3 className="font-semibold text-gray-900 mb-2">
+                    <div className="bg-white dark:bg-gray-800 rounded-lg p-4">
+                      <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
                         Personal Responsibility
                       </h3>
-                      <p className="text-gray-700">
+                      <p className="text-gray-700 dark:text-gray-300">
                         You are solely responsible for evaluating the
                         appropriateness of any product for your child. Always
                         check product safety ratings, age recommendations, and
@@ -102,11 +104,11 @@ export default function TermsOfServicePage() {
                       </p>
                     </div>
 
-                    <div className="bg-white rounded-lg p-4">
-                      <h3 className="font-semibold text-gray-900 mb-2">
+                    <div className="bg-white dark:bg-gray-800 rounded-lg p-4">
+                      <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
                         Not Professional Advice
                       </h3>
-                      <p className="text-gray-700">
+                      <p className="text-gray-700 dark:text-gray-300">
                         Our content does not constitute medical, safety, or
                         professional parenting advice. Always consult with
                         qualified professionals regarding your child&apos;s
@@ -119,20 +121,20 @@ export default function TermsOfServicePage() {
             </div>
 
             {/* Affiliate Relationships */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 md:p-12 mb-8">
               <div className="flex items-start gap-4 mb-6">
-                <Link2 className="w-8 h-8 text-cyan-600 shrink-0 mt-1" />
+                <Link2 className="w-8 h-8 text-cyan-600 dark:text-cyan-400 shrink-0 mt-1" />
                 <div className="flex-1">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
                     Affiliate Relationships and Commissions
                   </h2>
-                  <p className="text-gray-700 leading-relaxed mb-4">
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                     Mish Baby Guide participates in the Amazon Services LLC
                     Associates Program and other affiliate advertising programs.
                     This means:
                   </p>
 
-                  <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4 ml-4">
+                  <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300 mb-4 ml-4">
                     <li>
                       We earn commissions when you purchase products through our
                       affiliate links
@@ -148,15 +150,15 @@ export default function TermsOfServicePage() {
                     </li>
                   </ul>
 
-                  <p className="text-gray-700 leading-relaxed mb-4">
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                     When you click on an affiliate link and make a purchase on
                     Amazon or other partner sites, we may receive a commission.
                     The price you pay remains the same whether you use our link
                     or go directly to the retailer.
                   </p>
 
-                  <div className="bg-cyan-50 rounded-lg p-4 border-l-4 border-cyan-500">
-                    <p className="text-gray-700 font-semibold">
+                  <div className="bg-cyan-50 dark:bg-cyan-900/20 rounded-lg p-4 border-l-4 border-cyan-500 dark:border-cyan-400">
+                    <p className="text-gray-700 dark:text-gray-300 font-semibold">
                       Transparency Commitment: We will always disclose our
                       affiliate relationships and strive to provide honest,
                       unbiased recommendations.
@@ -167,27 +169,27 @@ export default function TermsOfServicePage() {
             </div>
 
             {/* Use of Website */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 md:p-12 mb-8">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
                 Use of Our Website
               </h2>
 
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
                 Permitted Use
               </h3>
-              <p className="text-gray-700 leading-relaxed mb-4">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                 You may use our Website for lawful purposes only. You agree to
                 use the Website in accordance with these Terms and all
                 applicable laws and regulations.
               </p>
 
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
                 Prohibited Activities
               </h3>
-              <p className="text-gray-700 leading-relaxed mb-4">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                 You agree NOT to:
               </p>
-              <ul className="list-disc list-inside space-y-2 text-gray-700 ml-4 mb-4">
+              <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300 ml-4 mb-4">
                 <li>Use the Website for any illegal or unauthorized purpose</li>
                 <li>Violate any laws in your jurisdiction</li>
                 <li>
@@ -206,26 +208,26 @@ export default function TermsOfServicePage() {
             </div>
 
             {/* Intellectual Property */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 md:p-12 mb-8">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
                 Intellectual Property Rights
               </h2>
-              <p className="text-gray-700 leading-relaxed mb-4">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                 All content on this Website, including but not limited to text,
                 images, logos, graphics, videos, and software, is the property
                 of Mish Baby Guide or our content suppliers and is protected by
                 copyright, trademark, and other intellectual property laws.
               </p>
 
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
                 Limited License
               </h3>
-              <p className="text-gray-700 leading-relaxed mb-4">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                 We grant you a limited, non-exclusive, non-transferable license
                 to access and use our Website for personal, non-commercial
                 purposes. You may not:
               </p>
-              <ul className="list-disc list-inside space-y-2 text-gray-700 ml-4">
+              <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300 ml-4">
                 <li>
                   Reproduce, distribute, or display our content without written
                   permission
@@ -239,23 +241,23 @@ export default function TermsOfServicePage() {
             </div>
 
             {/* Third-Party Links */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 md:p-12 mb-8">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
                 Third-Party Links and Content
               </h2>
-              <p className="text-gray-700 leading-relaxed mb-4">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                 Our Website contains links to third-party websites and services,
                 including Amazon and our social media platforms. These links are
                 provided for your convenience and information.
               </p>
-              <p className="text-gray-700 leading-relaxed mb-4">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                 We do not control, endorse, or assume responsibility for any
                 third-party websites, products, or services. When you access
                 third-party websites, you do so at your own risk and are subject
                 to their terms and policies.
               </p>
-              <div className="bg-sky-50 rounded-lg p-4 border-l-4 border-sky-500">
-                <p className="text-gray-700">
+              <div className="bg-sky-50 dark:bg-sky-900/20 rounded-lg p-4 border-l-4 border-sky-500 dark:border-sky-400">
+                <p className="text-gray-700 dark:text-gray-300">
                   <strong>Amazon Notice:</strong> While we link to Amazon
                   products, we are not Amazon and have no control over
                   Amazon&apos;s policies, shipping, returns, or customer
@@ -266,16 +268,16 @@ export default function TermsOfServicePage() {
             </div>
 
             {/* Product Availability and Pricing */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 md:p-12 mb-8">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
                 Product Availability and Pricing
               </h2>
-              <p className="text-gray-700 leading-relaxed mb-4">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                 Product information, availability, and pricing on our Website
                 are subject to change without notice. We make every effort to
                 provide accurate information, but:
               </p>
-              <ul className="list-disc list-inside space-y-2 text-gray-700 ml-4">
+              <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300 ml-4">
                 <li>
                   We cannot guarantee that all product information is complete
                   or error-free
@@ -293,20 +295,20 @@ export default function TermsOfServicePage() {
             </div>
 
             {/* User Content */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 md:p-12 mb-8">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
                 User-Generated Content
               </h2>
-              <p className="text-gray-700 leading-relaxed mb-4">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                 If you submit comments, reviews, or other content to our
                 Website, you grant us a non-exclusive, worldwide, royalty-free
                 license to use, reproduce, modify, and display that content in
                 connection with our services.
               </p>
-              <p className="text-gray-700 leading-relaxed mb-4">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                 You represent that:
               </p>
-              <ul className="list-disc list-inside space-y-2 text-gray-700 ml-4">
+              <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300 ml-4">
                 <li>You own or have the right to submit the content</li>
                 <li>
                   Your content does not violate any laws or third-party rights
@@ -316,19 +318,19 @@ export default function TermsOfServicePage() {
             </div>
 
             {/* Disclaimers */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 md:p-12 mb-8">
               <div className="flex items-start gap-4 mb-6">
-                <ShieldCheck className="w-8 h-8 text-cyan-600 shrink-0 mt-1" />
+                <ShieldCheck className="w-8 h-8 text-cyan-600 dark:text-cyan-400 shrink-0 mt-1" />
                 <div className="flex-1">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
                     Disclaimers and Limitation of Liability
                   </h2>
 
-                  <div className="bg-red-50 rounded-lg p-4 border-l-4 border-red-500 mb-6">
-                    <p className="text-gray-700 font-semibold mb-2">
+                  <div className="bg-red-50 dark:bg-red-900/20 rounded-lg p-4 border-l-4 border-red-500 dark:border-red-400 mb-6">
+                    <p className="text-gray-700 dark:text-gray-300 font-semibold mb-2">
                       WEBSITE PROVIDED &quot;AS IS&quot;
                     </p>
-                    <p className="text-gray-700">
+                    <p className="text-gray-700 dark:text-gray-300">
                       Our Website and all content are provided &quot;as is&quot;
                       and &quot;as available&quot; without warranties of any
                       kind, either express or implied, including but not limited
@@ -337,16 +339,16 @@ export default function TermsOfServicePage() {
                     </p>
                   </div>
 
-                  <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
                     No Liability for Damages
                   </h3>
-                  <p className="text-gray-700 leading-relaxed mb-4">
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                     To the maximum extent permitted by law, Mish Baby Guide
                     shall not be liable for any indirect, incidental, special,
                     consequential, or punitive damages, including but not
                     limited to:
                   </p>
-                  <ul className="list-disc list-inside space-y-2 text-gray-700 ml-4 mb-4">
+                  <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300 ml-4 mb-4">
                     <li>Loss of profits, data, or use</li>
                     <li>Product defects or safety issues</li>
                     <li>Personal injury or property damage</li>
@@ -354,10 +356,10 @@ export default function TermsOfServicePage() {
                     <li>Unauthorized access to your information</li>
                   </ul>
 
-                  <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
                     Product Safety Disclaimer
                   </h3>
-                  <p className="text-gray-700 leading-relaxed">
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                     We are not responsible for the safety, quality, or
                     performance of any products purchased through our affiliate
                     links. Always check product recalls, safety ratings, and
@@ -370,17 +372,17 @@ export default function TermsOfServicePage() {
             </div>
 
             {/* Indemnification */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 md:p-12 mb-8">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
                 Indemnification
               </h2>
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                 You agree to indemnify, defend, and hold harmless Mish Baby
                 Guide, its affiliates, and their respective officers, directors,
                 employees, and agents from any claims, damages, losses,
                 liabilities, and expenses (including legal fees) arising from:
               </p>
-              <ul className="list-disc list-inside space-y-2 text-gray-700 ml-4 mt-4">
+              <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300 ml-4 mt-4">
                 <li>Your use of the Website</li>
                 <li>Your violation of these Terms</li>
                 <li>Your violation of any rights of another party</li>
@@ -389,19 +391,19 @@ export default function TermsOfServicePage() {
             </div>
 
             {/* Termination */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 md:p-12 mb-8">
               <div className="flex items-start gap-4 mb-6">
-                <Ban className="w-8 h-8 text-cyan-600 shrink-0 mt-1" />
+                <Ban className="w-8 h-8 text-cyan-600 dark:text-cyan-400 shrink-0 mt-1" />
                 <div className="flex-1">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
                     Termination
                   </h2>
-                  <p className="text-gray-700 leading-relaxed mb-4">
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                     We reserve the right to terminate or suspend your access to
                     our Website immediately, without prior notice or liability,
                     for any reason, including if you breach these Terms.
                   </p>
-                  <p className="text-gray-700 leading-relaxed">
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                     Upon termination, your right to use the Website will
                     immediately cease. All provisions of these Terms that by
                     their nature should survive termination shall survive,
@@ -412,29 +414,12 @@ export default function TermsOfServicePage() {
               </div>
             </div>
 
-            {/* Governing Law */}
-            {/* <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                Governing Law and Jurisdiction
-              </h2>
-              <p className="text-gray-700 leading-relaxed mb-4">
-                These Terms shall be governed by and construed in accordance
-                with the laws of Israel, without regard to its conflict of law
-                provisions.
-              </p>
-              <p className="text-gray-700 leading-relaxed">
-                Any disputes arising from these Terms or your use of the Website
-                shall be subject to the exclusive jurisdiction of the courts of
-                Israel.
-              </p>
-            </div> */}
-
             {/* Severability */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 md:p-12 mb-8">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
                 Severability
               </h2>
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                 If any provision of these Terms is found to be invalid or
                 unenforceable, the remaining provisions will remain in full
                 force and effect. The invalid provision will be modified to the
@@ -443,16 +428,16 @@ export default function TermsOfServicePage() {
             </div>
 
             {/* Changes to Terms */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 md:p-12 mb-8">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
                 Changes to These Terms
               </h2>
-              <p className="text-gray-700 leading-relaxed mb-4">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                 We reserve the right to modify or replace these Terms at any
                 time at our sole discretion. We will provide notice of material
                 changes by:
               </p>
-              <ul className="list-disc list-inside space-y-2 text-gray-700 ml-4 mb-4">
+              <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300 ml-4 mb-4">
                 <li>
                   Updating the &quot;Last Updated&quot; date at the top of this
                   page
@@ -462,7 +447,7 @@ export default function TermsOfServicePage() {
                   Sending an email notification (if you&apos;ve subscribed)
                 </li>
               </ul>
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                 Your continued use of the Website after any changes constitutes
                 acceptance of the new Terms. If you do not agree to the modified
                 Terms, you must stop using the Website.
@@ -497,11 +482,11 @@ export default function TermsOfServicePage() {
             </div>
 
             {/* Acknowledgment */}
-            <div className="bg-cyan-50 border-2 border-cyan-200 rounded-2xl p-8 md:p-12 mt-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            <div className="bg-cyan-50 dark:bg-cyan-900/20 border-2 border-cyan-200 dark:border-cyan-700 rounded-2xl p-8 md:p-12 mt-8">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
                 Acknowledgment
               </h2>
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                 By using Mish Baby Guide, you acknowledge that you have read,
                 understood, and agree to be bound by these Terms of Service. You
                 also acknowledge that you have read and understood our Privacy

@@ -22,14 +22,14 @@ export default async function SearchPage({
 
   if (!query) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-white dark:bg-gray-900">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center">
-            <Search className="h-16 w-16 text-gray-400 mx-auto mb-6" />
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">
+            <Search className="h-16 w-16 text-gray-400 dark:text-gray-500 mx-auto mb-6" />
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
               Search Products & Articles
             </h1>
-            <p className="text-gray-600 mb-8">
+            <p className="text-gray-600 dark:text-gray-400 mb-8">
               Find baby products and helpful articles
             </p>
             <div className="max-w-xl mx-auto">
@@ -55,15 +55,17 @@ export default async function SearchPage({
   const totalResults = products.length + filteredPosts.length;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
             Search Results for &quot;{query}&quot;
           </h1>
-          <p className="text-gray-600 mb-6">
+          <p className="text-gray-600 dark:text-gray-400 mb-6">
             Found{" "}
-            <span className="font-semibold text-gray-900">{totalResults}</span>{" "}
+            <span className="font-semibold text-gray-900 dark:text-white">
+              {totalResults}
+            </span>{" "}
             results
           </p>
 
@@ -73,22 +75,22 @@ export default async function SearchPage({
         </div>
 
         {totalResults === 0 ? (
-          <div className="text-center py-16 bg-gray-50 rounded-2xl">
-            <Search className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-bold text-gray-900 mb-2">
+          <div className="text-center py-16 bg-gray-50 dark:bg-gray-800 rounded-2xl">
+            <Search className="h-16 w-16 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
               No Results Found
             </h3>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-600 dark:text-gray-400 mb-6">
               We couldn&apos;t find anything matching &quot;{query}&quot;. Try
               different keywords.
             </p>
 
             <div className="space-y-4">
               <div>
-                <p className="text-sm font-medium text-gray-700 mb-3">
+                <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                   Suggestions:
                 </p>
-                <ul className="text-sm text-gray-600 space-y-2">
+                <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-2">
                   <li>• Check your spelling</li>
                   <li>• Try more general keywords</li>
                   <li>• Try different keywords</li>
@@ -96,7 +98,7 @@ export default async function SearchPage({
               </div>
 
               {/* <div className="mt-8">
-                <p className="text-sm font-medium text-gray-700 mb-3">
+                <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                   Popular searches:
                 </p>
                 <div className="flex flex-wrap gap-2 justify-center">
@@ -109,7 +111,7 @@ export default async function SearchPage({
                     <Link
                       key={term}
                       href={`/search?q=${encodeURIComponent(term)}`}
-                      className="px-4 py-2 bg-white border border-gray-200 rounded-full text-sm hover:border-cyan-600 hover:text-cyan-600 transition-colors"
+                      className="px-4 py-2 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-full text-sm hover:border-cyan-600 dark:hover:border-cyan-400 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors"
                     >
                       {term}
                     </Link>
@@ -123,8 +125,8 @@ export default async function SearchPage({
             {products.length > 0 && (
               <section>
                 <div className="flex items-center gap-3 mb-6">
-                  <Package className="h-6 w-6 text-cyan-600" />
-                  <h2 className="text-2xl font-bold text-gray-900">
+                  <Package className="h-6 w-6 text-cyan-600 dark:text-cyan-400" />
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                     Products ({products.length})
                   </h2>
                 </div>
@@ -151,8 +153,8 @@ export default async function SearchPage({
             {filteredPosts.length > 0 && (
               <section>
                 <div className="flex items-center gap-3 mb-6">
-                  <BookOpen className="h-6 w-6 text-cyan-600" />
-                  <h2 className="text-2xl font-bold text-gray-900">
+                  <BookOpen className="h-6 w-6 text-cyan-600 dark:text-cyan-400" />
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                     Articles ({filteredPosts.length})
                   </h2>
                 </div>
