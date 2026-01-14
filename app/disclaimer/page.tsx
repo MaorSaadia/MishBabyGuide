@@ -12,19 +12,19 @@ export default function DisclaimerPage() {
   const lastUpdated = "December 29, 2025";
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-cyan-50 to-white">
+    <div className="min-h-screen bg-linear-to-b from-cyan-50 to-white dark:from-gray-900 dark:to-gray-900">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-linear-to-r from-cyan-100 to-sky-100 py-16">
+      <section className="relative overflow-hidden bg-linear-to-r from-cyan-100 to-sky-100 dark:from-cyan-900/20 dark:to-sky-900/20 py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <Info className="w-16 h-16 text-cyan-600 mx-auto mb-4" />
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <Info className="w-16 h-16 text-cyan-600 dark:text-cyan-400 mx-auto mb-4" />
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
               Affiliate Disclaimer
             </h1>
-            <p className="text-lg text-gray-700">
+            <p className="text-lg text-gray-700 dark:text-gray-300">
               Transparency in Our Recommendations
             </p>
-            <p className="text-sm text-gray-600 mt-2">
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
               Last Updated: {lastUpdated}
             </p>
           </div>
@@ -36,21 +36,21 @@ export default function DisclaimerPage() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             {/* FTC Disclosure - Highlighted */}
-            <div className="bg-sky-50 border-2 border-sky-300 rounded-2xl p-8 md:p-12 mb-8">
+            <div className="bg-sky-50 dark:bg-sky-900/20 border-2 border-sky-300 dark:border-sky-700 rounded-2xl p-8 md:p-12 mb-8">
               <div className="flex items-start gap-4 mb-4">
-                <AlertCircle className="w-10 h-10 text-sky-600 shrink-0 mt-1" />
+                <AlertCircle className="w-10 h-10 text-sky-600 dark:text-sky-400 shrink-0 mt-1" />
                 <div className="flex-1">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
                     FTC Disclosure Requirement
                   </h2>
-                  <p className="text-gray-700 leading-relaxed mb-4">
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                     In accordance with the Federal Trade Commission&apos;s (FTC)
                     16 CFR Part 255, &quot;Guides Concerning the Use of
                     Endorsements and Testimonials in Advertising,&quot; we are
                     required to disclose our affiliate relationships.
                   </p>
-                  <div className="bg-white rounded-lg p-4 border-l-4 border-sky-500">
-                    <p className="text-gray-700 font-semibold">
+                  <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border-l-4 border-sky-500 dark:border-sky-400">
+                    <p className="text-gray-700 dark:text-gray-300 font-semibold">
                       This website contains affiliate links. When you click on
                       these links and make a purchase, we may earn a commission
                       at no additional cost to you.
@@ -61,20 +61,20 @@ export default function DisclaimerPage() {
             </div>
 
             {/* Amazon Associates Disclosure */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 md:p-12 mb-8">
               <div className="flex items-start gap-4 mb-6">
-                <DollarSign className="w-8 h-8 text-cyan-600 shrink-0 mt-1" />
+                <DollarSign className="w-8 h-8 text-cyan-600 dark:text-cyan-400 shrink-0 mt-1" />
                 <div className="flex-1">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
                     Amazon Associates Program Participation
                   </h2>
-                  <p className="text-gray-700 leading-relaxed mb-4">
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                     Mish Baby Guide is a participant in the Amazon Services LLC
                     Associates Program, an affiliate advertising program
                     designed to provide a means for sites to earn advertising
                     fees by advertising and linking to:
                   </p>
-                  <ul className="list-disc list-inside space-y-2 text-gray-700 ml-4 mb-6">
+                  <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300 ml-4 mb-6">
                     <li>Amazon.com</li>
                     <li>Amazon.ca (Canada)</li>
                     <li>Amazon.co.uk (United Kingdom)</li>
@@ -86,17 +86,17 @@ export default function DisclaimerPage() {
                     <li>And other international Amazon stores</li>
                   </ul>
 
-                  <div className="bg-cyan-50 rounded-lg p-6 mb-6">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                  <div className="bg-cyan-50 dark:bg-cyan-900/20 rounded-lg p-6 mb-6">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
                       Official Amazon Associates Disclosure:
                     </h3>
-                    <p className="text-gray-700 italic leading-relaxed">
+                    <p className="text-gray-700 dark:text-gray-300 italic leading-relaxed">
                       &quot;As an Amazon Associate, I earn from qualifying
                       purchases.&quot;
                     </p>
                   </div>
 
-                  <p className="text-gray-700 leading-relaxed">
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                     This means that when you click on a product link on our
                     website and make a purchase on Amazon, we receive a small
                     commission from Amazon. This commission comes at absolutely
@@ -109,28 +109,28 @@ export default function DisclaimerPage() {
             </div>
 
             {/* How Affiliate Links Work */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 md:p-12 mb-8">
               <div className="flex items-start gap-4 mb-6">
-                <ExternalLink className="w-8 h-8 text-cyan-600 shrink-0 mt-1" />
+                <ExternalLink className="w-8 h-8 text-cyan-600 dark:text-cyan-400 shrink-0 mt-1" />
                 <div className="flex-1">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
                     How Affiliate Links Work
                   </h2>
-                  <p className="text-gray-700 leading-relaxed mb-6">
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
                     We want to be completely transparent about how our affiliate
                     program works. Here&apos;s a step-by-step breakdown:
                   </p>
 
                   <div className="space-y-4">
                     <div className="flex gap-4">
-                      <div className="shrink-0 w-8 h-8 bg-cyan-100 rounded-full flex items-center justify-center text-cyan-700 font-bold">
+                      <div className="shrink-0 w-8 h-8 bg-cyan-100 dark:bg-cyan-900/30 rounded-full flex items-center justify-center text-cyan-700 dark:text-cyan-300 font-bold">
                         1
                       </div>
                       <div>
-                        <h3 className="font-semibold text-gray-900 mb-1">
+                        <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
                           You Click a Product Link
                         </h3>
-                        <p className="text-gray-700">
+                        <p className="text-gray-700 dark:text-gray-300">
                           When you click on a product link or recommendation on
                           our website, you&apos;re taken to Amazon&apos;s
                           website through our unique affiliate link.
@@ -248,26 +248,26 @@ export default function DisclaimerPage() {
             </div>
 
             {/* Our Commitment to Honesty */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 md:p-12 mb-8">
               <div className="flex items-start gap-4 mb-6">
-                <Award className="w-8 h-8 text-cyan-600 shrink-0 mt-1" />
+                <Award className="w-8 h-8 text-cyan-600 dark:text-cyan-400 shrink-0 mt-1" />
                 <div className="flex-1">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
                     Our Commitment to Honest Reviews
                   </h2>
-                  <p className="text-gray-700 leading-relaxed mb-4">
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                     While we do earn commissions from affiliate links, we want
                     to assure you that:
                   </p>
 
                   <div className="space-y-4">
                     <div className="flex items-start gap-3">
-                      <CheckCircle className="w-6 h-6 text-green-600 shrink-0 mt-1" />
+                      <CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400 shrink-0 mt-1" />
                       <div>
-                        <h3 className="font-semibold text-gray-900 mb-1">
+                        <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
                           We Only Recommend Quality Products
                         </h3>
-                        <p className="text-gray-700">
+                        <p className="text-gray-700 dark:text-gray-300">
                           We only recommend products that we genuinely believe
                           will be helpful to parents and safe for children. We
                           would never recommend a product solely because it
@@ -549,16 +549,16 @@ export default function DisclaimerPage() {
             </div>
 
             {/* Thank You Note */}
-            <div className="bg-cyan-50 border-2 border-cyan-200 rounded-2xl p-8 md:p-12">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4 text-center">
+            <div className="bg-cyan-50 dark:bg-cyan-900/20 border-2 border-cyan-200 dark:border-cyan-700 rounded-2xl p-8 md:p-12">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 text-center">
                 Thank You for Your Support
               </h2>
-              <p className="text-gray-700 leading-relaxed text-center mb-4">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-center mb-4">
                 By using our affiliate links, you&apos;re helping us continue to
                 provide valuable content and resources to parents everywhere—at
                 no extra cost to you.
               </p>
-              <p className="text-gray-700 leading-relaxed text-center font-semibold">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-center font-semibold">
                 We truly appreciate your trust and support! ❤️
               </p>
             </div>

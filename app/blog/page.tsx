@@ -38,18 +38,18 @@ export default async function BlogPage({
     : posts;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-50 text-cyan-600 rounded-full mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-50 dark:bg-cyan-900/20 text-cyan-600 dark:text-cyan-400 rounded-full mb-4">
             <BookOpen className="h-4 w-4" />
             <span className="text-sm font-semibold">Our Blog</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
             Articles & Guides
           </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             Expert advice, honest reviews, and helpful guides to make parenting
             easier
           </p>
@@ -59,8 +59,8 @@ export default async function BlogPage({
         {categories.length > 0 && (
           <div className="mb-12">
             <div className="flex items-center gap-3 mb-4">
-              <Filter className="h-5 w-5 text-gray-600" />
-              <span className="text-sm font-medium text-gray-700">
+              <Filter className="h-5 w-5 text-gray-600 dark:text-gray-400" />
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 Filter by category:
               </span>
             </div>
@@ -70,7 +70,7 @@ export default async function BlogPage({
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                   !selectedCategory
                     ? "bg-cyan-600 text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
                 }`}
               >
                 All Posts
@@ -82,7 +82,7 @@ export default async function BlogPage({
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                     selectedCategory === category.slug.current
                       ? "bg-cyan-600 text-white"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                      : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
                   }`}
                 >
                   {category.title}
@@ -94,8 +94,8 @@ export default async function BlogPage({
 
         {/* Posts Count */}
         <div className="mb-8">
-          <p className="text-gray-600">
-            <span className="font-semibold text-gray-900">
+          <p className="text-gray-600 dark:text-gray-300">
+            <span className="font-semibold text-gray-900 dark:text-white">
               {filteredPosts.length}
             </span>{" "}
             {filteredPosts.length === 1 ? "article" : "articles"} found
@@ -103,7 +103,7 @@ export default async function BlogPage({
               <>
                 {" "}
                 in{" "}
-                <span className="font-semibold text-cyan-600">
+                <span className="font-semibold text-cyan-600 dark:text-cyan-400">
                   {
                     categories.find(
                       (cat) => cat.slug.current === selectedCategory
@@ -134,12 +134,12 @@ export default async function BlogPage({
             ))}
           </div>
         ) : (
-          <div className="text-center py-16 bg-gray-50 rounded-2xl">
-            <BookOpen className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-bold text-gray-900 mb-2">
+          <div className="text-center py-16 bg-gray-50 dark:bg-gray-800 rounded-2xl">
+            <BookOpen className="h-16 w-16 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
               No Articles Found
             </h3>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-600 dark:text-gray-300 mb-6">
               We couldn&apos;t find any articles in this category yet.
             </p>
             <Link

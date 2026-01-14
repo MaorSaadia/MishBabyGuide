@@ -118,7 +118,7 @@ export default async function ProductPage({
 
   return (
     <>
-      <div className="min-h-screen bg-gray-50 pb-24 md:pb-32">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-24 md:pb-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Breadcrumb */}
           <div className="hidden sm:block">
@@ -147,11 +147,11 @@ export default async function ProductPage({
             {/* RIGHT: Product Info */}
             <div className="space-y-6">
               <div>
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 -mt-6 lg:mt-0">
+                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4 -mt-6 lg:mt-0">
                   {product.title}
                 </h1>
                 {product.excerpt && (
-                  <p className="text-lg text-gray-600 leading-relaxed">
+                  <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
                     {product.excerpt}
                   </p>
                 )}
@@ -160,7 +160,7 @@ export default async function ProductPage({
               {isRecommendation &&
                 product.description &&
                 product.description.length > 0 && (
-                  <div className="prose prose-lg max-w-none bg-white rounded-xl p-6 py-1 border border-gray-200">
+                  <div className="prose prose-lg max-w-none bg-white dark:bg-gray-800 rounded-xl p-6 py-1 border border-gray-200 dark:border-gray-700">
                     <PortableText
                       value={product.description as any}
                       components={portableTextComponents}
@@ -170,20 +170,20 @@ export default async function ProductPage({
 
               <div className="bg-linear-to-br from-cyan-600 to-cyan-700 rounded-2xl p-6 text-white shadow-xl -mb-12">
                 <h3 className="text-2xl font-bold mb-1">Ready to Buy?</h3>
-                <p className="text-cyan-50 mb-4">
+                <p className="text-cyan-50 dark:text-cyan-100 mb-4">
                   Get the {product.title} on Amazon
                 </p>
                 <Link
                   href={product.amazonLink}
                   target="_blank"
                   rel="nofollow noopener noreferrer"
-                  className="inline-flex items-center gap-3 px-8 py-3 bg-white text-cyan-600 text-lg font-bold rounded-lg hover:bg-gray-50 transition-all shadow-md hover:shadow-xl w-full justify-center"
+                  className="inline-flex items-center gap-3 px-8 py-3 bg-white text-cyan-600 text-lg font-bold rounded-lg hover:bg-gray-50 dark:hover:bg-gray-100 transition-all shadow-md hover:shadow-xl w-full justify-center"
                 >
                   <ShoppingCart className="h-5 w-5" />
                   Buy on Amazon
                   <ExternalLink className="h-5 w-5" />
                 </Link>
-                <p className="text-xs text-cyan-100 mt-3 text-center">
+                <p className="text-xs text-cyan-100 dark:text-cyan-200 mt-3 text-center">
                   As an Amazon Associate, we earn from qualifying purchases
                 </p>
               </div>

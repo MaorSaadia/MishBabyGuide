@@ -82,7 +82,7 @@ export default async function CategoryPage({
   );
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-gray-900">
       {/* Container */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Breadcrumb */}
@@ -97,22 +97,22 @@ export default async function CategoryPage({
         <div className="mb-12">
           <div className="flex items-start gap-4 mb-4">
             {category.icon && (
-              <div className="shrink-0 w-16 h-16 bg-cyan-50 rounded-xl flex items-center justify-center">
+              <div className="shrink-0 w-16 h-16 bg-cyan-50 dark:bg-cyan-900 rounded-xl flex items-center justify-center">
                 <span className="text-3xl">{category.icon}</span>
               </div>
             )}
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-2">
-                <Tag className="h-5 w-5 text-cyan-600" />
-                <span className="text-sm font-medium text-cyan-600 uppercase tracking-wide">
+                <Tag className="h-5 w-5 text-cyan-600 dark:text-cyan-400" />
+                <span className="text-sm font-medium text-cyan-600 dark:text-cyan-400 uppercase tracking-wide">
                   Category
                 </span>
               </div>
-              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
                 {category.title}
               </h1>
               {category.description && (
-                <p className="text-lg text-gray-600 leading-relaxed max-w-3xl">
+                <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed max-w-3xl">
                   {category.description}
                 </p>
               )}
@@ -120,8 +120,10 @@ export default async function CategoryPage({
           </div>
 
           {/* Product Count */}
-          <div className="flex items-center gap-2 text-sm text-gray-500 -mt-4 -mb-6">
-            <span className="font-medium text-gray-900">{products.length}</span>
+          <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 -mt-4 -mb-6">
+            <span className="font-medium text-gray-900 dark:text-white">
+              {products.length}
+            </span>
             <span>{products.length === 1 ? "product" : "products"} found</span>
           </div>
         </div>

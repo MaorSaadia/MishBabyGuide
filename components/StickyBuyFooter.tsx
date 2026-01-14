@@ -39,10 +39,10 @@ export default function StickyBuyFooter({
                 href={amazonLink}
                 target="_blank"
                 rel="nofollow noopener noreferrer"
-                className="group relative px-8 py-4 bg-white text-cyan-600 font-bold text-lg rounded-lg hover:bg-gray-50 transition-all shadow-lg hover:shadow-xl overflow-hidden"
+                className="group relative px-8 py-4 bg-white text-cyan-600 font-bold text-lg rounded-lg hover:bg-gray-50 dark:hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl overflow-hidden"
               >
                 {/* Animated background */}
-                <div className="absolute inset-0 bg-linear-to-r from-gray-50 to-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-linear-to-r from-gray-50 to-gray-100 dark:from-gray-100 dark:to-gray-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                 {/* Button content */}
                 <div className="relative flex items-center gap-3">
@@ -69,7 +69,7 @@ export default function StickyBuyFooter({
       </div>
 
       {/* Mobile Footer */}
-      <div className="md:hidden bg-white border-t-2 border-cyan-500 shadow-2xl">
+      <div className="md:hidden bg-white dark:bg-gray-800 border-t-2 border-cyan-500 shadow-2xl">
         <div className="px-4 py-3">
           {/* Dismiss Button - Top Right */}
           {/* <button

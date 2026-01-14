@@ -23,55 +23,55 @@ const TrustBadges = () => {
       icon: <Shield className="h-8 w-8" />,
       title: "Honest Reviews",
       description: "Unbiased, transparent product reviews you can trust",
-      color: "text-cyan-600",
-      bgColor: "bg-cyan-50",
+      color: "text-cyan-600 dark:text-cyan-400",
+      bgColor: "bg-cyan-50 dark:bg-cyan-900",
     },
     {
       icon: <Award className="h-8 w-8" />,
       title: "Amazon Verified",
       description: "Official Amazon Associates partner with verified links",
-      color: "text-orange-600",
-      bgColor: "bg-orange-50",
+      color: "text-orange-600 dark:text-orange-400",
+      bgColor: "bg-orange-50 dark:bg-orange-900",
     },
     {
       icon: <Heart className="h-8 w-8" />,
       title: "Parent Tested",
       description: "Real parents testing real products for real results",
-      color: "text-pink-600",
-      bgColor: "bg-pink-50",
+      color: "text-pink-600 dark:text-pink-400",
+      bgColor: "bg-pink-50 dark:bg-pink-900",
     },
     {
       icon: <Users className="h-8 w-8" />,
       title: "Community Driven",
       description: "Trusted by thousands of parents worldwide",
-      color: "text-purple-600",
-      bgColor: "bg-purple-50",
+      color: "text-purple-600 dark:text-purple-400",
+      bgColor: "bg-purple-50 dark:bg-purple-900",
     },
     {
       icon: <CheckCircle className="h-8 w-8" />,
       title: "Expert Research",
       description: "Thorough testing and detailed analysis on every product",
-      color: "text-green-600",
-      bgColor: "bg-green-50",
+      color: "text-green-600 dark:text-green-400",
+      bgColor: "bg-green-50 dark:bg-green-900",
     },
     {
       icon: <ThumbsUp className="h-8 w-8" />,
       title: "Quality Approved",
       description: "Only recommend products that meet our high standards",
-      color: "text-blue-600",
-      bgColor: "bg-blue-50",
+      color: "text-blue-600 dark:text-blue-400",
+      bgColor: "bg-blue-50 dark:bg-blue-900",
     },
   ];
 
   return (
-    <section className="py-16 md:py-20 bg-linear-to-b from-gray-50 to-white">
+    <section className="py-16 md:py-20 bg-linear-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
             Why Parents Trust Us
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             We&apos;re committed to providing honest, reliable information to
             help you make the best decisions for your family
           </p>
@@ -82,7 +82,7 @@ const TrustBadges = () => {
           {badges.map((badge, index) => (
             <div
               key={index}
-              className="group relative bg-white rounded-2xl p-8 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-cyan-200"
+              className="group relative bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 dark:border-gray-700 hover:border-cyan-200 dark:hover:border-cyan-400"
             >
               {/* Icon Container */}
               <div
@@ -92,17 +92,17 @@ const TrustBadges = () => {
               </div>
 
               {/* Badge Title */}
-              <h3 className="text-xl font-bold text-gray-900 mb-2">
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
                 {badge.title}
               </h3>
 
               {/* Description */}
-              <p className="text-gray-600 text-sm leading-relaxed">
+              <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
                 {badge.description}
               </p>
 
               {/* Hover Effect Background */}
-              <div className="absolute inset-0 bg-linear-to-br from-cyan-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl pointer-events-none"></div>
+              <div className="absolute inset-0 bg-linear-to-br from-cyan-50 dark:from-cyan-900 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl pointer-events-none"></div>
             </div>
           ))}
         </div>
@@ -127,19 +127,19 @@ const TrustBadges = () => {
 
         {/* CTA Section */}
         <div className="mt-12 text-center">
-          <p className="text-gray-600 mb-6 text-lg">
+          <p className="text-gray-600 dark:text-gray-300 mb-6 text-lg">
             Join thousands of parents making confident choices
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="#featured-products"
-              className="inline-flex items-center justify-center px-8 py-4 bg-cyan-600 text-white font-semibold rounded-lg hover:bg-cyan-700 transition-all shadow-md hover:shadow-lg"
+              className="inline-flex items-center justify-center px-8 py-4 bg-cyan-600 dark:bg-cyan-500 text-white font-semibold rounded-lg hover:bg-cyan-700 dark:hover:bg-cyan-600 transition-all shadow-md hover:shadow-lg"
             >
               Start Exploring
             </Link>
             <Link
               href="/about"
-              className="inline-flex items-center justify-center px-8 py-4 bg-white text-cyan-600 font-semibold rounded-lg border-2 border-cyan-600 hover:bg-cyan-50 transition-all"
+              className="inline-flex items-center justify-center px-8 py-4 bg-white dark:bg-gray-800 text-cyan-600 dark:text-cyan-400 font-semibold rounded-lg border-2 border-cyan-600 dark:border-cyan-400 hover:bg-cyan-50 dark:hover:bg-gray-700 transition-all"
             >
               Learn More About Us
             </Link>

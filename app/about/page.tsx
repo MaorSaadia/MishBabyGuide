@@ -11,15 +11,15 @@ import {
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-linear-to-b from-cyan-50 to-white">
+    <div className="min-h-screen bg-linear-to-b from-cyan-50 to-white dark:from-gray-900 dark:to-gray-900">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-linear-to-r from-cyan-100 to-sky-100 py-16">
+      <section className="relative overflow-hidden bg-linear-to-r from-cyan-100 to-sky-100 dark:from-cyan-900/20 dark:to-sky-900/20 py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
               Welcome to Mish Baby Guide
             </h1>
-            <p className="text-xl text-gray-700 leading-relaxed">
+            <p className="text-xl text-gray-700 dark:text-gray-300 leading-relaxed">
               Helping parents worldwide find the perfect products for their
               little ones
             </p>
@@ -31,12 +31,12 @@ export default function AboutPage() {
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 md:p-12">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
                 Our Story
               </h2>
               <div className="prose prose-lg max-w-none">
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                   At Mish Baby, we started with a simple mission: to provide
                   parents with the highest quality baby products through our
                   main store at{" "}
@@ -44,7 +44,7 @@ export default function AboutPage() {
                     href="https://mishbaby.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-cyan-600 hover:text-cyan-700 font-medium"
+                    className="text-cyan-600 dark:text-cyan-400 hover:text-cyan-700 dark:hover:text-cyan-300 font-medium"
                   >
                     mishbaby.com
                   </Link>
@@ -52,14 +52,14 @@ export default function AboutPage() {
                   parents across social media who trust us for honest advice and
                   quality recommendations.
                 </p>
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                   However, we realized that we couldn&apos;t reach every parent
                   who needed our help. Some countries faced shipping
                   limitations, and we couldn&apos;t stock every product that
                   parents were asking for. That&apos;s when we decided to expand
                   our reach.
                 </p>
-                <p className="text-gray-700 leading-relaxed">
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                   That&apos;s why we created{" "}
                   <span className="font-semibold">Mish Baby Guide</span> — a
                   comprehensive resource where we partner with Amazon to bring
@@ -74,23 +74,23 @@ export default function AboutPage() {
       </section>
 
       {/* Why Choose Us */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-gray-50 dark:bg-gray-800">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-12 text-center">
               Why Parents Trust Us
             </h2>
             <div className="grid md:grid-cols-2 gap-8">
-              <div className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
+              <div className="bg-white dark:bg-gray-700 rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
                 <div className="flex items-start gap-4">
                   <div className="shrink-0">
-                    <Users className="w-8 h-8 text-cyan-600" />
+                    <Users className="w-8 h-8 text-cyan-600 dark:text-cyan-400" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                       300K+ Community
                     </h3>
-                    <p className="text-gray-700">
+                    <p className="text-gray-700 dark:text-gray-300">
                       Over 300,000 parents trust us across all social media
                       platforms for honest reviews and recommendations.
                     </p>
@@ -98,16 +98,16 @@ export default function AboutPage() {
                 </div>
               </div>
 
-              <div className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
+              <div className="bg-white dark:bg-gray-700 rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
                 <div className="flex items-start gap-4">
                   <div className="shrink-0">
-                    <Globe className="w-8 h-8 text-cyan-600" />
+                    <Globe className="w-8 h-8 text-cyan-600 dark:text-cyan-400" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                       Global Reach
                     </h3>
-                    <p className="text-gray-700">
+                    <p className="text-gray-700 dark:text-gray-300">
                       Through Amazon, we help parents worldwide access quality
                       products, no matter where they are.
                     </p>
@@ -115,16 +115,16 @@ export default function AboutPage() {
                 </div>
               </div>
 
-              <div className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
+              <div className="bg-white dark:bg-gray-700 rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
                 <div className="flex items-start gap-4">
                   <div className="shrink-0">
-                    <CheckCircle2 className="w-8 h-8 text-cyan-600" />
+                    <CheckCircle2 className="w-8 h-8 text-cyan-600 dark:text-cyan-400" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                       Carefully Curated
                     </h3>
-                    <p className="text-gray-700">
+                    <p className="text-gray-700 dark:text-gray-300">
                       Every product we recommend is thoroughly researched and
                       tested to ensure it meets our high standards.
                     </p>
@@ -132,16 +132,16 @@ export default function AboutPage() {
                 </div>
               </div>
 
-              <div className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
+              <div className="bg-white dark:bg-gray-700 rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
                 <div className="flex items-start gap-4">
                   <div className="shrink-0">
-                    <Heart className="w-8 h-8 text-cyan-600" />
+                    <Heart className="w-8 h-8 text-cyan-600 dark:text-cyan-400" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                       Parent-Focused
                     </h3>
-                    <p className="text-gray-700">
+                    <p className="text-gray-700 dark:text-gray-300">
                       We&apos;re parents too. We understand what you need and
                       recommend only what we&apos;d use for our own children.
                     </p>
@@ -176,13 +176,13 @@ export default function AboutPage() {
       </section>
 
       {/* Social Media Links */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-gray-50 dark:bg-gray-800">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
               Join Our Community
             </h2>
-            <p className="text-lg text-gray-700 mb-8">
+            <p className="text-lg text-gray-700 dark:text-gray-300 mb-8">
               Follow us on social media for daily tips, product updates, and
               parenting advice
             </p>
@@ -235,13 +235,13 @@ export default function AboutPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-white dark:bg-gray-900">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
               Ready to Find the Perfect Products?
             </h2>
-            <p className="text-lg text-gray-700 mb-8">
+            <p className="text-lg text-gray-700 dark:text-gray-300 mb-8">
               Explore our curated collection of baby products, backed by real
               parent reviews and expert recommendations.
             </p>
@@ -254,7 +254,7 @@ export default function AboutPage() {
               </Link>
               <Link
                 href="/blog"
-                className="bg-white hover:bg-gray-50 text-cyan-600 border-2 border-cyan-600 px-8 py-3 rounded-full font-semibold transition-colors shadow-md hover:shadow-lg"
+                className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-cyan-600 dark:text-cyan-400 border-2 border-cyan-600 dark:border-cyan-400 px-8 py-3 rounded-full font-semibold transition-colors shadow-md hover:shadow-lg"
               >
                 Read Our Blog
               </Link>

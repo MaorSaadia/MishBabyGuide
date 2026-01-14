@@ -38,7 +38,7 @@ const ShareButtons: React.FC<ShareButtonsProps> = ({
 
   return (
     <div className="flex flex-col gap-4">
-      <span className="text-sm font-semibold text-gray-900">
+      <span className="text-sm font-semibold text-gray-900 dark:text-white">
         Share this article:
       </span>
 
@@ -127,7 +127,7 @@ const ShareButtons: React.FC<ShareButtonsProps> = ({
           className={`flex items-center justify-center w-11 h-11 rounded-full transition-all shadow-md hover:shadow-lg hover:scale-110 ${
             copied
               ? "bg-green-600 text-white"
-              : "bg-gray-200 hover:bg-gray-300 text-gray-700"
+              : "bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300"
           }`}
           aria-label="Copy link"
           title={copied ? "Copied!" : "Copy Link"}

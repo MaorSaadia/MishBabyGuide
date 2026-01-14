@@ -119,19 +119,19 @@ const Search: React.FC<SearchProps> = ({ onClose }) => {
             onChange={(e) => setQuery(e.target.value)}
             onFocus={() => setIsOpen(true)}
             placeholder="Search products..."
-            className="w-full pl-12 pr-24 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:bg-white transition-all"
+            className="w-full pl-12 pr-24 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:bg-white dark:focus:bg-gray-900 transition-all text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
           />
           <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2">
-            <kbd className="hidden sm:inline-block px-2 py-1 text-xs font-semibold text-gray-500 bg-white border border-gray-200 rounded">
+            <kbd className="hidden sm:inline-block px-2 py-1 text-xs font-semibold text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded">
               ⌘K
             </kbd>
             {query && (
               <button
                 type="button"
                 onClick={() => setQuery("")}
-                className="p-1 hover:bg-gray-200 rounded"
+                className="p-1 hover:bg-gray-200 dark:hover:bg-gray-600 rounded"
               >
-                <X className="h-4 w-4 text-gray-400" />
+                <X className="h-4 w-4 text-gray-400 dark:text-gray-500" />
               </button>
             )}
           </div>
@@ -150,19 +150,19 @@ const Search: React.FC<SearchProps> = ({ onClose }) => {
       {isOpen && (
         <div
           ref={dropdownRef}
-          className="mt-3 bg-white rounded-lg shadow-lg border border-gray-200 lg:absolute lg:top-full lg:left-0 lg:right-0 lg:mt-2 lg:shadow-xl lg:z-50"
+          className="mt-3 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 lg:absolute lg:top-full lg:left-0 lg:right-0 lg:mt-2 lg:shadow-xl lg:z-50"
         >
           {/* Recent Searches */}
           {recentSearches.length > 0 && (
-            <div className="p-4 border-b border-gray-100">
+            <div className="p-4 border-b border-gray-100 dark:border-gray-700">
               <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2 text-sm font-medium text-gray-700">
+                <div className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                   <Clock className="h-4 w-4" />
                   Recent Searches
                 </div>
                 <button
                   onClick={clearRecentSearches}
-                  className="text-xs text-gray-500 hover:text-gray-700"
+                  className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
                 >
                   Clear
                 </button>
@@ -172,7 +172,7 @@ const Search: React.FC<SearchProps> = ({ onClose }) => {
                   <button
                     key={index}
                     onClick={() => handleSearch(search)}
-                    className="w-full text-left px-3 py-2 hover:bg-gray-50 rounded-lg transition-colors text-sm text-gray-700"
+                    className="w-full text-left px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors text-sm text-gray-700 dark:text-gray-300"
                   >
                     {search}
                   </button>
@@ -201,13 +201,17 @@ const Search: React.FC<SearchProps> = ({ onClose }) => {
           </div> */}
 
           {/* Tips */}
-          <div className="hidden sm:block p-4 bg-gray-50 text-xs text-gray-500 rounded-b-lg">
+          <div className="hidden sm:block p-4 bg-gray-50 dark:bg-gray-700 text-xs text-gray-500 dark:text-gray-400 rounded-b-lg">
             <p>
               💡 Tip: Press{" "}
-              <kbd className="px-1 py-0.5 bg-white border rounded">Enter</kbd>{" "}
+              <kbd className="px-1 py-0.5 bg-white dark:bg-gray-600 border rounded text-gray-700 dark:text-gray-300">
+                Enter
+              </kbd>{" "}
               to search or{" "}
-              <kbd className="px-1 py-0.5 bg-white border rounded">Esc</kbd> to
-              close
+              <kbd className="px-1 py-0.5 bg-white dark:bg-gray-600 border rounded text-gray-700 dark:text-gray-300">
+                Esc
+              </kbd>{" "}
+              to close
             </p>
           </div>
         </div>

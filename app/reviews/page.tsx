@@ -41,18 +41,18 @@ export default async function ReviewsPage({
     : products;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-50 text-cyan-600 rounded-full mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-50 dark:bg-cyan-900 text-cyan-600 dark:text-cyan-400 rounded-full mb-4">
             <FileText className="h-4 w-4" />
             <span className="text-sm font-semibold">Product Reviews</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
             📝 In-Depth Product Reviews
           </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             Comprehensive reviews with detailed analysis, pros & cons, and
             expert recommendations to help you choose the best for your baby.
           </p>
@@ -62,8 +62,8 @@ export default async function ReviewsPage({
         {categories.length > 0 && (
           <div className="mb-12">
             <div className="flex items-center gap-3 mb-4">
-              <Filter className="h-5 w-5 text-gray-600" />
-              <span className="text-sm font-medium text-gray-700">
+              <Filter className="h-5 w-5 text-gray-600 dark:text-gray-400" />
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 Filter by category:
               </span>
             </div>
@@ -73,7 +73,7 @@ export default async function ReviewsPage({
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                   !selectedCategory
                     ? "bg-cyan-600 text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
                 }`}
               >
                 All Categories
@@ -85,7 +85,7 @@ export default async function ReviewsPage({
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                     selectedCategory === category.slug.current
                       ? "bg-cyan-600 text-white"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                      : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
                   }`}
                 >
                   {category.title}
@@ -97,9 +97,9 @@ export default async function ReviewsPage({
 
         {/* Products Count */}
         <div className="mb-8">
-          <p className="text-gray-600">
+          <p className="text-gray-600 dark:text-gray-300">
             Showing{" "}
-            <span className="font-semibold text-cyan-600">
+            <span className="font-semibold text-cyan-600 dark:text-cyan-400">
               {filteredProducts.length}
             </span>{" "}
             reviews
@@ -127,18 +127,18 @@ export default async function ReviewsPage({
           </div>
         ) : (
           <div className="text-center py-16">
-            <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <FileText className="w-10 h-10 text-gray-400" />
+            <div className="w-20 h-20 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
+              <FileText className="w-10 h-10 text-gray-400 dark:text-gray-500" />
             </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
               No reviews found
             </h3>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-600 dark:text-gray-300 mb-6">
               Try selecting a different category or check back later.
             </p>
             <Link
               href="/reviews"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-cyan-600 text-white font-semibold rounded-lg hover:bg-cyan-700 transition-all"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-cyan-600 dark:bg-cyan-500 text-white font-semibold rounded-lg hover:bg-cyan-700 dark:hover:bg-cyan-600 transition-all"
             >
               View All Reviews
             </Link>

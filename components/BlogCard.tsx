@@ -31,11 +31,11 @@ const BlogCard: React.FC<BlogCardProps> = ({
   };
 
   return (
-    <article className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 group">
+    <article className="bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700 group">
       {/* Image Section */}
       <Link
         href={`/blog/${slug}`}
-        className="block relative h-56 bg-linear-to-br from-gray-100 to-gray-50 overflow-hidden"
+        className="block relative h-56 bg-linear-to-br from-gray-100 to-gray-50 dark:from-gray-700 dark:to-gray-800 overflow-hidden"
       >
         {mainImage ? (
           <Image
@@ -65,7 +65,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
         )}
         {category && (
           <div className="absolute top-4 left-4">
-            <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-cyan-600 text-xs font-semibold rounded-full">
+            <span className="px-3 py-1 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm text-cyan-600 dark:text-cyan-400 text-xs font-semibold rounded-full">
               {category}
             </span>
           </div>
@@ -75,7 +75,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
       {/* Content Section */}
       <div className="p-6 space-y-4">
         {/* Meta Info */}
-        <div className="flex items-center gap-4 text-sm text-gray-500">
+        <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
           <div className="flex items-center gap-1">
             <Calendar className="h-4 w-4" />
             <time dateTime={publishedAt}>{formatDate(publishedAt)}</time>
@@ -88,27 +88,30 @@ const BlogCard: React.FC<BlogCardProps> = ({
 
         {/* Title */}
         <Link href={`/blog/${slug}`}>
-          <h3 className="text-xl font-bold text-gray-900 hover:text-cyan-600 transition-colors line-clamp-2 group-hover:text-cyan-600">
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors line-clamp-2 group-hover:text-cyan-600 dark:group-hover:text-cyan-400">
             {title}
           </h3>
         </Link>
 
         {/* Excerpt */}
-        <p className="text-gray-600 text-sm line-clamp-3 leading-relaxed">
+        <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-3 leading-relaxed">
           {excerpt}
         </p>
 
         {/* Author & Read More */}
         <div className="flex items-center justify-between pt-2">
           {author && (
-            <span className="text-sm text-gray-500">
-              By <span className="font-medium text-gray-700">{author}</span>
+            <span className="text-sm text-gray-500 dark:text-gray-400">
+              By{" "}
+              <span className="font-medium text-gray-700 dark:text-gray-300">
+                {author}
+              </span>
             </span>
           )}
 
           <Link
             href={`/blog/${slug}`}
-            className="inline-flex items-center gap-2 text-cyan-600 font-semibold text-sm hover:gap-3 transition-all group/link"
+            className="inline-flex items-center gap-2 text-cyan-600 dark:text-cyan-400 font-semibold text-sm hover:gap-3 transition-all group/link"
           >
             Read More
             <ArrowRight className="h-4 w-4 group-hover/link:translate-x-1 transition-transform" />

@@ -40,18 +40,18 @@ export default async function ProductsPage({
     : products;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-sky-50 text-sky-600 rounded-full mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-sky-50 dark:bg-sky-900 text-sky-600 dark:text-sky-400 rounded-full mb-4">
             <Zap className="h-4 w-4" />
             <span className="text-sm font-semibold">Quick Recommendations</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
             Our Quick Product Picks
           </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             Curated baby products we recommend. Perfect for fast shopping
             decisions.
           </p>
@@ -61,8 +61,8 @@ export default async function ProductsPage({
         {categories.length > 0 && (
           <div className="mb-12">
             <div className="flex items-center gap-3 mb-4">
-              <Package className="h-5 w-5 text-gray-600" />
-              <span className="text-sm font-medium text-gray-700">
+              <Package className="h-5 w-5 text-gray-600 dark:text-gray-400" />
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 Filter by category:
               </span>
             </div>
@@ -72,7 +72,7 @@ export default async function ProductsPage({
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                   !selectedCategory
                     ? "bg-sky-600 text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
                 }`}
               >
                 All Categories
@@ -84,7 +84,7 @@ export default async function ProductsPage({
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                     selectedCategory === category.slug.current
                       ? "bg-sky-600 text-white"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                      : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
                   }`}
                 >
                   {category.title}
@@ -96,9 +96,9 @@ export default async function ProductsPage({
 
         {/* Products Count */}
         <div className="mb-8">
-          <p className="text-gray-600">
+          <p className="text-gray-600 dark:text-gray-300">
             Showing{" "}
-            <span className="font-semibold text-sky-600">
+            <span className="font-semibold text-sky-600 dark:text-sky-400">
               {filteredProducts.length}
             </span>{" "}
             quick recommendations
@@ -110,20 +110,20 @@ export default async function ProductsPage({
 
         {/* Info Banner - Link to Reviews */}
         <div className="mt-16">
-          <div className="bg-linear-to-br from-cyan-50 to-cyan-100 rounded-2xl p-8">
+          <div className="bg-linear-to-br from-cyan-50 to-cyan-100 dark:from-cyan-900 dark:to-cyan-800 rounded-2xl p-8">
             <div className="flex flex-col md:flex-row items-center gap-6">
               <div className="text-5xl">📝</div>
               <div className="flex-1 text-center md:text-left">
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
                   Looking for Full Reviews?
                 </h3>
-                <p className="text-gray-600 mb-4">
+                <p className="text-gray-600 dark:text-gray-300 mb-4">
                   Check out our in-depth reviews with pros, cons, detailed
                   analysis, and expert opinions.
                 </p>
                 <Link
                   href="/reviews"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-cyan-600 text-white font-semibold rounded-full hover:bg-cyan-700 transition-colors"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-cyan-600 dark:bg-cyan-500 text-white font-semibold rounded-full hover:bg-cyan-700 dark:hover:bg-cyan-600 transition-colors"
                 >
                   View Full Reviews →
                 </Link>

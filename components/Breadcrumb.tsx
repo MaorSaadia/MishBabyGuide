@@ -19,13 +19,13 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
         <li className="flex items-center gap-2">
           <Link
             href="/"
-            className="flex items-center gap-1 text-gray-600 hover:text-cyan-600 transition-colors"
+            className="flex items-center gap-1 text-gray-600 dark:text-gray-400 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors"
           >
             <Home className="h-4 w-4" />
             <span>Home</span>
           </Link>
           {items.length > 0 && (
-            <ChevronRight className="h-4 w-4 text-gray-400" />
+            <ChevronRight className="h-4 w-4 text-gray-400 dark:text-gray-500" />
           )}
         </li>
 
@@ -38,14 +38,16 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
               {item.href && !isLast ? (
                 <Link
                   href={item.href}
-                  className="text-gray-600 hover:text-cyan-600 transition-colors"
+                  className="text-gray-600 dark:text-gray-400 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors"
                 >
                   {item.label}
                 </Link>
               ) : (
                 <span
                   className={
-                    isLast ? "text-gray-900 font-medium" : "text-gray-600"
+                    isLast
+                      ? "text-gray-900 dark:text-white font-medium"
+                      : "text-gray-600 dark:text-gray-400"
                   }
                 >
                   {item.label}
@@ -53,7 +55,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
               )}
 
               {!isLast && items.length > 1 && (
-                <ChevronRight className="h-4 w-4 text-gray-400" />
+                <ChevronRight className="h-4 w-4 text-gray-400 dark:text-gray-500" />
               )}
             </li>
           );

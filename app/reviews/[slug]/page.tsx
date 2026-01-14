@@ -93,7 +93,7 @@ export default async function ReviewPage({
 
   return (
     <>
-      <div className="min-h-screen bg-gray-50 pb-24 md:pb-32">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-24 md:pb-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Breadcrumb */}
           <div className="hidden sm:block">
@@ -120,12 +120,12 @@ export default async function ReviewPage({
             </div>
 
             <div className="space-y-6">
-              <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
+              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
                 {product.title}
               </h1>
 
               {product.excerpt && (
-                <p className="text-lg text-gray-600 leading-relaxed">
+                <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
                   {product.excerpt}
                 </p>
               )}
@@ -134,14 +134,14 @@ export default async function ReviewPage({
                 href={product.amazonLink}
                 target="_blank"
                 rel="nofollow noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 w-full px-8 py-4 bg-cyan-600 text-white font-bold text-lg rounded-lg hover:bg-cyan-700 transition-all shadow-lg hover:shadow-xl"
+                className="inline-flex items-center justify-center gap-2 w-full px-8 py-4 bg-cyan-600 dark:bg-cyan-500 text-white font-bold text-lg rounded-lg hover:bg-cyan-700 dark:hover:bg-cyan-600 transition-all shadow-lg hover:shadow-xl"
               >
                 <ShoppingCart className="h-6 w-6" />
                 View on Amazon
                 <ExternalLink className="h-5 w-5" />
               </Link>
 
-              <p className="text-sm text-gray-500 text-center">
+              <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
                 As an Amazon Associate, we earn from qualifying purchases
               </p>
             </div>
@@ -151,16 +151,18 @@ export default async function ReviewPage({
           {(product.pros?.length || product.cons?.length) && (
             <div className="grid md:grid-cols-2 gap-6 mb-12">
               {product.pros && product.pros.length > 0 && (
-                <div className="bg-green-50 rounded-2xl p-6 border border-green-200">
-                  <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-                    <Check className="h-6 w-6 text-green-600" />
+                <div className="bg-green-50 dark:bg-green-900 rounded-2xl p-6 border border-green-200 dark:border-green-700">
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                    <Check className="h-6 w-6 text-green-600 dark:text-green-400" />
                     Pros
                   </h3>
                   <ul className="space-y-3">
                     {product.pros.map((pro, index) => (
                       <li key={index} className="flex items-start gap-3">
-                        <Check className="h-5 w-5 text-green-600 shrink-0 mt-0.5" />
-                        <span className="text-gray-700">{pro}</span>
+                        <Check className="h-5 w-5 text-green-600 dark:text-green-400 shrink-0 mt-0.5" />
+                        <span className="text-gray-700 dark:text-gray-300">
+                          {pro}
+                        </span>
                       </li>
                     ))}
                   </ul>
@@ -168,16 +170,18 @@ export default async function ReviewPage({
               )}
 
               {product.cons && product.cons.length > 0 && (
-                <div className="bg-red-50 rounded-2xl p-6 border border-red-200">
-                  <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-                    <X className="h-6 w-6 text-red-600" />
+                <div className="bg-red-50 dark:bg-red-900 rounded-2xl p-6 border border-red-200 dark:border-red-700">
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                    <X className="h-6 w-6 text-red-600 dark:text-red-400" />
                     Cons
                   </h3>
                   <ul className="space-y-3">
                     {product.cons.map((con, index) => (
                       <li key={index} className="flex items-start gap-3">
-                        <X className="h-5 w-5 text-red-600 shrink-0 mt-0.5" />
-                        <span className="text-gray-700">{con}</span>
+                        <X className="h-5 w-5 text-red-600 dark:text-red-400 shrink-0 mt-0.5" />
+                        <span className="text-gray-700 dark:text-gray-300">
+                          {con}
+                        </span>
                       </li>
                     ))}
                   </ul>
@@ -189,10 +193,10 @@ export default async function ReviewPage({
           {/* Full Review Content */}
           {product.review && (
             <div className="prose prose-lg max-w-none mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
                 Detailed Review
               </h2>
-              <div className="bg-white rounded-2xl p-8 border border-gray-100">
+              <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 border border-gray-100 dark:border-gray-700">
                 <PortableText
                   value={product.review as any}
                   components={portableTextComponents}
@@ -204,14 +208,14 @@ export default async function ReviewPage({
           {/* Bottom CTA */}
           <div className="bg-linear-to-r from-cyan-600 to-cyan-700 rounded-2xl p-8 text-center text-white mb-12">
             <h3 className="text-2xl font-bold mb-2">Ready to Buy?</h3>
-            <p className="text-cyan-100 mb-6">
+            <p className="text-cyan-100 dark:text-cyan-200 mb-6">
               Get the {product.title} on Amazon
             </p>
             <Link
               href={product.amazonLink}
               target="_blank"
               rel="nofollow noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-cyan-600 font-bold text-lg rounded-lg hover:bg-gray-100 transition-all shadow-lg"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-cyan-600 font-bold text-lg rounded-lg hover:bg-gray-100 dark:hover:bg-gray-200 transition-all shadow-lg"
             >
               <ShoppingCart className="h-6 w-6" />
               Buy on Amazon

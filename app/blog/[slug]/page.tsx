@@ -93,7 +93,7 @@ export default async function BlogPostPage({
 
   return (
     <>
-      <article className="min-h-screen bg-white">
+      <article className="min-h-screen bg-white dark:bg-gray-900">
         {/* Container */}
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Breadcrumb */}
@@ -110,7 +110,7 @@ export default async function BlogPostPage({
                   <Link
                     key={category.slug.current}
                     href={`/blog?category=${category.slug.current}`}
-                    className="inline-flex items-center gap-1 px-3 py-1 bg-cyan-50 text-cyan-600 rounded-full text-sm font-medium hover:bg-cyan-100 transition-colors"
+                    className="inline-flex items-center gap-1 px-3 py-1 bg-cyan-50 dark:bg-cyan-900/20 text-cyan-600 dark:text-cyan-400 rounded-full text-sm font-medium hover:bg-cyan-100 dark:hover:bg-cyan-900/30 transition-colors"
                   >
                     <Tag className="h-3 w-3" />
                     {category.title}
@@ -120,16 +120,16 @@ export default async function BlogPostPage({
             )}
 
             {/* Title */}
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
               {post.title}
             </h1>
 
             {/* Meta Info */}
-            <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-6">
+            <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-300 mb-6">
               {post.author && (
                 <div className="flex items-center gap-2">
                   <User className="h-4 w-4" />
-                  <span className="font-medium text-gray-900">
+                  <span className="font-medium text-gray-900 dark:text-white">
                     {post.author}
                   </span>
                 </div>
@@ -149,7 +149,7 @@ export default async function BlogPostPage({
             </div>
 
             {/* Share Buttons */}
-            <div className="py-4 border-y border-gray-200">
+            <div className="py-4 border-y border-gray-200 dark:border-gray-700">
               <ShareButtons
                 url={currentUrl}
                 title={post.title}
@@ -175,7 +175,7 @@ export default async function BlogPostPage({
 
           {/* Excerpt */}
           {post.excerpt && (
-            <div className="text-xl text-gray-600 leading-relaxed mb-8 p-6 bg-gray-50 rounded-2xl border-l-4 border-cyan-600">
+            <div className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed mb-8 p-6 bg-gray-50 dark:bg-gray-800 rounded-2xl border-l-4 border-cyan-600 dark:border-cyan-400">
               {post.excerpt}
             </div>
           )}
@@ -192,9 +192,11 @@ export default async function BlogPostPage({
           )}
 
           {/* Bottom Share */}
-          <div className="py-8 border-y border-gray-200 mb-12">
+          <div className="py-8 border-y border-gray-200 dark:border-gray-700 mb-12">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-              <p className="text-gray-600">Found this helpful? Share it!</p>
+              <p className="text-gray-600 dark:text-gray-300">
+                Found this helpful? Share it!
+              </p>
               <ShareButtons
                 url={currentUrl}
                 title={post.title}
@@ -207,13 +209,13 @@ export default async function BlogPostPage({
         {/* Related Products Section */}
         {Array.isArray(post.relatedProducts) &&
           post.relatedProducts.length > 0 && (
-            <div className="bg-linear-to-b from-gray-50 to-white py-16">
+            <div className="bg-linear-to-b from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 py-16">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-12">
-                  <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                  <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
                     Products Mentioned in This Article
                   </h2>
-                  <p className="text-lg text-gray-600">
+                  <p className="text-lg text-gray-600 dark:text-gray-300">
                     Shop the products we recommend
                   </p>
                 </div>
@@ -241,16 +243,16 @@ export default async function BlogPostPage({
         {/* Author Bio (Optional) */}
         {post.author && (
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-12 mb-8">
-            <div className="bg-gray-50 rounded-2xl p-8">
+            <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8">
               <div className="flex items-start gap-4">
-                <div className="shrink-0 w-16 h-16 bg-cyan-600 rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                <div className="shrink-0 w-16 h-16 bg-cyan-600 dark:bg-cyan-500 rounded-full flex items-center justify-center text-white text-2xl font-bold">
                   {post.author.charAt(0)}
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
                     About {post.author}
                   </h3>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 dark:text-gray-300">
                     Part of the MishBabyGuide team, dedicated to helping parents
                     make informed decisions about baby products.
                   </p>

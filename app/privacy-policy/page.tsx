@@ -5,16 +5,18 @@ export default function PrivacyPolicyPage() {
   const lastUpdated = "December 29, 2025";
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-cyan-50 to-white">
+    <div className="min-h-screen bg-linear-to-b from-cyan-50 to-white dark:from-gray-900 dark:to-gray-900">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-linear-to-r from-cyan-100 to-sky-100 py-16">
+      <section className="relative overflow-hidden bg-linear-to-r from-cyan-100 to-sky-100 dark:from-cyan-900/20 dark:to-sky-900/20 py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <Shield className="w-16 h-16 text-cyan-600 mx-auto mb-4" />
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <Shield className="w-16 h-16 text-cyan-600 dark:text-cyan-400 mx-auto mb-4" />
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
               Privacy Policy
             </h1>
-            <p className="text-lg text-gray-700">Last Updated: {lastUpdated}</p>
+            <p className="text-lg text-gray-700 dark:text-gray-300">
+              Last Updated: {lastUpdated}
+            </p>
           </div>
         </div>
       </section>
@@ -24,14 +26,14 @@ export default function PrivacyPolicyPage() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             {/* Introduction */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-8">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 md:p-12 mb-8">
               <div className="flex items-start gap-4 mb-6">
-                <FileText className="w-8 h-8 text-cyan-600 shrink-0 mt-1" />
+                <FileText className="w-8 h-8 text-cyan-600 dark:text-cyan-400 shrink-0 mt-1" />
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
                     Introduction
                   </h2>
-                  <p className="text-gray-700 leading-relaxed mb-4">
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                     Welcome to Mish Baby Guide ( &quot;we, &quot; &quot;our,
                     &quot; or &quot;us&quot;). We are committed to protecting
                     your privacy and ensuring the security of your personal
@@ -43,7 +45,7 @@ export default function PrivacyPolicyPage() {
                     </span>{" "}
                     and any related services.
                   </p>
-                  <p className="text-gray-700 leading-relaxed">
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                     By using our website, you agree to the collection and use of
                     information in accordance with this policy. If you do not
                     agree with our policies and practices, please do not use our

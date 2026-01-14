@@ -25,8 +25,10 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images }) => {
 
   if (!images || images.length === 0) {
     return (
-      <div className="relative aspect-square bg-gray-100 rounded-2xl flex items-center justify-center">
-        <span className="text-gray-400">No image available</span>
+      <div className="relative aspect-square bg-gray-100 dark:bg-gray-800 rounded-2xl flex items-center justify-center">
+        <span className="text-gray-400 dark:text-gray-500">
+          No image available
+        </span>
       </div>
     );
   }
@@ -34,7 +36,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images }) => {
   return (
     <div className="space-y-4">
       {/* Main Image */}
-      <div className="relative aspect-square bg-gray-50 rounded-2xl overflow-hidden group">
+      <div className="relative aspect-square bg-gray-50 dark:bg-gray-900 rounded-2xl overflow-hidden group">
         <Image
           src={images[currentIndex].url}
           alt={images[currentIndex].alt}
@@ -48,17 +50,17 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images }) => {
           <>
             <button
               onClick={goToPrevious}
-              className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white transition-all opacity-0 group-hover:opacity-100"
+              className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 transition-all opacity-0 group-hover:opacity-100"
               aria-label="Previous image"
             >
-              <ChevronLeft className="h-6 w-6 text-gray-900" />
+              <ChevronLeft className="h-6 w-6 text-gray-900 dark:text-white" />
             </button>
             <button
               onClick={goToNext}
-              className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white transition-all opacity-0 group-hover:opacity-100"
+              className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 transition-all opacity-0 group-hover:opacity-100"
               aria-label="Next image"
             >
-              <ChevronRight className="h-6 w-6 text-gray-900" />
+              <ChevronRight className="h-6 w-6 text-gray-900 dark:text-white" />
             </button>
           </>
         )}
@@ -66,10 +68,10 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images }) => {
         {/* Zoom Button */}
         <button
           onClick={() => setIsZoomed(true)}
-          className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white transition-all opacity-0 group-hover:opacity-100"
+          className="absolute top-4 right-4 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 transition-all opacity-0 group-hover:opacity-100"
           aria-label="Zoom image"
         >
-          <ZoomIn className="h-5 w-5 text-gray-900" />
+          <ZoomIn className="h-5 w-5 text-gray-900 dark:text-white" />
         </button>
 
         {/* Image Counter */}
@@ -112,7 +114,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images }) => {
         >
           <button
             onClick={() => setIsZoomed(false)}
-            className="absolute top-4 right-4 text-white hover:text-gray-300 text-4xl"
+            className="absolute top-4 right-4 text-white hover:text-gray-300 dark:hover:text-gray-400 text-4xl"
             aria-label="Close zoom"
           >
             ×
