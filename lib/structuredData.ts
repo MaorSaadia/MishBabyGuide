@@ -1,7 +1,7 @@
 // lib/structuredData.ts
 
 const baseUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://mish-baby-guide.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.mishbabyguide.com";
 
 // Organization Schema (for site-wide use)
 export const organizationSchema = {

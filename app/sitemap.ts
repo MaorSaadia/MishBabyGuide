@@ -3,7 +3,7 @@ import { getAllPosts, getAllCategories } from "@/lib/sanity.client";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://mish-baby-guide.vercel.app";
+    process.env.NEXT_PUBLIC_SITE_URL || "https://www.mishbabyguide.com";
 
   // Fetch all dynamic content
   const [posts, categories] = await Promise.all([

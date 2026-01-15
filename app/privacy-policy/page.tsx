@@ -40,10 +40,8 @@ export default function PrivacyPolicyPage() {
                     information. This Privacy Policy explains how we collect,
                     use, disclose, and safeguard your information when you visit
                     our website{" "}
-                    <span className="font-semibold">
-                      mishbaby-guide.vercel.app
-                    </span>{" "}
-                    and any related services.
+                    <span className="font-semibold">mishbabyguide.com</span> and
+                    any related services.
                   </p>
                   <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                     By using our website, you agree to the collection and use of
@@ -380,7 +378,7 @@ export default function PrivacyPolicyPage() {
                   </p>
                   <div className="space-y-2">
                     <p className="font-semibold">Mish Baby Guide</p>
-                    <p>Website: mishbaby-guide.vercel.app</p>
+                    <p>Website: mishbabyguide.com</p>
                     <p>
                       Main Store:{" "}
                       <Link

@@ -44,9 +44,7 @@ export default function TermsOfServicePage() {
                     Welcome to Mish Baby Guide. These Terms of Service
                     (&quot;Terms&quot;) govern your access to and use of our
                     website located at{" "}
-                    <span className="font-semibold">
-                      mishbaby-guide.vercel.app
-                    </span>{" "}
+                    <span className="font-semibold">mishbabyguide.com</span>{" "}
                     (the &quot;Website&quot;), operated by Mish Baby Guide
                     (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;).
                   </p>
@@ -463,7 +461,7 @@ export default function TermsOfServicePage() {
               </p>
               <div className="space-y-2">
                 <p className="font-semibold">Mish Baby Guide</p>
-                <p>Website: mishbaby-guide.vercel.app</p>
+                <p>Website: mishbabyguide.com</p>
                 <p>
                   Main Store:{" "}
                   <Link

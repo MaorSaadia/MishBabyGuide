@@ -539,7 +539,7 @@ export default function DisclaimerPage() {
               </p>
               <div className="space-y-2">
                 <p className="font-semibold">Contact Mish Baby Guide:</p>
-                <p>Website: mishbaby-guide.vercel.app</p>
+                <p>Website: mishbabyguide.com</p>
                 <p>
                   Main Store:{" "}
                   <Link

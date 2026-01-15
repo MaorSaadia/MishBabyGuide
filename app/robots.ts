@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
   const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://mish-baby-guide.vercel.app";
+    process.env.NEXT_PUBLIC_SITE_URL || "https://www.mishbabyguide.com";
 
   return {
     rules: [
