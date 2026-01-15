@@ -1,51 +1,17 @@
-"use client";
-
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { Sparkles } from "lucide-react";
-
+import { getFeaturedProducts } from "@/lib/sanity.client";
 import { getProductCardImage } from "@/lib/sanity.image";
-import { getFeaturedProducts, Product } from "@/lib/sanity.client";
 import SectionHeading from "./SectionHeading";
 import ProductCard from "./ProductCard";
 
-const FeaturedProducts = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
+const FeaturedProducts = async () => {
+  // Fetch data directly in the server component
+  const products = await getFeaturedProducts();
+  const displayProducts = products.slice(0, 4);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const data = await getFeaturedProducts();
-      setProducts(data.slice(0, 4)); // Get top 4
-      setLoading(false);
-    };
-    fetchProducts();
-  }, []);
-
-  // Loading skeleton
-  if (loading) {
-    return (
-      <section id="featured-products" className="py-16 md:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <div className="h-8 bg-gray-200 rounded w-64 mx-auto mb-4 animate-pulse"></div>
-            <div className="h-4 bg-gray-200 rounded w-96 mx-auto animate-pulse"></div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            {[...Array(4)].map((_, i) => (
-              <div
-                key={i}
-                className="bg-gray-100 rounded-2xl h-96 animate-pulse"
-              ></div>
-            ))}
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  // If no products found, show sample data or message
-  if (products.length === 0) {
+  // If no products found
+  if (displayProducts.length === 0) {
     return (
       <section
         id="featured-products"
@@ -99,7 +65,7 @@ const FeaturedProducts = () => {
 
         {/* Products Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 md:gap-6">
-          {products.map((product) => (
+          {displayProducts.map((product) => (
             <ProductCard
               key={product._id}
               title={product.title}
