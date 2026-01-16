@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Menu,
   X,
@@ -14,7 +14,6 @@ import {
   UtensilsCrossed,
   Lamp,
   Package,
-  FileText,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Logo from "./Logo";
@@ -25,6 +24,20 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showMobileSearch, setShowMobileSearch] = useState(false);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isMobileMenuOpen]);
 
   const categories = [
     {
@@ -226,17 +239,17 @@ const Navbar = () => {
           )}
         </AnimatePresence>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu - Full Screen */}
         <AnimatePresence>
           {isMobileMenuOpen && (
             <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="lg:hidden overflow-hidden border-t border-gray-100 dark:border-gray-700"
+              className="lg:hidden fixed inset-0 top-16 bg-white dark:bg-gray-900 z-40"
             >
-              <div className="py-4 space-y-2 max-h-[70vh] overflow-y-auto">
+              <div className="h-full overflow-y-auto py-4 space-y-2 px-4">
                 {/* Categories Section */}
                 <div className="mb-4">
                   <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider px-2 mb-2">
@@ -266,7 +279,6 @@ const Navbar = () => {
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="flex items-center gap-2 p-2 font-medium text-gray-700 dark:text-gray-200 hover:text-cyan-600 dark:hover:text-cyan-400"
                   >
-                    <FileText className="w-4 h-4" />
                     Products Review
                   </Link>
                   <Link
@@ -283,8 +295,13 @@ const Navbar = () => {
                   >
                     About Us
                   </Link>
-                  <div className="flex items-center justify-center p-2">
-                    <ThemeToggle />
+                  <div className="mt-3 rounded-lg bg-gray-50 dark:bg-gray-800 px-3 py-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
+                        Appearance
+                      </span>
+                      <ThemeToggle />
+                    </div>
                   </div>
                 </div>
               </div>
