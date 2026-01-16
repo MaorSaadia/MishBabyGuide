@@ -11,6 +11,7 @@ import { FeaturedReviewsSkeleton } from "@/components/skeleton/FeaturedReviewsSk
 import { getFeaturedProducts, getProductReviews } from "@/lib/sanity.client";
 import { getProductCardImage } from "@/lib/sanity.image";
 import { generateItemListSchema, renderJsonLd } from "@/lib/structuredData";
+import { LatestBlogsSkeleton } from "@/components/skeleton/LatestBlogsSkeleton";
 
 // // Optional: Add metadata for SEO
 // export const metadata = {
@@ -54,13 +55,15 @@ export default async function Home() {
         <FeaturedProducts />
       </Suspense>
 
-      {/* Featured Reviews with Suspense */}
       <Suspense fallback={<FeaturedReviewsSkeleton />}>
         <FeaturedReviews />
       </Suspense>
 
+      <Suspense fallback={<LatestBlogsSkeleton />}>
+        <LatestBlogs />
+      </Suspense>
+
       <CategoriesGrid />
-      <LatestBlogs />
       <TrustBadges />
       <script
         type="application/ld+json"

@@ -1,47 +1,13 @@
-"use client";
-
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { getLatestPosts, Post } from "@/lib/sanity.client";
+import { getLatestPosts } from "@/lib/sanity.client";
 import { getBlogCardImage } from "@/lib/sanity.image";
 import { BookOpen, TrendingUp } from "lucide-react";
-
 import BlogCard from "./BlogCard";
 
-const LatestBlogs = () => {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const data = await getLatestPosts(6);
-      setPosts(data);
-      setLoading(false);
-    };
-    fetchPosts();
-  }, []);
-
-  // Loading skeleton
-  if (loading) {
-    return (
-      <section className="py-16 md:py-20 bg-white dark:bg-gray-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-64 mx-auto mb-4 animate-pulse"></div>
-            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-96 mx-auto animate-pulse"></div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[...Array(3)].map((_, i) => (
-              <div
-                key={i}
-                className="bg-gray-100 dark:bg-gray-800 rounded-2xl h-96 animate-pulse"
-              ></div>
-            ))}
-          </div>
-        </div>
-      </section>
-    );
-  }
+// Server Component - no "use client" needed
+const LatestBlogs = async () => {
+  // Fetch data directly on the server
+  const posts = await getLatestPosts(6);
 
   // Empty state
   if (posts.length === 0) {
