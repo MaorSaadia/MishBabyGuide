@@ -1,3 +1,4 @@
+// app/robots.ts
 import { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
@@ -10,17 +11,71 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: "*",
         allow: "/",
         disallow: [
-          "/studio/", // Sanity Studio
-          "/api/", // API routes
-          "/search", // Search results (duplicate content)
+          "/api/*",
+          "/studio/*", // Sanity Studio
+          "/_next/*", // Next.js internal files
+          "/admin/*", // Any admin pages
+          "/private/*", // Private pages
+          "/*.json$", // JSON files
+          "/*?*", // Pages with query parameters (optional)
         ],
       },
       {
-        userAgent: "Googlebot",
-        allow: "/",
-        disallow: ["/studio/", "/api/"],
+        userAgent: "GPTBot", // OpenAI's crawler
+        disallow: ["/"], // Disallow if you don't want AI training on your content
+      },
+      {
+        userAgent: "ChatGPT-User",
+        disallow: ["/"],
+      },
+      {
+        userAgent: "CCBot", // Common Crawl
+        disallow: ["/"],
+      },
+      {
+        userAgent: "anthropic-ai", // Claude's crawler
+        disallow: ["/"],
+      },
+      {
+        userAgent: "Google-Extended", // Google's AI training crawler
+        disallow: ["/"],
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,
+    host: baseUrl,
   };
 }
+
+// If you prefer a static robots.txt file instead:
+// Create: public/robots.txt
+/*
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Disallow specific paths
+Disallow: /api/
+Disallow: /studio/
+Disallow: /_next/
+Disallow: /admin/
+Disallow: /private/
+
+# Block AI crawlers (optional)
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+# Sitemap location
+Sitemap: https://www.mishbabyguide.com/sitemap.xml
+*/
