@@ -84,9 +84,11 @@ export const defaultMetadata: Metadata = {
  * Generate metadata for product pages
  */
 export function generateProductMetadata(product: {
+  _type: "productReview" | "productRecommendation";
   title: string;
   excerpt: string;
-  mainImage?: { asset: { url: string } };
+  mainImage?: { asset: { url?: string; _id?: string } };
+  category?: { title: string };
   seo?: {
     metaTitle?: string;
     metaDescription?: string;
@@ -94,14 +96,26 @@ export function generateProductMetadata(product: {
   };
   slug: { current: string };
 }): Metadata {
-  const title = product.seo?.metaTitle || product.title;
+  const title = product.seo?.metaTitle || `${product.title} - ${siteName}`;
   const description = product.seo?.metaDescription || product.excerpt;
   const imageUrl = product.mainImage?.asset?.url || `${baseUrl}/og-image.jpg`;
+
+  // Enhanced keywords based on product type
+  const defaultKeywords = [
+    product.title,
+    "baby product",
+    product._type === "productReview"
+      ? "product review"
+      : "product recommendation",
+    ...(product.category ? [product.category.title] : []),
+  ];
+
+  const keywords = product.seo?.keywords || defaultKeywords;
 
   return {
     title,
     description,
-    keywords: product.seo?.keywords || [],
+    keywords,
     openGraph: {
       title,
       description,
@@ -217,34 +231,64 @@ export function generateCategoryMetadata(category: {
  * Generate JSON-LD structured data for product
  */
 export function generateProductJsonLd(product: {
+  _type: "productReview" | "productRecommendation";
   title: string;
   excerpt: string;
-  mainImage?: { asset: { url: string } };
+  mainImage?: { asset: { url?: string } };
   amazonLink: string;
   publishedAt: string;
   slug: { current: string };
+  pros?: string[];
+  cons?: string[];
 }) {
-  return {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const schema: any = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: product.title,
     description: product.excerpt,
-    image: product.mainImage?.asset?.url,
+    image: product.mainImage?.asset?.url || `${baseUrl}/og-image.jpg`,
     url: `${baseUrl}/products/${product.slug.current}`,
     offers: {
       "@type": "Offer",
       url: product.amazonLink,
       availability: "https://schema.org/InStock",
+      priceCurrency: "USD",
+      seller: {
+        "@type": "Organization",
+        name: "Amazon",
+      },
     },
-    review: {
+  };
+
+  // Add review data if this is a product review
+  if (product._type === "productReview") {
+    schema.review = {
       "@type": "Review",
       datePublished: product.publishedAt,
       author: {
         "@type": "Organization",
         name: siteName,
       },
-    },
-  };
+      reviewBody: product.excerpt,
+    };
+
+    // Add review rating if pros/cons exist
+    if (product.pros && product.cons) {
+      const prosCount = product.pros.length;
+      const consCount = product.cons.length;
+      const totalPoints = prosCount + consCount;
+      const rating = totalPoints > 0 ? (prosCount / totalPoints) * 5 : 4.5;
+
+      schema.aggregateRating = {
+        "@type": "AggregateRating",
+        ratingValue: rating.toFixed(1),
+        reviewCount: "1",
+      };
+    }
+  }
+
+  return schema;
 }
 
 /**

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { ExternalLink, ShoppingCart, X } from "lucide-react";
+import { cleanProductTitle } from "@/lib/helper";
 
 interface StickyBuyFooterProps {
   amazonLink: string;
@@ -26,7 +27,7 @@ export default function StickyBuyFooter({
             {/* Product Info */}
             <div className="hidden: sm:block flex-1 min-w-0">
               <h3 className="text-white font-bold text-lg truncate mb-1">
-                {productTitle}
+                {cleanProductTitle(productTitle)}
               </h3>
               <p className="text-cyan-100 text-sm">
                 Ready to buy? Get it now on Amazon

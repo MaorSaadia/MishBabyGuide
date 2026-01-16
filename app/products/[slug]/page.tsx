@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+// app/products/[slug]/page.tsx
 import Link from "next/link";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { ExternalLink, ShoppingCart } from "lucide-react";
 import { PortableText } from "@portabletext/react";
 
@@ -12,14 +14,20 @@ import {
   isProductReview,
   isProductRecommendation,
 } from "@/lib/sanity.client";
-import { getImageUrl, getProductCardImage } from "@/lib/sanity.image";
+import { getImageUrl } from "@/lib/sanity.image";
+import {
+  generateProductMetadata,
+  generateProductJsonLd,
+  generateBreadcrumbJsonLd,
+} from "@/lib/metadata";
 import { portableTextComponents } from "@/components/PortableTextComponents";
 import Breadcrumb from "@/components/Breadcrumb";
 import ImageGallery from "@/components/ImageGallery";
 import RelatedProducts from "@/components/RelatedProducts";
 import StickyBuyFooter from "@/components/StickyBuyFooter";
+import { cleanProductTitle } from "@/lib/helper";
 
-// Generate static params for all products
+// Generate static params for all products at build time
 export async function generateStaticParams() {
   const products = await getAllProducts();
 
@@ -28,7 +36,7 @@ export async function generateStaticParams() {
   }));
 }
 
-// Generate metadata for SEO
+// Generate metadata for SEO using our helper
 export async function generateMetadata({
   params,
 }: {
@@ -40,32 +48,48 @@ export async function generateMetadata({
   if (!product) {
     return {
       title: "Product Not Found",
+      description: "The product you're looking for could not be found.",
     };
   }
 
-  const title = product.seo?.metaTitle || `${product.title} | MishBabyGuide`;
-  const description = product.seo?.metaDescription || product.excerpt;
-  const imageUrl = product.mainImage
-    ? getProductCardImage(product.mainImage)
-    : "";
+  // Use our centralized metadata helper
+  return generateProductMetadata(product);
+}
 
-  return {
-    title,
-    description,
-    keywords: product.seo?.keywords?.join(", "),
-    openGraph: {
-      title,
-      description,
-      type: "article",
-      images: imageUrl ? [{ url: imageUrl }] : [],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: imageUrl ? [imageUrl] : [],
-    },
-  };
+// Loading skeleton for related products
+function RelatedProductsSkeleton() {
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 className="text-2xl font-bold mb-6">Related Products</h2>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {[...Array(4)].map((_, i) => (
+          <div
+            key={i}
+            className="bg-gray-100 dark:bg-gray-800 rounded-2xl h-80 animate-pulse"
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// Separate component for related products to enable Suspense
+async function RelatedProductsSection({
+  categoryId,
+  productId,
+}: {
+  categoryId: string;
+  productId: string;
+}) {
+  const relatedProducts = await getRelatedProducts(categoryId, productId);
+
+  if (relatedProducts.length === 0) return null;
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mb-12">
+      <RelatedProducts products={relatedProducts} />
+    </div>
+  );
 }
 
 export default async function ProductPage({
@@ -80,16 +104,11 @@ export default async function ProductPage({
     notFound();
   }
 
-  // Get related products
-  const relatedProducts = product.category?._id
-    ? await getRelatedProducts(String(product.category._id), product._id)
-    : [];
-
   // Check product type
   const isReview = isProductReview(product);
   const isRecommendation = isProductRecommendation(product);
 
-  // Prepare images
+  // Prepare images for gallery
   let galleryImages: { url: string; alt: string }[] = [];
 
   if (isReview && product.gallery) {
@@ -102,7 +121,7 @@ export default async function ProductPage({
       },
       ...product.gallery.map((img) => ({
         url: getImageUrl(img, 800),
-        alt: product.title,
+        alt: `${product.title} - Gallery image`,
       })),
     ];
   } else {
@@ -116,12 +135,31 @@ export default async function ProductPage({
     ];
   }
 
+  // Generate structured data
+  const productJsonLd = generateProductJsonLd(product);
+  const breadcrumbJsonLd = generateBreadcrumbJsonLd([
+    { name: "Home", url: "https://www.mishbabyguide.com" },
+    { name: "Products", url: "https://www.mishbabyguide.com/products" },
+    ...(product.category
+      ? [
+          {
+            name: product.category.title,
+            url: `https://www.mishbabyguide.com/products/category/${product.category.slug.current}`,
+          },
+        ]
+      : []),
+    {
+      name: product.title,
+      url: `https://www.mishbabyguide.com/products/${product.slug.current}`,
+    },
+  ]);
+
   return (
     <>
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-24 md:pb-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Breadcrumb */}
-          <div className="hidden sm:block">
+          <div className="hidden sm:block mb-6">
             <Breadcrumb
               items={[
                 { label: "Products", href: "/products" },
@@ -129,7 +167,7 @@ export default async function ProductPage({
                   ? [
                       {
                         label: product.category.title,
-                        href: `/category/${product.category.slug.current}`,
+                        href: `/products/category/${product.category.slug.current}`,
                       },
                     ]
                   : []),
@@ -140,14 +178,23 @@ export default async function ProductPage({
 
           <div className="grid lg:grid-cols-2 gap-12 mb-12">
             {/* LEFT: Images */}
-            <div>
+            <div className="lg:sticky lg:top-8 lg:self-start">
               <ImageGallery images={galleryImages} />
             </div>
 
             {/* RIGHT: Product Info */}
             <div className="space-y-6">
+              {/* Product Title & Category Badge */}
               <div>
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4 -mt-6 lg:mt-0">
+                {product.category && (
+                  <Link
+                    href={`/products/category/${product.category.slug.current}`}
+                    className="inline-block mb-3 px-3 py-1 bg-sky-100 dark:bg-sky-900 text-sky-700 dark:text-sky-300 text-sm font-medium rounded-full hover:bg-sky-200 dark:hover:bg-sky-800 transition-colors"
+                  >
+                    {product.category.title}
+                  </Link>
+                )}
+                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
                   {product.title}
                 </h1>
                 {product.excerpt && (
@@ -157,10 +204,11 @@ export default async function ProductPage({
                 )}
               </div>
 
+              {/* Description for Recommendations */}
               {isRecommendation &&
                 product.description &&
                 product.description.length > 0 && (
-                  <div className="prose prose-lg max-w-none bg-white dark:bg-gray-800 rounded-xl p-6 py-1 border border-gray-200 dark:border-gray-700">
+                  <div className="prose prose-lg max-w-none bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
                     <PortableText
                       value={product.description as any}
                       components={portableTextComponents}
@@ -168,22 +216,79 @@ export default async function ProductPage({
                   </div>
                 )}
 
-              <div className="bg-linear-to-br from-cyan-600 to-cyan-700 rounded-2xl p-6 text-white shadow-xl -mb-12">
+              {/* Pros & Cons for Reviews */}
+              {isReview && (product.pros || product.cons) && (
+                <div className="grid md:grid-cols-2 gap-4">
+                  {product.pros && product.pros.length > 0 && (
+                    <div className="bg-green-50 dark:bg-green-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
+                      <h3 className="text-lg font-bold text-green-800 dark:text-green-300 mb-3 flex items-center gap-2">
+                        <span className="text-2xl">✓</span>
+                        Pros
+                      </h3>
+                      <ul className="space-y-2">
+                        {product.pros.map((pro, index) => (
+                          <li
+                            key={index}
+                            className="text-green-700 dark:text-green-300 flex items-start gap-2"
+                          >
+                            <span className="mt-1">•</span>
+                            <span>{pro}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {product.cons && product.cons.length > 0 && (
+                    <div className="bg-red-50 dark:bg-red-900/20 rounded-xl p-6 border border-red-200 dark:border-red-800">
+                      <h3 className="text-lg font-bold text-red-800 dark:text-red-300 mb-3 flex items-center gap-2">
+                        <span className="text-2xl">✗</span>
+                        Cons
+                      </h3>
+                      <ul className="space-y-2">
+                        {product.cons.map((con, index) => (
+                          <li
+                            key={index}
+                            className="text-red-700 dark:text-red-300 flex items-start gap-2"
+                          >
+                            <span className="mt-1">•</span>
+                            <span>{con}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Full Review Content */}
+              {isReview && product.review && product.review.length > 0 && (
+                <div className="prose prose-lg max-w-none bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+                  <PortableText
+                    value={product.review as any}
+                    components={portableTextComponents}
+                  />
+                </div>
+              )}
+
+              {/* Call to Action */}
+              <div className="bg-linear-to-br from-cyan-600 to-cyan-700 rounded-2xl p-6 text-white shadow-xl">
                 <h3 className="text-2xl font-bold mb-1">Ready to Buy?</h3>
-                <p className="text-cyan-50 dark:text-cyan-100 mb-4">
-                  Get the {product.title} on Amazon
+                <p className="text-cyan-50 mb-4">
+                  Get the {cleanProductTitle(product.title)} on Amazon
                 </p>
                 <Link
                   href={product.amazonLink}
                   target="_blank"
                   rel="nofollow noopener noreferrer"
-                  className="inline-flex items-center gap-3 px-8 py-3 bg-white text-cyan-600 text-lg font-bold rounded-lg hover:bg-gray-50 dark:hover:bg-gray-100 transition-all shadow-md hover:shadow-xl w-full justify-center"
+                  className="inline-flex items-center gap-3 px-8 py-3 bg-white text-cyan-600 text-lg font-bold rounded-lg hover:bg-gray-50 transition-all shadow-md hover:shadow-xl w-full justify-center"
+                  aria-label={`Buy ${product.title} on Amazon`}
                 >
                   <ShoppingCart className="h-5 w-5" />
                   Buy on Amazon
                   <ExternalLink className="h-5 w-5" />
                 </Link>
-                <p className="text-xs text-cyan-100 dark:text-cyan-200 mt-3 text-center">
+                <p className="text-xs text-cyan-100 mt-3 text-center">
                   As an Amazon Associate, we earn from qualifying purchases
                 </p>
               </div>
@@ -191,11 +296,14 @@ export default async function ProductPage({
           </div>
         </div>
 
-        {/* Related Products */}
-        {relatedProducts.length > 0 && (
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mb-12">
-            <RelatedProducts products={relatedProducts} />
-          </div>
+        {/* Related Products with Suspense */}
+        {product.category?._id && (
+          <Suspense fallback={<RelatedProductsSkeleton />}>
+            <RelatedProductsSection
+              categoryId={product.category._id}
+              productId={product._id}
+            />
+          </Suspense>
         )}
       </div>
 
@@ -205,35 +313,25 @@ export default async function ProductPage({
         productTitle={product.title}
       />
 
-      {/* Product Schema Markup */}
+      {/* Structured Data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Product",
-            name: product.title,
-            image: galleryImages.map((img) => img.url),
-            description: product.excerpt,
-            brand: {
-              "@type": "Brand",
-              name: "Various",
-            },
-            offers: {
-              "@type": "Offer",
-              url: product.amazonLink,
-              priceCurrency: "USD",
-              availability: "https://schema.org/InStock",
-              seller: {
-                "@type": "Organization",
-                name: "Amazon",
-              },
-            },
-          }),
+          __html: JSON.stringify(productJsonLd),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbJsonLd),
         }}
       />
     </>
   );
 }
 
+// Cache individual product pages for 1 hour
 export const revalidate = 3600;
+
+// Enable dynamic params for products not pre-rendered
+export const dynamicParams = true;

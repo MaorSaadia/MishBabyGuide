@@ -14,6 +14,7 @@ import { getImageUrl, getProductCardImage } from "@/lib/sanity.image";
 import { portableTextComponents } from "@/components/PortableTextComponents";
 import Breadcrumb from "@/components/Breadcrumb";
 import ImageGallery from "@/components/ImageGallery";
+import { cleanProductTitle } from "@/lib/helper";
 
 // Generate static params
 export async function generateStaticParams() {
@@ -209,7 +210,7 @@ export default async function ReviewPage({
           <div className="bg-linear-to-r from-cyan-600 to-cyan-700 rounded-2xl p-8 text-center text-white mb-12">
             <h3 className="text-2xl font-bold mb-2">Ready to Buy?</h3>
             <p className="text-cyan-100 dark:text-cyan-200 mb-6">
-              Get the {product.title} on Amazon
+              Get the {cleanProductTitle(product.title)} on Amazon
             </p>
             <Link
               href={product.amazonLink}
