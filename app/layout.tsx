@@ -10,6 +10,8 @@ import {
   websiteSchema,
   renderJsonLd,
 } from "@/lib/structuredData";
+// import { Script } from "vm";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -70,7 +72,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: "your-google-verification-code", // Add your verification code
+    google: "CYIt1AAU7pbTjPX0KMVjsU9jy1DRLqHUJ0L-HWfueqM", // Add your verification code
     // yandex: 'your-yandex-verification-code',
     // bing: 'your-bing-verification-code',
   },
@@ -99,6 +101,13 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
+        {/* Umami Analytics */}
+        <Script
+          async
+          src="https://cloud.umami.is/script.js"
+          data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
+          strategy="beforeInteractive"
+        />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
