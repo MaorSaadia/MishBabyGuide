@@ -1,21 +1,25 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// app/blog/[slug]/page.tsx
 import Link from "next/link";
 import Image from "next/image";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { Calendar, Clock, User, Tag } from "lucide-react";
 import { PortableText } from "@portabletext/react";
 
 import { getPostBySlug, getAllPosts } from "@/lib/sanity.client";
+import { getImageUrl, getProductCardImage } from "@/lib/sanity.image";
 import {
-  getImageUrl,
-  getBlogCardImage,
-  getProductCardImage,
-} from "@/lib/sanity.image";
+  generatePostMetadata,
+  generateBlogPostJsonLd,
+  generateBreadcrumbJsonLd,
+} from "@/lib/metadata";
 import { portableTextComponents } from "@/components/PortableTextComponents";
 import ShareButtons from "@/components/ShareButtons";
 import ProductCard from "@/components/ProductCard";
 
-// Generate static params for all posts
+// Generate static params for all posts at build time
 export async function generateStaticParams() {
   const posts = await getAllPosts();
 
@@ -24,7 +28,7 @@ export async function generateStaticParams() {
   }));
 }
 
-// Generate metadata for SEO
+// Generate metadata for SEO using our helper
 export async function generateMetadata({
   params,
 }: {
@@ -36,31 +40,81 @@ export async function generateMetadata({
   if (!post) {
     return {
       title: "Post Not Found",
+      description: "The blog post you're looking for could not be found.",
     };
   }
 
-  const title = post.seo?.metaTitle || `${post.title} | MishBabyGuide`;
-  const description = post.seo?.metaDescription || post.excerpt;
-  const imageUrl = post.mainImage ? getBlogCardImage(post.mainImage) : "";
+  // Use our centralized metadata helper
+  return generatePostMetadata(post);
+}
 
-  return {
-    title,
-    description,
-    openGraph: {
-      title,
-      description,
-      type: "article",
-      publishedTime: post.publishedAt,
-      authors: post.author ? [post.author] : undefined,
-      images: imageUrl ? [{ url: imageUrl }] : [],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: imageUrl ? [imageUrl] : [],
-    },
-  };
+// Loading skeleton for related products
+function RelatedProductsSkeleton() {
+  return (
+    <div className="bg-linear-to-b from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 className="text-3xl font-bold text-center mb-12">
+          Products Mentioned in This Article
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {[...Array(3)].map((_, i) => (
+            <div
+              key={i}
+              className="bg-gray-100 dark:bg-gray-800 rounded-2xl h-80 animate-pulse"
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Separate component for related products to enable Suspense
+function RelatedProductsSection({
+  products,
+}: {
+  products: Array<{
+    _id: string;
+    title: string;
+    slug: { current: string };
+    mainImage?: any;
+    excerpt?: string;
+    amazonLink: string;
+  }>;
+}) {
+  if (!products || products.length === 0) return null;
+
+  return (
+    <div className="bg-linear-to-b from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+            Products Mentioned in This Article
+          </h2>
+          <p className="text-lg text-gray-600 dark:text-gray-300">
+            Shop the products we recommend
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {products.map((product) => (
+            <ProductCard
+              key={product._id}
+              title={product.title}
+              slug={product.slug.current}
+              image={
+                product.mainImage
+                  ? getProductCardImage(product.mainImage)
+                  : "/placeholder-product.jpg"
+              }
+              excerpt={product.excerpt || "Check out this product"}
+              amazonLink={product.amazonLink}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default async function BlogPostPage({
@@ -91,16 +145,30 @@ export default async function BlogPostPage({
 
   const currentUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/blog/${slug}`;
 
+  // Generate structured data
+  const postJsonLd = generateBlogPostJsonLd(post);
+  const breadcrumbJsonLd = generateBreadcrumbJsonLd([
+    { name: "Home", url: "https://www.mishbabyguide.com" },
+    { name: "Blog", url: "https://www.mishbabyguide.com/blog" },
+    ...(post.categories?.[0]
+      ? [
+          {
+            name: post.categories[0].title,
+            url: `https://www.mishbabyguide.com/blog?category=${post.categories[0].slug.current}`,
+          },
+        ]
+      : []),
+    {
+      name: post.title,
+      url: currentUrl,
+    },
+  ]);
+
   return (
     <>
       <article className="min-h-screen bg-white dark:bg-gray-900">
         {/* Container */}
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {/* Breadcrumb */}
-          {/* <Breadcrumb
-            items={[{ label: "Blog", href: "/blog" }, { label: post.title }]}
-          /> */}
-
           {/* Hero Section */}
           <header className="mb-8">
             {/* Category Badges */}
@@ -142,10 +210,12 @@ export default async function BlogPostPage({
                 </time>
               </div>
 
-              <div className="flex items-center gap-2">
-                <Clock className="h-4 w-4" />
-                <span>{readTime} min read</span>
-              </div>
+              {readTime > 0 && (
+                <div className="flex items-center gap-2">
+                  <Clock className="h-4 w-4" />
+                  <span>{readTime} min read</span>
+                </div>
+              )}
             </div>
 
             {/* Share Buttons */}
@@ -160,7 +230,7 @@ export default async function BlogPostPage({
 
           {/* Featured Image */}
           {post.mainImage && (
-            <figure className="mb-12 rounded-2xl overflow-hidden">
+            <figure className="mb-12 rounded-2xl overflow-hidden shadow-lg">
               <div className="relative w-full aspect-video">
                 <Image
                   src={getImageUrl(post.mainImage, 1200, 675)}
@@ -168,6 +238,7 @@ export default async function BlogPostPage({
                   fill
                   className="object-cover"
                   priority
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
                 />
               </div>
             </figure>
@@ -182,9 +253,8 @@ export default async function BlogPostPage({
 
           {/* Post Content */}
           {post.body && (
-            <div className="prose prose-lg max-w-none mb-12">
+            <div className="prose prose-lg dark:prose-invert max-w-none mb-12">
               <PortableText
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 value={post.body as any}
                 components={portableTextComponents}
               />
@@ -194,7 +264,7 @@ export default async function BlogPostPage({
           {/* Bottom Share */}
           <div className="py-8 border-y border-gray-200 dark:border-gray-700 mb-12">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-              <p className="text-gray-600 dark:text-gray-300">
+              <p className="text-gray-600 dark:text-gray-300 font-medium">
                 Found this helpful? Share it!
               </p>
               <ShareButtons
@@ -204,48 +274,12 @@ export default async function BlogPostPage({
               />
             </div>
           </div>
-        </div>
 
-        {/* Related Products Section */}
-        {Array.isArray(post.relatedProducts) &&
-          post.relatedProducts.length > 0 && (
-            <div className="bg-linear-to-b from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 py-16">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-12">
-                  <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                    Products Mentioned in This Article
-                  </h2>
-                  <p className="text-lg text-gray-600 dark:text-gray-300">
-                    Shop the products we recommend
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {post.relatedProducts.map((product) => (
-                    <ProductCard
-                      key={product._id}
-                      title={product.title}
-                      slug={product.slug.current}
-                      image={
-                        product.mainImage
-                          ? getProductCardImage(product.mainImage)
-                          : "/placeholder-product.jpg"
-                      }
-                      excerpt={product.excerpt || "Check out this product"}
-                      amazonLink={product.amazonLink}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-
-        {/* Author Bio (Optional) */}
-        {post.author && (
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-12 mb-8">
-            <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8">
+          {/* Author Bio */}
+          {post.author && (
+            <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 rounded-2xl p-8 border border-gray-200 dark:border-gray-600">
               <div className="flex items-start gap-4">
-                <div className="shrink-0 w-16 h-16 bg-cyan-600 dark:bg-cyan-500 rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                <div className="shrink-0 w-16 h-16 bg-cyan-600 dark:bg-cyan-500 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg">
                   {post.author.charAt(0)}
                 </div>
                 <div>
@@ -259,43 +293,37 @@ export default async function BlogPostPage({
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
+
+        {/* Related Products Section with Suspense */}
+        {Array.isArray(post.relatedProducts) &&
+          post.relatedProducts.length > 0 && (
+            <Suspense fallback={<RelatedProductsSkeleton />}>
+              <RelatedProductsSection products={post.relatedProducts} />
+            </Suspense>
+          )}
       </article>
 
-      {/* Article Schema Markup */}
+      {/* Structured Data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BlogPosting",
-            headline: post.title,
-            description: post.excerpt,
-            image: post.mainImage ? getImageUrl(post.mainImage, 1200) : "",
-            datePublished: post.publishedAt,
-            dateModified: post.publishedAt,
-            author: {
-              "@type": "Person",
-              name: post.author || "MishBabyGuide Team",
-            },
-            publisher: {
-              "@type": "Organization",
-              name: "MishBabyGuide",
-              logo: {
-                "@type": "ImageObject",
-                url: `${process.env.NEXT_PUBLIC_SITE_URL}/logo.png`,
-              },
-            },
-            mainEntityOfPage: {
-              "@type": "WebPage",
-              "@id": currentUrl,
-            },
-          }),
+          __html: JSON.stringify(postJsonLd),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbJsonLd),
         }}
       />
     </>
   );
 }
 
-export const revalidate = 3600; // Revalidate every hour
+// Cache blog posts for 1 hour
+export const revalidate = 3600;
+
+// Enable dynamic params for new posts
+export const dynamicParams = true;
