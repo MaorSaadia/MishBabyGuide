@@ -67,15 +67,21 @@ const Hero = () => {
             <div className="flex flex-wrap gap-6 justify-center md:justify-start pt-4">
               <div className="flex items-center gap-2">
                 <Shield className="h-5 w-5 text-cyan-600" />
-                <span className="text-sm text-gray-600">Honest Reviews</span>
+                <span className="text-sm text-gray-600 dark:text-gray-300">
+                  Honest Reviews
+                </span>
               </div>
               <div className="flex items-center gap-2">
                 <Heart className="h-5 w-5 text-cyan-600" />
-                <span className="text-sm text-gray-600">Parent Tested</span>
+                <span className="text-sm text-gray-600 dark:text-gray-300">
+                  Parent Tested
+                </span>
               </div>
               <div className="flex items-center gap-2">
                 <Search className="h-5 w-5 text-cyan-600" />
-                <span className="text-sm text-gray-600">Expert Research</span>
+                <span className="text-sm text-gray-600 dark:text-gray-300">
+                  Expert Research
+                </span>
               </div>
             </div>
           </div>
