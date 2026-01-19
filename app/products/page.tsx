@@ -70,7 +70,7 @@ async function ProductsContent({
   // Filter by category if selected
   const filteredProducts = selectedCategory
     ? products.filter(
-        (product) => product.category?.slug.current === selectedCategory
+        (product) => product.category?.slug.current === selectedCategory,
       )
     : products;
 
@@ -161,7 +161,7 @@ export default async function ProductsPage({
               {categories.map((category) => (
                 <Link
                   key={category.slug.current}
-                  href={`/products?category=${category.slug.current}`}
+                  href={`/category/${category.slug.current}`}
                   prefetch={true}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                     selectedCategory === category.slug.current

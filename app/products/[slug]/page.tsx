@@ -167,7 +167,7 @@ export default async function ProductPage({
                   ? [
                       {
                         label: product.category.title,
-                        href: `/products/category/${product.category.slug.current}`,
+                        href: `/category/${product.category.slug.current}`,
                       },
                     ]
                   : []),
