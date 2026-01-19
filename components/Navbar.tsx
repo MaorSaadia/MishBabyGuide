@@ -16,6 +16,7 @@ import {
   Package,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+
 import Logo from "./Logo";
 import SearchComponent from "./Search";
 import { ThemeToggle } from "./ThemeToggle";
@@ -44,49 +45,52 @@ const Navbar = () => {
       name: "All Products",
       href: "/products",
       icon: LayoutGrid,
-      color: "bg-emerald-100 text-emerald-600",
+      color:
+        "bg-emerald-100 dark:bg-emerald-900 text-emerald-600 dark:text-emerald-400",
     },
     {
       name: "Baby Clothing",
       href: "/category/baby-clothing",
       icon: Shirt,
-      color: "bg-pink-50 text-pink-600",
+      color: "bg-pink-50 dark:bg-pink-900 text-pink-600 dark:text-pink-400",
     },
     {
       name: "Baby Essentials",
       href: "/category/baby-essentials",
       icon: Package,
-      color: "bg-blue-50 text-blue-600",
+      color: "bg-blue-50 dark:bg-blue-900 text-blue-600 dark:text-blue-400",
     },
     {
       name: "Bath Care & Accessories",
       href: "/category/bath-care-accessories",
       icon: Bath,
-      color: "bg-cyan-50 text-cyan-600",
+      color: "bg-cyan-50 dark:bg-cyan-900 text-cyan-600 dark:text-cyan-400",
     },
     {
       name: "Feeding & Mealtime",
       href: "/category/feeding-mealtime",
       icon: UtensilsCrossed,
-      color: "bg-green-50 text-green-600",
+      color: "bg-green-50 dark:bg-green-900 text-green-600 dark:text-green-400",
     },
     {
       name: "Nursery & Lighting",
       href: "/category/nursery-lighting",
       icon: Lamp,
-      color: "bg-yellow-50 text-yellow-600",
+      color:
+        "bg-yellow-50 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-400",
     },
     {
       name: "Safety & Comfort",
       href: "/category/safety-comfort",
       icon: Shield,
-      color: "bg-red-50 text-red-600",
+      color: "bg-red-50 dark:bg-red-900 text-red-600 dark:text-red-400",
     },
     {
       name: "Toys & Games",
       href: "/category/toys-plush-games",
       icon: Gamepad2,
-      color: "bg-purple-50 text-purple-600",
+      color:
+        "bg-purple-50 dark:bg-purple-900 text-purple-600 dark:text-purple-400",
     },
   ];
 
@@ -193,6 +197,11 @@ const Navbar = () => {
 
           {/* Right Side: Mobile Icons */}
           <div className="flex items-center gap-2 lg:hidden">
+            {/*Mobile Theme Toggle */}
+            <div className=" text-gray-600 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400">
+              <ThemeToggle />
+            </div>
+
             {/* Mobile Search Icon */}
             <button
               onClick={() => {
@@ -295,14 +304,14 @@ const Navbar = () => {
                   >
                     About Us
                   </Link>
-                  <div className="mt-3 rounded-lg bg-gray-50 dark:bg-gray-800 px-3 py-3">
+                  {/* <div className="mt-3 rounded-lg bg-gray-50 dark:bg-gray-800 px-3 py-3">
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
                         Appearance
                       </span>
                       <ThemeToggle />
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </motion.div>
