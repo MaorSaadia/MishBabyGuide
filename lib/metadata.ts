@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // lib/metadata.ts
 import { Metadata } from "next";
 
@@ -148,7 +149,7 @@ export function generateProductMetadata(product: {
 export function generatePostMetadata(post: {
   title: string;
   excerpt: string;
-  mainImage?: { asset: { url: string } };
+  mainImage?: { asset: { url?: string } };
   publishedAt: string;
   author?: string;
   categories?: Array<{ title: string }>;
@@ -160,7 +161,17 @@ export function generatePostMetadata(post: {
 }): Metadata {
   const title = post.seo?.metaTitle || post.title;
   const description = post.seo?.metaDescription || post.excerpt;
-  const imageUrl = post.mainImage?.asset?.url || `${baseUrl}/og-image.jpg`;
+
+  // IMPORTANT: Use FULL URL for social media images
+  // Sanity images already include the full URL
+  let imageUrl = `${baseUrl}/og-blog.jpg`; // Fallback image
+
+  if (post.mainImage?.asset?.url) {
+    // If Sanity URL is relative, make it absolute
+    imageUrl = post.mainImage.asset.url.startsWith("http")
+      ? post.mainImage.asset.url
+      : `https://cdn.sanity.io${post.mainImage.asset.url}`;
+  }
 
   return {
     title,
@@ -241,7 +252,6 @@ export function generateProductJsonLd(product: {
   pros?: string[];
   cons?: string[];
 }) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const schema: any = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -333,7 +343,7 @@ export function generateBlogPostJsonLd(post: {
  * Generate breadcrumb structured data
  */
 export function generateBreadcrumbJsonLd(
-  items: Array<{ name: string; url: string }>
+  items: Array<{ name: string; url: string }>,
 ) {
   return {
     "@context": "https://schema.org",
