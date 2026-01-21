@@ -11,7 +11,6 @@ import {
   getProductBySlug,
   getRelatedProducts,
   getAllProducts,
-  isProductReview,
   isProductRecommendation,
 } from "@/lib/sanity.client";
 import { getImageUrl } from "@/lib/sanity.image";
@@ -26,6 +25,7 @@ import ImageGallery from "@/components/ImageGallery";
 import RelatedProducts from "@/components/RelatedProducts";
 import StickyBuyFooter from "@/components/StickyBuyFooter";
 import { cleanProductTitle } from "@/lib/helper";
+import ProductShareButton from "@/components/ProductShareButton";
 
 // Generate static params for all products at build time
 export async function generateStaticParams() {
@@ -99,41 +99,25 @@ export default async function ProductPage({
 }) {
   const { slug } = await params;
   const product = await getProductBySlug(slug);
+  const currentUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/products/${slug}`;
 
   if (!product) {
     notFound();
   }
 
   // Check product type
-  const isReview = isProductReview(product);
   const isRecommendation = isProductRecommendation(product);
 
   // Prepare images for gallery
   let galleryImages: { url: string; alt: string }[] = [];
-
-  if (isReview && product.gallery) {
-    galleryImages = [
-      {
-        url: product.mainImage
-          ? getImageUrl(product.mainImage, 800)
-          : "/placeholder-product.jpg",
-        alt: product.title,
-      },
-      ...product.gallery.map((img) => ({
-        url: getImageUrl(img, 800),
-        alt: `${product.title} - Gallery image`,
-      })),
-    ];
-  } else {
-    galleryImages = [
-      {
-        url: product.mainImage
-          ? getImageUrl(product.mainImage, 800)
-          : "/placeholder-product.jpg",
-        alt: product.title,
-      },
-    ];
-  }
+  galleryImages = [
+    {
+      url: product.mainImage
+        ? getImageUrl(product.mainImage, 800)
+        : "/placeholder-product.jpg",
+      alt: product.title,
+    },
+  ];
 
   // Generate structured data
   const productJsonLd = generateProductJsonLd(product);
@@ -183,17 +167,29 @@ export default async function ProductPage({
             </div>
 
             {/* RIGHT: Product Info */}
-            <div className="space-y-6">
-              {/* Product Title & Category Badge */}
-              <div>
-                {product.category && (
-                  <Link
-                    href={`/products/category/${product.category.slug.current}`}
-                    className="inline-block mb-3 px-3 py-1 bg-sky-100 dark:bg-sky-900 text-sky-700 dark:text-sky-300 text-sm font-medium rounded-full hover:bg-sky-200 dark:hover:bg-sky-800 transition-colors"
-                  >
-                    {product.category.title}
-                  </Link>
-                )}
+            <div className="space-y-2">
+              {/* Product Info */}
+              <div className="space-y-2">
+                {/* Category Badge & Share Button Row */}
+                <div className="flex items-center justify-between -mt-4">
+                  {product.category && (
+                    <Link
+                      href={`/products/category/${product.category.slug.current}`}
+                    >
+                      <span className="inline-block mb-4 px-3 py-1 bg-sky-100 dark:bg-sky-900 text-sky-700 dark:text-sky-300 text-sm font-medium rounded-full hover:bg-sky-200 dark:hover:bg-sky-800 transition-colors">
+                        {product.category.title}
+                      </span>
+                    </Link>
+                  )}
+
+                  {/* Share Button - Right aligned */}
+                  <ProductShareButton
+                    url={currentUrl}
+                    title={product.title}
+                    description={product.excerpt}
+                  />
+                </div>
+
                 <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
                   {product.title}
                 </h1>
@@ -215,61 +211,6 @@ export default async function ProductPage({
                     />
                   </div>
                 )}
-
-              {/* Pros & Cons for Reviews */}
-              {isReview && (product.pros || product.cons) && (
-                <div className="grid md:grid-cols-2 gap-4">
-                  {product.pros && product.pros.length > 0 && (
-                    <div className="bg-green-50 dark:bg-green-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
-                      <h3 className="text-lg font-bold text-green-800 dark:text-green-300 mb-3 flex items-center gap-2">
-                        <span className="text-2xl">✓</span>
-                        Pros
-                      </h3>
-                      <ul className="space-y-2">
-                        {product.pros.map((pro, index) => (
-                          <li
-                            key={index}
-                            className="text-green-700 dark:text-green-300 flex items-start gap-2"
-                          >
-                            <span className="mt-1">•</span>
-                            <span>{pro}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
-                  {product.cons && product.cons.length > 0 && (
-                    <div className="bg-red-50 dark:bg-red-900/20 rounded-xl p-6 border border-red-200 dark:border-red-800">
-                      <h3 className="text-lg font-bold text-red-800 dark:text-red-300 mb-3 flex items-center gap-2">
-                        <span className="text-2xl">✗</span>
-                        Cons
-                      </h3>
-                      <ul className="space-y-2">
-                        {product.cons.map((con, index) => (
-                          <li
-                            key={index}
-                            className="text-red-700 dark:text-red-300 flex items-start gap-2"
-                          >
-                            <span className="mt-1">•</span>
-                            <span>{con}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* Full Review Content */}
-              {isReview && product.review && product.review.length > 0 && (
-                <div className="prose prose-lg max-w-none bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
-                  <PortableText
-                    value={product.review as any}
-                    components={portableTextComponents}
-                  />
-                </div>
-              )}
 
               {/* Call to Action */}
               <div className="bg-linear-to-br from-cyan-600 to-cyan-700 rounded-2xl p-6 text-white shadow-xl">
