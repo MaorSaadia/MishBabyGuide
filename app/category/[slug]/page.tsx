@@ -204,7 +204,7 @@ export default async function CategoryPage({
                   Category
                 </span>
               </div>
-              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white -mb-6">
                 {category.title}
               </h1>
               {category.description && (

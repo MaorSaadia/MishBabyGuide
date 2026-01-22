@@ -173,9 +173,7 @@ export default async function ProductPage({
                 {/* Category Badge & Share Button Row */}
                 <div className="flex items-center justify-between -mt-4">
                   {product.category && (
-                    <Link
-                      href={`/products/category/${product.category.slug.current}`}
-                    >
+                    <Link href={`/category/${product.category.slug.current}`}>
                       <span className="inline-block mb-4 px-3 py-1 bg-sky-100 dark:bg-sky-900 text-sky-700 dark:text-sky-300 text-sm font-medium rounded-full hover:bg-sky-200 dark:hover:bg-sky-800 transition-colors">
                         {product.category.title}
                       </span>
