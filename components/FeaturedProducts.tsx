@@ -8,7 +8,7 @@ import ProductCard from "./ProductCard";
 const FeaturedProducts = async () => {
   // Fetch data directly in the server component
   const products = await getFeaturedProducts();
-  const displayProducts = products.slice(0, 4);
+  const displayProducts = products.slice(0, 8);
 
   // If no products found
   if (displayProducts.length === 0) {
