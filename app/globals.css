@@ -116,6 +116,66 @@
 }
 
 @layer base {
+  /* Smooth transitions for font size changes */
+  html {
+    transition: font-size 0.3s ease;
+  }
+
+  /* Focus indicators for keyboard navigation */
+  *:focus-visible {
+    @apply outline-blue-500 outline-2 outline-offset-2;
+  }
+}
+
+@layer components {
+  /* High contrast mode */
+  .accessibility-high-contrast {
+    filter: contrast(1.5);
+  }
+
+  .accessibility-high-contrast button,
+  .accessibility-high-contrast a {
+    @apply border-2 border-current;
+  }
+
+  /* Large cursor support */
+  .accessibility-large-cursor,
+  .accessibility-large-cursor * {
+    cursor:
+      url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><path d="M5 5 L5 30 L15 20 L20 32 L26 29 L21 17 L33 17 Z" fill="black" stroke="white" stroke-width="2"/></svg>')
+        0 0,
+      auto !important;
+  }
+
+  /* Readable font mode */
+  .accessibility-readable-font,
+  .accessibility-readable-font * {
+    font-family: "Arial", "Helvetica", sans-serif !important;
+    letter-spacing: 0.05em !important;
+    line-height: 1.8 !important;
+  }
+}
+
+@layer utilities {
+  /* Custom scrollbar for accessibility panel */
+  .overflow-y-auto::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  .overflow-y-auto::-webkit-scrollbar-track {
+    @apply bg-gray-100 dark:bg-gray-700 rounded-lg;
+  }
+
+  .overflow-y-auto::-webkit-scrollbar-thumb {
+    @apply bg-gray-400 dark:bg-gray-500 rounded-lg;
+  }
+
+  .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-500 dark:bg-gray-400;
+  }
+}
+
+@layer base {
   * {
     @apply border-border outline-ring/50;
   }
