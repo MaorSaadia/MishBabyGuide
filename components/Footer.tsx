@@ -201,6 +201,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
+      {/* <NewsletterForm /> */}
     </footer>
   );
 };
