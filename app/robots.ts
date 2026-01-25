@@ -22,23 +22,23 @@ export default function robots(): MetadataRoute.Robots {
       },
       {
         userAgent: "GPTBot", // OpenAI's crawler
-        disallow: ["/"], // Disallow if you don't want AI training on your content
+        allow: ["/"], // Disallow if you don't want AI training on your content
       },
       {
         userAgent: "ChatGPT-User",
-        disallow: ["/"],
+        allow: ["/"],
       },
       {
         userAgent: "CCBot", // Common Crawl
-        disallow: ["/"],
+        allow: ["/"],
       },
       {
         userAgent: "anthropic-ai", // Claude's crawler
-        disallow: ["/"],
+        allow: ["/"],
       },
       {
         userAgent: "Google-Extended", // Google's AI training crawler
-        disallow: ["/"],
+        allow: ["/"],
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,

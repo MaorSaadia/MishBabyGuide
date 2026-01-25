@@ -87,11 +87,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Product category pages
   const productCategoryPages: MetadataRoute.Sitemap = productCategories.map(
     (category) => ({
-      url: `${baseUrl}/products/category/${category.slug.current}`,
+      url: `${baseUrl}/category/${category.slug.current}`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
-    })
+    }),
   );
 
   // Blog category pages
@@ -101,7 +101,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.75,
-    })
+    }),
   );
 
   // All product pages (both reviews and recommendations)
