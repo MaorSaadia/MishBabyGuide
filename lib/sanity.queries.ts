@@ -106,7 +106,7 @@ export const productBySlugQuery = groq`
 
 // Get products by category (both types)
 export const productsByCategoryQuery = groq`
-  *[_type in ["productReview", "productRecommendation"] && category->slug.current == $slug] | order(publishedAt desc) {
+  *[_type in ["productRecommendation"] && category->slug.current == $slug] | order(publishedAt desc) {
     _id,
     _type,
     title,

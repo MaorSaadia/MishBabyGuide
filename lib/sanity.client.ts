@@ -91,7 +91,7 @@ export function isProductReview(product: Product): product is ProductReview {
 }
 
 export function isProductRecommendation(
-  product: Product
+  product: Product,
 ): product is ProductRecommendation {
   return product._type === "productRecommendation";
 }
@@ -158,7 +158,7 @@ async function fetchWithCache<T>(
   query: string,
   params: any = {},
   revalidate: number = REVALIDATE_TIME.medium,
-  tags: string[] = []
+  tags: string[] = [],
 ): Promise<T> {
   return client.fetch<T>(query, params, {
     next: {
@@ -175,7 +175,7 @@ export async function getAllProducts(): Promise<Product[]> {
       allProductsQuery,
       {},
       REVALIDATE_TIME.medium,
-      [CACHE_TAGS.products]
+      [CACHE_TAGS.products],
     );
   } catch (error) {
     console.error("Error fetching all products:", error);
@@ -190,7 +190,7 @@ export async function getFeaturedProducts(): Promise<Product[]> {
       featuredProductsQuery,
       {},
       REVALIDATE_TIME.long, // Featured products change less frequently
-      [CACHE_TAGS.products, "featured"]
+      [CACHE_TAGS.products, "featured"],
     );
   } catch (error) {
     console.error("Error fetching featured products:", error);
@@ -205,7 +205,7 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
       productBySlugQuery,
       { slug },
       REVALIDATE_TIME.long,
-      [CACHE_TAGS.products, `product-${slug}`]
+      [CACHE_TAGS.products, `product-${slug}`],
     );
   } catch (error) {
     console.error("Error fetching product:", error);
@@ -220,7 +220,7 @@ export async function getProductsByCategory(slug: string): Promise<Product[]> {
       productsByCategoryQuery,
       { slug },
       REVALIDATE_TIME.medium,
-      [CACHE_TAGS.products, `category-${slug}`]
+      [CACHE_TAGS.products, `category-${slug}`],
     );
   } catch (error) {
     console.error("Error fetching products by category:", error);
@@ -231,14 +231,14 @@ export async function getProductsByCategory(slug: string): Promise<Product[]> {
 // Fetch related products (both types) - cached
 export async function getRelatedProducts(
   categoryId: string,
-  currentProductId: string
+  currentProductId: string,
 ): Promise<Product[]> {
   try {
     return await fetchWithCache<Product[]>(
       relatedProductsQuery,
       { categoryId, currentProductId },
       REVALIDATE_TIME.medium,
-      [CACHE_TAGS.products, `related-${currentProductId}`]
+      [CACHE_TAGS.products, `related-${currentProductId}`],
     );
   } catch (error) {
     console.error("Error fetching related products:", error);
@@ -266,7 +266,7 @@ export async function getProductReviews(): Promise<ProductReview[]> {
       productReviewsQuery,
       {},
       REVALIDATE_TIME.medium,
-      [CACHE_TAGS.products, "reviews"]
+      [CACHE_TAGS.products, "reviews"],
     );
   } catch (error) {
     console.error("Error fetching product reviews:", error);
@@ -283,7 +283,7 @@ export async function getProductRecommendations(): Promise<
       productRecommendationsQuery,
       {},
       REVALIDATE_TIME.medium,
-      [CACHE_TAGS.products, "recommendations"]
+      [CACHE_TAGS.products, "recommendations"],
     );
   } catch (error) {
     console.error("Error fetching product recommendations:", error);
@@ -298,7 +298,7 @@ export async function getLatestPosts(limit: number = 6): Promise<Post[]> {
       latestPostsQuery,
       {},
       REVALIDATE_TIME.short,
-      [CACHE_TAGS.posts, "latest"]
+      [CACHE_TAGS.posts, "latest"],
     );
     return posts.slice(0, limit);
   } catch (error) {
@@ -313,7 +313,7 @@ export async function getAllPosts(): Promise<Post[]> {
       allPostsQuery,
       {},
       REVALIDATE_TIME.medium,
-      [CACHE_TAGS.posts]
+      [CACHE_TAGS.posts],
     );
   } catch (error) {
     console.error("Error fetching all posts:", error);
@@ -327,7 +327,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
       postBySlugQuery,
       { slug },
       REVALIDATE_TIME.long,
-      [CACHE_TAGS.posts, `post-${slug}`]
+      [CACHE_TAGS.posts, `post-${slug}`],
     );
   } catch (error) {
     console.error("Error fetching post:", error);
@@ -342,7 +342,7 @@ export async function getAllProductCategories(): Promise<ProductCategory[]> {
       allProductCategoriesQuery,
       {},
       REVALIDATE_TIME.long,
-      [CACHE_TAGS.categories, "products"]
+      [CACHE_TAGS.categories, "products"],
     );
   } catch (error) {
     console.error("Error fetching product categories:", error);
@@ -356,7 +356,7 @@ export async function getAllBlogCategories(): Promise<BlogCategory[]> {
       allBlogCategoriesQuery,
       {},
       REVALIDATE_TIME.long,
-      [CACHE_TAGS.categories, "blog"]
+      [CACHE_TAGS.categories, "blog"],
     );
   } catch (error) {
     console.error("Error fetching blog categories:", error);
@@ -365,14 +365,14 @@ export async function getAllBlogCategories(): Promise<BlogCategory[]> {
 }
 
 export async function getProductCategoryBySlug(
-  slug: string
+  slug: string,
 ): Promise<ProductCategory | null> {
   try {
     return await fetchWithCache<ProductCategory>(
       productCategoryBySlugQuery,
       { slug },
       REVALIDATE_TIME.long,
-      [CACHE_TAGS.categories, `product-category-${slug}`]
+      [CACHE_TAGS.categories, `product-category-${slug}`],
     );
   } catch (error) {
     console.error("Error fetching product category:", error);
@@ -381,14 +381,14 @@ export async function getProductCategoryBySlug(
 }
 
 export async function getBlogCategoryBySlug(
-  slug: string
+  slug: string,
 ): Promise<BlogCategory | null> {
   try {
     return await fetchWithCache<BlogCategory>(
       blogCategoryBySlugQuery,
       { slug },
       REVALIDATE_TIME.long,
-      [CACHE_TAGS.categories, `blog-category-${slug}`]
+      [CACHE_TAGS.categories, `blog-category-${slug}`],
     );
   } catch (error) {
     console.error("Error fetching blog category:", error);
@@ -402,7 +402,7 @@ export async function getAllCategories(): Promise<ProductCategory[]> {
 }
 
 export async function getCategoryBySlug(
-  slug: string
+  slug: string,
 ): Promise<ProductCategory | null> {
   return getProductCategoryBySlug(slug);
 }

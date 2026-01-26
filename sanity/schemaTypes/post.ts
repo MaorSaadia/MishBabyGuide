@@ -1,4 +1,5 @@
 import { defineType, defineField } from "sanity";
+import { PackageIcon } from "@sanity/icons";
 
 export default defineType({
   name: "post",
@@ -60,6 +61,66 @@ export default defineType({
         {
           type: "image",
           options: { hotspot: true },
+        },
+        // NEW: Inline Product Recommendation
+        {
+          type: "object",
+          name: "productRecommendation",
+          title: "Product Recommendation",
+          icon: PackageIcon,
+          fields: [
+            {
+              name: "productName",
+              title: "Product Name",
+              type: "string",
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              name: "productImage",
+              title: "Product Image",
+              type: "image",
+              options: { hotspot: true },
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              name: "amazonLink",
+              title: "Amazon Affiliate Link",
+              type: "url",
+              validation: (Rule) =>
+                Rule.required().uri({
+                  scheme: ["http", "https"],
+                }),
+            },
+            {
+              name: "description",
+              title: "Short Description",
+              type: "text",
+              rows: 3,
+              description:
+                "Brief description of why you recommend this product",
+            },
+            {
+              name: "topPick",
+              title: "Top Pick",
+              type: "boolean",
+              description: "Mark as 'Top Pick' badge",
+              initialValue: false,
+            },
+          ],
+          preview: {
+            select: {
+              title: "productName",
+              media: "productImage",
+              topPick: "topPick",
+            },
+            prepare({ title, media, topPick }) {
+              return {
+                title: title,
+                subtitle: topPick ? "⭐ Top Pick" : "Product Recommendation",
+                media: media,
+              };
+            },
+          },
         },
       ],
     }),

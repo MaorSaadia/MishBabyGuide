@@ -3,6 +3,7 @@ import Image from "next/image";
 import { PortableTextComponents } from "@portabletext/react";
 import { getImageUrl } from "@/lib/sanity.image";
 import Link from "next/link";
+import { ExternalLink, Star } from "lucide-react";
 
 export const portableTextComponents: PortableTextComponents = {
   block: {
@@ -95,6 +96,63 @@ export const portableTextComponents: PortableTextComponents = {
             </figcaption>
           )}
         </figure>
+      );
+    },
+    // NEW: Product Recommendation Block
+    productRecommendation: ({ value }) => {
+      if (!value?.productName || !value?.amazonLink) return null;
+
+      return (
+        <div className="my-8 p-6 bg-linear-to-br from-cyan-50 to-blue-50 dark:from-cyan-900/20 dark:to-blue-900/20 rounded-2xl border-2 border-cyan-200 dark:border-cyan-800">
+          {value.topPick && (
+            <div className="flex items-center gap-2 mb-4">
+              <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
+              <span className="text-sm font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-wide">
+                Top Pick
+              </span>
+            </div>
+          )}
+
+          <div className="flex flex-col md:flex-row gap-6">
+            {/* Product Image */}
+            {value.productImage?.asset && (
+              <div className="md:w-1/3 shrink-0">
+                <div className="relative aspect-square rounded-xl overflow-hidden bg-white">
+                  <Image
+                    src={getImageUrl(value.productImage, 400, 400)}
+                    alt={value.productName}
+                    fill
+                    className="object-contain p-4"
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Product Info */}
+            <div className="flex-1 flex flex-col justify-between">
+              <div>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
+                  {value.productName}
+                </h3>
+                {value.description && (
+                  <p className="text-gray-600 dark:text-gray-300 mb-4">
+                    {value.description}
+                  </p>
+                )}
+              </div>
+
+              <Link
+                href={value.amazonLink}
+                target="_blank"
+                rel="noopener noreferrer nofollow"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-cyan-600 hover:bg-cyan-700 text-white font-semibold rounded-lg transition-all shadow-md hover:shadow-lg group w-full md:w-auto"
+              >
+                View on Amazon
+                <ExternalLink className="h-4 w-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </Link>
+            </div>
+          </div>
+        </div>
       );
     },
   },
