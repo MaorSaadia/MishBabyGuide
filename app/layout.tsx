@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import Script from "next/script";
 import AccessibilityWidget from "@/components/AccessibilityWidget";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -154,6 +155,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <Toaster position="top-right" expand={false} richColors closeButton />
           <Navbar />
           <main className="min-h-screen">{children}</main>
           <Footer />

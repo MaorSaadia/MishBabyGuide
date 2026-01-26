@@ -86,7 +86,7 @@ export default function AccessibilityWidget() {
       {/* Floating accessibility button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50 bg-cyan-600 hover:bg-cyan-700 text-white rounded-full p-3 shadow-lg transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-cyan-300"
+        className="fixed bottom-22 right-6 z-50 bg-cyan-600 hover:bg-cyan-700 text-white rounded-full p-3 shadow-lg transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-cyan-300"
         aria-label="Open accessibility options"
         type="button"
       >
