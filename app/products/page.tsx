@@ -184,9 +184,9 @@ export default async function ProductsPage({
         </Suspense>
 
         {/* Newsletter Subscription CTA */}
-        {/* <div className="mt-16">
+        <div className="mt-16">
           <NewsletterSubscribe />
-        </div> */}
+        </div>
 
         {/* Info Banner - Link to Reviews */}
         <div className="mt-16">

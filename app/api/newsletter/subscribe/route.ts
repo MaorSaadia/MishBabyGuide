@@ -1,11 +1,13 @@
 // app/api/newsletter/subscribe/route.ts
 import { NextResponse } from "next/server";
-import { client } from "@/lib/sanity.client";
+import { writeClient } from "@/lib/sanity.write.client";
+import { resend, FROM_EMAIL } from "@/lib/resend";
+import WelcomeEmail from "@/emails/WelcomeEmail";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { email } = body;
+    const { email, name } = body;
 
     if (!email) {
       return NextResponse.json(
@@ -24,7 +26,7 @@ export async function POST(request: Request) {
     }
 
     // Check if email already exists
-    const existingSubscriber = await client.fetch(
+    const existingSubscriber = await writeClient.fetch(
       `*[_type == "newsletterSubscriber" && email == $email][0]`,
       { email: email.toLowerCase() },
     );
@@ -39,13 +41,25 @@ export async function POST(request: Request) {
 
       // Reactivate if previously unsubscribed
       if (existingSubscriber.status === "unsubscribed") {
-        await client
+        await writeClient
           .patch(existingSubscriber._id)
           .set({
             status: "subscribed",
             subscribedAt: new Date().toISOString(),
           })
           .commit();
+
+        // Send welcome back email
+        try {
+          await resend.emails.send({
+            from: FROM_EMAIL,
+            to: email,
+            subject: "Welcome Back to MishBabyGuide! 👶",
+            react: WelcomeEmail({ name: "there" }), // You might want a different template for returning subscribers
+          });
+        } catch (emailError) {
+          console.error("Failed to send welcome back email:", emailError);
+        }
 
         return NextResponse.json({
           success: true,
@@ -55,16 +69,34 @@ export async function POST(request: Request) {
     }
 
     // Create new subscriber
-    const subscriber = await client.create({
+    const subscriber = await writeClient.create({
       _type: "newsletterSubscriber",
       email: email.toLowerCase(),
+      name: name || undefined, // Save name if provided
       status: "subscribed",
       subscribedAt: new Date().toISOString(),
       source: "products_page", // Track where they subscribed from
     });
 
-    // TODO: Send welcome email using Resend
-    // TODO: Add to your email marketing service if using one
+    // Send welcome email
+    try {
+      const { data: emailData, error: emailError } = await resend.emails.send({
+        from: FROM_EMAIL,
+        to: email,
+        subject: "Welcome to MishBabyGuide Newsletter! 👶",
+        react: WelcomeEmail({ name: name || "there" }),
+      });
+
+      if (emailError) {
+        console.error("Error sending welcome email:", emailError);
+        // Don't fail the subscription if email fails, just log it
+      } else {
+        console.log("Welcome email sent successfully:", emailData?.id);
+      }
+    } catch (emailError) {
+      console.error("Failed to send welcome email:", emailError);
+      // Continue anyway - subscriber is created
+    }
 
     return NextResponse.json(
       {
