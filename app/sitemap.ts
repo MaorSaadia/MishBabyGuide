@@ -91,7 +91,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Blog category pages
   const blogCategoryPages: MetadataRoute.Sitemap = blogCategories.map(
     (category) => ({
-      url: `${baseUrl}/blog/category/${category.slug.current}`,
+      url: `${baseUrl}/blog?category=${category.slug.current}`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.75,
