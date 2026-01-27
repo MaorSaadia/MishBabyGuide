@@ -7,6 +7,7 @@ import { BookOpen, Filter } from "lucide-react";
 import BlogCard from "@/components/BlogCard";
 import { getAllPosts, getAllBlogCategories } from "@/lib/sanity.client";
 import { getBlogCardImage } from "@/lib/sanity.image";
+import NewsletterSubscribe from "@/components/NewsletterSubscribe";
 
 // Enhanced metadata with better SEO
 export const metadata: Metadata = {
@@ -213,19 +214,9 @@ export default async function BlogPage({
           <BlogPostsContent selectedCategory={selectedCategory} />
         </Suspense>
 
-        {/* Newsletter CTA (Uncomment if needed) */}
-        <div className="mt-16 bg-linear-to-r from-cyan-600 to-cyan-700 rounded-2xl p-8 md:p-12 text-center text-white shadow-xl">
-          <h2 className="text-3xl font-bold mb-4">Stay Updated</h2>
-          <p className="text-cyan-100 mb-6 max-w-2xl mx-auto">
-            Get the latest baby product reviews and parenting tips delivered to
-            your inbox
-          </p>
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-white text-cyan-600 font-bold rounded-lg hover:bg-gray-100 transition-all shadow-lg"
-          >
-            Subscribe to Newsletter
-          </Link>
+        {/* Newsletter Subscription CTA */}
+        <div className="mt-16">
+          <NewsletterSubscribe />
         </div>
       </div>
 

@@ -9,6 +9,7 @@ import {
 } from "@/lib/sanity.client";
 import { getProductCardImage } from "@/lib/sanity.image";
 import ProductReviewCard from "@/components/ProductReviewCard";
+import NewsletterSubscribe from "@/components/NewsletterSubscribe";
 
 // Enhanced metadata with better SEO
 export const metadata: Metadata = {
@@ -71,7 +72,7 @@ async function ReviewsContent({
   // Filter by category if selected
   const filteredProducts = selectedCategory
     ? products.filter(
-        (product) => product.category?.slug.current === selectedCategory
+        (product) => product.category?.slug.current === selectedCategory,
       )
     : products;
 
@@ -202,6 +203,11 @@ export default async function ReviewsPage({
         <Suspense fallback={<ReviewsGridSkeleton />}>
           <ReviewsContent selectedCategory={selectedCategory} />
         </Suspense>
+
+        {/* Newsletter Subscription CTA */}
+        <div className="mt-16">
+          <NewsletterSubscribe />
+        </div>
 
         {/* Info Banner */}
         <div className="mt-16 bg-linear-to-br from-cyan-50 to-blue-50 dark:from-cyan-900/20 dark:to-blue-900/20 rounded-2xl p-8 md:p-12 border border-cyan-100 dark:border-cyan-800">
