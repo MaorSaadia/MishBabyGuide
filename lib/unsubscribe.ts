@@ -39,7 +39,7 @@ export function generateUnsubscribeUrl(
     process.env.NEXT_PUBLIC_SITE_URL ||
     "https://www.mishbabyguide.com";
 
-  return `${siteUrl}/unsubscribe?token=${encodeURIComponent(token)}&email=${encodeURIComponent(email)}`;
+  return `${siteUrl}/newsletter/unsubscribe?token=${encodeURIComponent(token)}&email=${encodeURIComponent(email)}`;
 }
 
 /**
