@@ -10,6 +10,12 @@ export default defineType({
   icon: Mail,
   fields: [
     defineField({
+      name: "name",
+      title: "Name (Optional)",
+      type: "string",
+      description: "Subscriber's name if provided",
+    }),
+    defineField({
       name: "email",
       title: "Email Address",
       type: "string",
@@ -88,6 +94,7 @@ export default defineType({
   ],
   preview: {
     select: {
+      name: "name",
       email: "email",
       status: "status",
       subscribedAt: "subscribedAt",
