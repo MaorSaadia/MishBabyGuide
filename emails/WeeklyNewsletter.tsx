@@ -41,6 +41,7 @@ interface WeeklyNewsletterProps {
   reviews: Review[];
   blogPost: BlogPost;
   date: string;
+  unsubscribeUrl?: string; // ADD THIS - made optional for backward compatibility
 }
 
 export const WeeklyNewsletter = ({
@@ -52,6 +53,7 @@ export const WeeklyNewsletter = ({
     month: "long",
     day: "numeric",
   }),
+  unsubscribeUrl = "", // ADD THIS
 }: WeeklyNewsletterProps) => {
   const baseUrl = "https://www.mishbabyguide.com";
 
@@ -180,34 +182,38 @@ export const WeeklyNewsletter = ({
             </Section>
           )}
 
-          {/* Footer */}
+          {/* Footer - UPDATED */}
           <Section style={footer}>
             <Text style={footerText}>
               You&apos;re receiving this email because you subscribed to
               MishBabyGuide newsletter.
             </Text>
             <Text style={footerLinks}>
-              <Link
-                href={`${baseUrl}/newsletter/unsubscribe`}
-                style={footerLink}
-              >
-                Unsubscribe
-              </Link>
-              {" | "}
-              <Link
-                href={`${baseUrl}/newsletter/preferences`}
-                style={footerLink}
-              >
-                Preferences
-              </Link>
-              {" | "}
+              {unsubscribeUrl ? (
+                <>
+                  <Link href={unsubscribeUrl} style={footerLink}>
+                    Unsubscribe
+                  </Link>
+                  {" | "}
+                </>
+              ) : null}
               <Link href={`${baseUrl}`} style={footerLink}>
                 Visit Website
+              </Link>
+              {" | "}
+              <Link href={`${baseUrl}/contact`} style={footerLink}>
+                Contact Us
               </Link>
             </Text>
             <Text style={footerCopyright}>
               © {new Date().getFullYear()} MishBabyGuide. All rights reserved.
             </Text>
+            {unsubscribeUrl && (
+              <Text style={footerTextSmall}>
+                MishBabyGuide • Your trusted source for baby product
+                recommendations
+              </Text>
+            )}
           </Section>
         </Container>
       </Body>
@@ -467,5 +473,12 @@ const footerLink = {
 const footerCopyright = {
   color: "#9ca3af",
   fontSize: "11px",
-  margin: "0",
+  margin: "8px 0 4px",
+};
+
+const footerTextSmall = {
+  color: "#9ca3af",
+  fontSize: "10px",
+  margin: "4px 0 0",
+  lineHeight: "14px",
 };

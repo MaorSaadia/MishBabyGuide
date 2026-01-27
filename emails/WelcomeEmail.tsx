@@ -1,3 +1,4 @@
+// emails/WelcomeEmail.tsx
 import {
   Body,
   Button,
@@ -14,9 +15,13 @@ import {
 
 interface WelcomeEmailProps {
   name: string;
+  unsubscribeUrl?: string; // ADD THIS - made optional
 }
 
-export const WelcomeEmail = ({ name = "there" }: WelcomeEmailProps) => {
+export const WelcomeEmail = ({
+  name = "there",
+  unsubscribeUrl = "", // ADD THIS
+}: WelcomeEmailProps) => {
   const baseUrl = "https://www.mishbabyguide.com";
 
   return (
@@ -62,17 +67,26 @@ export const WelcomeEmail = ({ name = "there" }: WelcomeEmailProps) => {
             </Button>
           </Section>
 
+          {/* Footer - UPDATED */}
           <Section style={footer}>
             <Text style={footerText}>
               If you didn&apos;t subscribe, you can safely ignore this email.
             </Text>
             <Text style={footerLinks}>
-              <Link
-                href={`${baseUrl}/newsletter/unsubscribe`}
-                style={footerLink}
-              >
-                Unsubscribe
+              {unsubscribeUrl ? (
+                <>
+                  <Link href={unsubscribeUrl} style={footerLink}>
+                    Unsubscribe
+                  </Link>
+                  {" | "}
+                </>
+              ) : null}
+              <Link href={`${baseUrl}`} style={footerLink}>
+                Visit Website
               </Link>
+            </Text>
+            <Text style={footerCopyright}>
+              © {new Date().getFullYear()} MishBabyGuide. All rights reserved.
             </Text>
           </Section>
         </Container>
@@ -172,10 +186,16 @@ const footerText = {
 const footerLinks = {
   color: "#6b7280",
   fontSize: "12px",
-  margin: "0",
+  margin: "0 0 8px",
 };
 
 const footerLink = {
   color: "#06b6d4",
   textDecoration: "none",
+};
+
+const footerCopyright = {
+  color: "#9ca3af",
+  fontSize: "11px",
+  margin: "8px 0 0",
 };

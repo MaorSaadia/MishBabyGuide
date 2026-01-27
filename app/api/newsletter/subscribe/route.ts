@@ -2,6 +2,7 @@
 import { NextResponse } from "next/server";
 import { writeClient } from "@/lib/sanity.write.client";
 import { resend, FROM_EMAIL } from "@/lib/resend";
+import { generateUnsubscribeUrl } from "@/lib/unsubscribe";
 import WelcomeEmail from "@/emails/WelcomeEmail";
 
 export async function POST(request: Request) {
@@ -78,13 +79,23 @@ export async function POST(request: Request) {
       source: "products_page", // Track where they subscribed from
     });
 
+    // Generate unsubscribe URL
+    const unsubscribeUrl = generateUnsubscribeUrl(email);
+
     // Send welcome email
     try {
       const { data: emailData, error: emailError } = await resend.emails.send({
         from: FROM_EMAIL,
         to: email,
         subject: "Welcome to MishBabyGuide Newsletter! 👶",
-        react: WelcomeEmail({ name: name || "there" }),
+        react: WelcomeEmail({
+          name: name || "there",
+          unsubscribeUrl,
+        }),
+        headers: {
+          "List-Unsubscribe": `<${unsubscribeUrl}>`,
+          "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+        },
       });
 
       if (emailError) {
