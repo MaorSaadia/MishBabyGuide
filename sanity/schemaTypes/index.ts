@@ -5,6 +5,7 @@ import productCategory from "./productCategory";
 import blogCategory from "./blogCategory";
 import post from "./post";
 import newsletter from "./newsletter";
+import newsletterSubscriber from "./newsletterSubscriber";
 
 export const schemaTypes = [
   // Products
@@ -18,4 +19,5 @@ export const schemaTypes = [
 
   // Newsletter
   newsletter,
+  newsletterSubscriber,
 ];

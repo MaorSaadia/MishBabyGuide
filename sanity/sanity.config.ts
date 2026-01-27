@@ -10,6 +10,8 @@ import blogCategory from "./schemaTypes/blogCategory";
 import productCategory from "./schemaTypes/productCategory";
 import productRecommendation from "./schemaTypes/productRecommendation";
 import productReview from "./schemaTypes/productReview";
+import newsletter from "./schemaTypes/newsletter";
+import newsletterSubscriber from "./schemaTypes/newsletterSubscriber";
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
@@ -31,6 +33,8 @@ export default defineConfig({
       blogCategory,
       productReview,
       productRecommendation,
+      newsletter,
+      newsletterSubscriber,
     ],
   },
 });

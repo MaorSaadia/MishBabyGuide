@@ -2,12 +2,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { Toaster } from "@/components/ui/sonner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { ThemeProvider } from "@/components/ThemeProvider";
 import Script from "next/script";
-import AccessibilityWidget from "@/components/AccessibilityWidget";
-import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -159,7 +159,7 @@ export default function RootLayout({
           <Navbar />
           <main className="min-h-screen">{children}</main>
           <Footer />
-          <AccessibilityWidget />
+          {/* <AccessibilityWidget /> */}
         </ThemeProvider>
       </body>
     </html>

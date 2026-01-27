@@ -72,7 +72,7 @@ async function BlogPostsContent({
   // Filter posts by category if selected
   const filteredPosts = selectedCategory
     ? posts.filter((post) =>
-        post.categories?.some((cat) => cat.slug.current === selectedCategory)
+        post.categories?.some((cat) => cat.slug.current === selectedCategory),
       )
     : posts;
 
@@ -92,7 +92,7 @@ async function BlogPostsContent({
               <span className="font-semibold text-cyan-600 dark:text-cyan-400">
                 {
                   categories.find(
-                    (cat) => cat.slug.current === selectedCategory
+                    (cat) => cat.slug.current === selectedCategory,
                   )?.title
                 }
               </span>
@@ -214,7 +214,7 @@ export default async function BlogPage({
         </Suspense>
 
         {/* Newsletter CTA (Uncomment if needed) */}
-        {/* <div className="mt-16 bg-gradient-to-r from-cyan-600 to-cyan-700 rounded-2xl p-8 md:p-12 text-center text-white shadow-xl">
+        <div className="mt-16 bg-linear-to-r from-cyan-600 to-cyan-700 rounded-2xl p-8 md:p-12 text-center text-white shadow-xl">
           <h2 className="text-3xl font-bold mb-4">Stay Updated</h2>
           <p className="text-cyan-100 mb-6 max-w-2xl mx-auto">
             Get the latest baby product reviews and parenting tips delivered to
@@ -226,7 +226,7 @@ export default async function BlogPage({
           >
             Subscribe to Newsletter
           </Link>
-        </div> */}
+        </div>
       </div>
 
       {/* Structured Data for Blog */}

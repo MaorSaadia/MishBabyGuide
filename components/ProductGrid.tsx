@@ -17,7 +17,6 @@ interface ProductGridProps {
 const ProductGrid: React.FC<ProductGridProps> = ({
   products,
   loading = false,
-  urlPrefix = "/products",
 }) => {
   const [displayedProducts, setDisplayedProducts] = useState<Product[]>([]);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -103,7 +102,6 @@ const ProductGrid: React.FC<ProductGridProps> = ({
             excerpt={product.excerpt}
             amazonLink={product.amazonLink}
             category={product.category?.title}
-            urlPrefix={urlPrefix}
           />
         ))}
       </div>

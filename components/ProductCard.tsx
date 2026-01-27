@@ -9,7 +9,6 @@ interface ProductCardProps {
   excerpt: string;
   amazonLink: string;
   category?: string;
-  urlPrefix?: string; // "/products" or "/reviews"
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
@@ -17,7 +16,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
   slug,
   image,
   amazonLink,
-  urlPrefix = "/products",
 }) => {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group border border-gray-100 dark:border-gray-900 flex flex-col h-full">
@@ -30,7 +28,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           src={image}
           alt={title}
           fill
-          className="object-cover group-hover:scale-110 transition-transform duration-500"
+          className="group-hover:scale-110 transition-transform duration-500"
           sizes="(max-width: 640px) 50vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
         />
         {/* {category && (
@@ -60,7 +58,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <div className="flex flex-col sm:flex-row gap-2 mt-auto">
           {/* View Product Button */}
           <Link
-            href={`${urlPrefix || "/products"}/${slug}`}
+            href={`/products/${slug}`}
             className="flex-1 inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 md:py-3 bg-cyan-600 text-white text-xs sm:text-sm font-semibold rounded-lg hover:bg-cyan-700 transition-all shadow-sm hover:shadow-md"
           >
             <span className="hidden sm:inline">View Product</span>

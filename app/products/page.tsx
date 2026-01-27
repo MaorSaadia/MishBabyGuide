@@ -1,13 +1,15 @@
 // app/products/page.tsx
+import Link from "next/link";
 import { Metadata } from "next";
 import { Suspense } from "react";
+import { Package, Zap } from "lucide-react";
+
 import {
   getAllProductCategories,
   getProductRecommendations,
 } from "@/lib/sanity.client";
 import ProductGrid from "@/components/ProductGrid";
-import { Package, Zap } from "lucide-react";
-import Link from "next/link";
+import NewsletterSubscribe from "@/components/NewsletterSubscribe";
 
 // Enhanced metadata with better SEO
 export const metadata: Metadata = {
@@ -28,7 +30,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og-products.jpg", // Create this image
+        url: "/og-products.jpg",
         width: 1200,
         height: 630,
         alt: "Baby Product Recommendations",
@@ -180,6 +182,11 @@ export default async function ProductsPage({
         <Suspense fallback={<ProductGridSkeleton />}>
           <ProductsContent selectedCategory={selectedCategory} />
         </Suspense>
+
+        {/* Newsletter Subscription CTA */}
+        {/* <div className="mt-16">
+          <NewsletterSubscribe />
+        </div> */}
 
         {/* Info Banner - Link to Reviews */}
         <div className="mt-16">

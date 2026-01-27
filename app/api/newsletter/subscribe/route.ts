@@ -1,52 +1,88 @@
+// app/api/newsletter/subscribe/route.ts
 import { NextResponse } from "next/server";
-import { resend, FROM_EMAIL } from "@/lib/resend";
-import WelcomeEmail from "@/emails/WelcomeEmail";
+import { client } from "@/lib/sanity.client";
 
 export async function POST(request: Request) {
   try {
-    const { email, name } = await request.json();
+    const body = await request.json();
+    const { email } = body;
 
     if (!email) {
-      return NextResponse.json({ error: "Email is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Email address is required" },
+        { status: 400 },
+      );
     }
 
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return NextResponse.json(
-        { error: "Invalid email format" },
+        { error: "Invalid email address format" },
         { status: 400 },
       );
     }
 
-    // TODO: Save to your database (Sanity, Supabase, etc.)
-    // For now, we'll just send the welcome email
+    // Check if email already exists
+    const existingSubscriber = await client.fetch(
+      `*[_type == "newsletterSubscriber" && email == $email][0]`,
+      { email: email.toLowerCase() },
+    );
 
-    // Send welcome email
-    const { data, error } = await resend.emails.send({
-      from: FROM_EMAIL,
-      to: email,
-      subject: "Welcome to MishBabyGuide Newsletter! 👶",
-      react: WelcomeEmail({ name: name || "there" }),
-    });
+    if (existingSubscriber) {
+      if (existingSubscriber.status === "subscribed") {
+        return NextResponse.json(
+          { error: "This email is already subscribed" },
+          { status: 409 },
+        );
+      }
 
-    if (error) {
-      console.error("Error sending welcome email:", error);
-      return NextResponse.json(
-        { error: "Failed to subscribe" },
-        { status: 500 },
-      );
+      // Reactivate if previously unsubscribed
+      if (existingSubscriber.status === "unsubscribed") {
+        await client
+          .patch(existingSubscriber._id)
+          .set({
+            status: "subscribed",
+            subscribedAt: new Date().toISOString(),
+          })
+          .commit();
+
+        return NextResponse.json({
+          success: true,
+          message: "Welcome back! Your subscription has been reactivated.",
+        });
+      }
     }
 
-    return NextResponse.json({
-      success: true,
-      message: "Successfully subscribed!",
-      data,
+    // Create new subscriber
+    const subscriber = await client.create({
+      _type: "newsletterSubscriber",
+      email: email.toLowerCase(),
+      status: "subscribed",
+      subscribedAt: new Date().toISOString(),
+      source: "products_page", // Track where they subscribed from
     });
-  } catch (error) {
-    console.error("Error in subscribe route:", error);
+
+    // TODO: Send welcome email using Resend
+    // TODO: Add to your email marketing service if using one
+
     return NextResponse.json(
-      { error: "Internal server error" },
+      {
+        success: true,
+        message: "Successfully subscribed to newsletter!",
+        subscriberId: subscriber._id,
+      },
+      { status: 201 },
+    );
+  } catch (error) {
+    console.error("Newsletter subscription error:", error);
+    return NextResponse.json(
+      {
+        error:
+          error instanceof Error
+            ? error.message
+            : "An unexpected error occurred",
+      },
       { status: 500 },
     );
   }
