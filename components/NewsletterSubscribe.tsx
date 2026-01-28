@@ -133,7 +133,7 @@ export default function NewsletterSubscribe({
         </div>
 
         {/* Features */}
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
+        <div className="hidden sm:block md:grid md:grid-cols-3 gap-6 mb-8">
           <div className="flex flex-col items-center text-center">
             <div className="w-12 h-12 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center mb-3 shadow-sm">
               <span className="text-2xl">📦</span>
