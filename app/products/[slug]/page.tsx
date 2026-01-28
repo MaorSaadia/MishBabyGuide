@@ -19,12 +19,12 @@ import {
   generateProductJsonLd,
   generateBreadcrumbJsonLd,
 } from "@/lib/metadata";
+import { cleanProductTitle } from "@/lib/helper";
 import { portableTextComponents } from "@/components/PortableTextComponents";
 import Breadcrumb from "@/components/Breadcrumb";
 import ImageGallery from "@/components/ImageGallery";
 import RelatedProducts from "@/components/RelatedProducts";
 import StickyBuyFooter from "@/components/StickyBuyFooter";
-import { cleanProductTitle } from "@/lib/helper";
 import ProductShareButton from "@/components/ProductShareButton";
 
 // Generate static params for all products at build time
@@ -107,6 +107,7 @@ export default async function ProductPage({
 
   // Check product type
   const isRecommendation = isProductRecommendation(product);
+  const isReview = !isRecommendation;
 
   // Prepare images for gallery
   let galleryImages: { url: string; alt: string }[] = [];
@@ -209,6 +210,60 @@ export default async function ProductPage({
                     />
                   </div>
                 )}
+              {/* Pros & Cons for Reviews */}
+              {isReview && (product.pros || product.cons) && (
+                <div className="grid md:grid-cols-2 gap-4">
+                  {product.pros && product.pros.length > 0 && (
+                    <div className="bg-green-50 dark:bg-green-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
+                      <h3 className="text-lg font-bold text-green-800 dark:text-green-300 mb-3 flex items-center gap-2">
+                        <span className="text-2xl">✓</span>
+                        Pros
+                      </h3>
+                      <ul className="space-y-2">
+                        {product.pros.map((pro, index) => (
+                          <li
+                            key={index}
+                            className="text-green-700 dark:text-green-300 flex items-start gap-2"
+                          >
+                            <span className="mt-1">•</span>
+                            <span>{pro}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {product.cons && product.cons.length > 0 && (
+                    <div className="bg-red-50 dark:bg-red-900/20 rounded-xl p-6 border border-red-200 dark:border-red-800">
+                      <h3 className="text-lg font-bold text-red-800 dark:text-red-300 mb-3 flex items-center gap-2">
+                        <span className="text-2xl">✗</span>
+                        Cons
+                      </h3>
+                      <ul className="space-y-2">
+                        {product.cons.map((con, index) => (
+                          <li
+                            key={index}
+                            className="text-red-700 dark:text-red-300 flex items-start gap-2"
+                          >
+                            <span className="mt-1">•</span>
+                            <span>{con}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Full Review Content */}
+              {isReview && product.review && product.review.length > 0 && (
+                <div className="prose prose-lg max-w-none bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+                  <PortableText
+                    value={product.review as any}
+                    components={portableTextComponents}
+                  />
+                </div>
+              )}
 
               {/* Call to Action */}
               <div className="bg-linear-to-br from-cyan-600 to-cyan-700 rounded-2xl p-6 text-white shadow-xl">
