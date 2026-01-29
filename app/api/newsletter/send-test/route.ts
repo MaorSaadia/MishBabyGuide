@@ -1,9 +1,10 @@
+// app/api/newsletter/send-test/route.ts
 import { NextResponse } from "next/server";
-import { resend } from "@/lib/resend";
+import { resend, FROM_EMAIL } from "@/lib/resend";
 import WeeklyNewsletter from "@/emails/WeeklyNewsletter";
 import { getNewsletterContent } from "@/lib/newsletter";
+import { generateUnsubscribeUrl } from "@/lib/unsubscribe";
 
-// Make sure this is in: app/api/newsletter/send-test/route.ts
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -36,10 +37,12 @@ export async function POST(request: Request) {
       );
     }
 
-    // Determine the FROM_EMAIL
-    const FROM_EMAIL = process.env.FROM_EMAIL || "newsletter@mishbabyguide.com";
+    // IMPORTANT: Generate unsubscribe URL for this email
+    const unsubscribeUrl = generateUnsubscribeUrl(email);
 
-    // Send the email
+    console.log("Sending test email with unsubscribe URL:", unsubscribeUrl); // Debug log
+
+    // Send the email with unsubscribe URL
     const { data, error } = await resend.emails.send({
       from: FROM_EMAIL,
       to: email,
@@ -52,7 +55,13 @@ export async function POST(request: Request) {
           image: "",
           url: "",
         },
+        unsubscribeUrl, // MAKE SURE THIS IS PASSED
       }),
+      headers: {
+        // Add List-Unsubscribe header (best practice for email clients)
+        "List-Unsubscribe": `<${unsubscribeUrl}>`,
+        "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+      },
     });
 
     if (error) {
@@ -68,6 +77,7 @@ export async function POST(request: Request) {
         success: true,
         message: "Test email sent successfully",
         emailId: data?.id,
+        unsubscribeUrl, // Return this for debugging
       },
       { status: 200 },
     );
