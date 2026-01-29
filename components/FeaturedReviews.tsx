@@ -71,7 +71,7 @@ const FeaturedReviews = async () => {
         </div>
 
         {/* Reviews Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {reviews.map((review) => (
             <ProductReviewCard
               key={review._id}

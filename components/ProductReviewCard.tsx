@@ -57,7 +57,7 @@ const ProductReviewCard = ({
       <div className="p-3 flex flex-col grow">
         {/* Title */}
         <Link href={`/reviews/${slug}`}>
-          <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors line-clamp-2 leading-tight">
+          <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-gray-100 mb-1 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors line-clamp-2 leading-tight">
             {title}
           </h3>
         </Link>
@@ -70,7 +70,7 @@ const ProductReviewCard = ({
         {/* Action Button */}
         <Link
           href={`/reviews/${slug}`}
-          className="w-full px-4 py-2 bg-linear-to-r from-cyan-600 to-cyan-700 hover:from-cyan-700 hover:to-cyan-800 text-white font-semibold text-sm sm:text-md rounded-xl transition-all flex items-center justify-center gap-2 group/btn shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+          className="w-full px-4 py-2 bg-linear-to-r from-cyan-600 to-cyan-700 hover:from-cyan-700 hover:to-cyan-800 text-white font-semibold text-sm sm:text-md rounded-xl transition-all flex items-center justify-center gap-2 group/btn shadow-md hover:shadow-lg transform hover:-translate-y-0.5 -mt-3"
         >
           <span>Read Review</span>
           <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
