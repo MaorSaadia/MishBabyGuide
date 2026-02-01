@@ -73,17 +73,17 @@ export const WelcomeEmail = ({
               If you didn&apos;t subscribe, you can safely ignore this email.
             </Text>
             <Text style={footerLinks}>
+              <Link href={`${baseUrl}`} style={footerLink}>
+                Visit Website
+              </Link>
+              {" | "}
               {unsubscribeUrl ? (
                 <>
                   <Link href={unsubscribeUrl} style={footerLink}>
                     Unsubscribe
                   </Link>
-                  {" | "}
                 </>
               ) : null}
-              <Link href={`${baseUrl}`} style={footerLink}>
-                Visit Website
-              </Link>
             </Text>
             <Text style={footerCopyright}>
               © {new Date().getFullYear()} MishBabyGuide. All rights reserved.

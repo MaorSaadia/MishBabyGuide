@@ -12,6 +12,7 @@ import { getFeaturedProducts, getProductReviews } from "@/lib/sanity.client";
 import { getProductCardImage } from "@/lib/sanity.image";
 import { generateItemListSchema, renderJsonLd } from "@/lib/structuredData";
 import { LatestBlogsSkeleton } from "@/components/skeleton/LatestBlogsSkeleton";
+import HomePageNewsletter from "@/components/HomePageNewsletter";
 
 // // Optional: Add metadata for SEO
 // export const metadata = {
@@ -32,7 +33,7 @@ export default async function Home() {
       image: product.mainImage
         ? getProductCardImage(product.mainImage)
         : undefined,
-    }))
+    })),
   );
 
   // Schema for featured reviews
@@ -44,7 +45,7 @@ export default async function Home() {
       image: review.mainImage
         ? getProductCardImage(review.mainImage)
         : undefined,
-    }))
+    })),
   );
 
   return (
@@ -54,7 +55,8 @@ export default async function Home() {
       <Suspense fallback={<FeaturedProductsSkeleton />}>
         <FeaturedProducts />
       </Suspense>
-
+      {/* Newsletter CTA - Positioned after featured products */}
+      <HomePageNewsletter />
       <Suspense fallback={<FeaturedReviewsSkeleton />}>
         <FeaturedReviews />
       </Suspense>
