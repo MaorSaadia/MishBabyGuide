@@ -92,7 +92,7 @@ export default function HomePageNewsletter() {
               {benefits.map((benefit, index) => (
                 <div
                   key={index}
-                  className="flex items-center gap-1 p-2 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-lg mr-2"
+                  className="flex items-center gap-1 p-2 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-lg"
                 >
                   <span className="text-lg">{benefit.icon}</span>
                   <span className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">
