@@ -3,7 +3,7 @@ import { groq } from "next-sanity";
 
 // Get all products (both types)
 export const allProductsQuery = groq`
-  *[_type in ["productReview", "productRecommendation"]] | order(publishedAt desc) {
+  *[_type in ["productRecommendation"]] | order(publishedAt desc) {
     _id,
     _type,
     title,
