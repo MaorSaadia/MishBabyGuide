@@ -19,11 +19,11 @@ import {
   generateProductJsonLd,
   generateBreadcrumbJsonLd,
 } from "@/lib/metadata";
+import { cleanProductTitle } from "@/lib/helper";
 import { portableTextComponents } from "@/components/PortableTextComponents";
 import Breadcrumb from "@/components/Breadcrumb";
 import ImageGallery from "@/components/ImageGallery";
 import RelatedProducts from "@/components/RelatedProducts";
-import { cleanProductTitle } from "@/lib/helper";
 
 // Generate static params for all reviews at build time
 export async function generateStaticParams() {
@@ -216,37 +216,6 @@ export default async function ReviewPage({
                 </p>
               )}
 
-              {/* Trust Indicators
-              <div className="grid grid-cols-3 gap-4 py-6 border-y border-gray-200 dark:border-gray-800 animate-[fadeIn_0.9s_ease-out]">
-                <div className="text-center">
-                  <Shield className="w-8 h-8 mx-auto mb-2 text-green-600 dark:text-green-400" />
-                  <p className="text-sm font-semibold text-gray-900 dark:text-white">
-                    Verified
-                  </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
-                    Review
-                  </p>
-                </div>
-                <div className="text-center">
-                  <TrendingUp className="w-8 h-8 mx-auto mb-2 text-sky-600 dark:text-sky-400" />
-                  <p className="text-sm font-semibold text-gray-900 dark:text-white">
-                    Top Rated
-                  </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
-                    Product
-                  </p>
-                </div>
-                <div className="text-center">
-                  <Package className="w-8 h-8 mx-auto mb-2 text-purple-600 dark:text-purple-400" />
-                  <p className="text-sm font-semibold text-gray-900 dark:text-white">
-                    Amazon
-                  </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
-                    Prime
-                  </p>
-                </div>
-              </div> */}
-
               {/* Primary CTA */}
               <div className="space-y-4 animate-[fadeIn_1s_ease-out]">
                 <Link
@@ -348,7 +317,7 @@ export default async function ReviewPage({
                 {/* Decorative elements */}
                 <div className="absolute -left-4 top-0 w-1 h-full bg-linear-to-b from-cyan-500/50 via-sky-500/50 to-purple-500/50 rounded-full hidden lg:block" />
 
-                <div className="prose prose-lg md:prose-xl dark:prose-invert max-w-none bg-white/80 dark:bg-gray-900/50 backdrop-blur-sm rounded-3xl p-8 md:p-12 border border-gray-200 dark:border-gray-800 shadow-2xl">
+                <div className="prose prose-lg md:prose-xl dark:prose-invert max-w-none bg-white/80 dark:bg-gray-900/50 backdrop-blur-sm rounded-3xl p-4 md:p-8 border border-gray-200 dark:border-gray-800 shadow-2xl">
                   <PortableText
                     value={product.review as any}
                     components={portableTextComponents}

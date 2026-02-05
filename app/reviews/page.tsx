@@ -1,14 +1,14 @@
+/* eslint-disable @next/next/no-img-element */
 // app/reviews/page.tsx
 import Link from "next/link";
 import { Metadata } from "next";
 import { Suspense } from "react";
-import { FileText, Filter, Star } from "lucide-react";
+import { ArrowRight, FileText, Filter, Star } from "lucide-react";
 import {
   getProductReviews,
   getAllProductCategories,
 } from "@/lib/sanity.client";
 import { getProductCardImage } from "@/lib/sanity.image";
-import ProductReviewCard from "@/components/ProductReviewCard";
 import NewsletterSubscribe from "@/components/NewsletterSubscribe";
 
 // Enhanced metadata with better SEO
@@ -79,7 +79,7 @@ async function ReviewsContent({
   return (
     <>
       {/* Products Count */}
-      <div className="mb-8">
+      <div className="mb-8 -mt-2">
         <p className="text-gray-600 dark:text-gray-300">
           Showing{" "}
           <span className="font-semibold text-cyan-600 dark:text-cyan-400">
@@ -91,37 +91,85 @@ async function ReviewsContent({
 
       {/* Reviews Grid */}
       {filteredProducts.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <div className="space-y-4 md:space-y-6 mb-16">
           {filteredProducts.map((product) => (
-            <ProductReviewCard
+            <div
               key={product._id}
-              title={product.title}
-              slug={product.slug.current}
-              image={
-                product.mainImage
-                  ? getProductCardImage(product.mainImage)
-                  : "/placeholder.jpg"
-              }
-              excerpt={product.excerpt}
-              amazonLink={product.amazonLink}
-              category={product.category?.title}
-            />
+              className="group bg-white dark:bg-gray-800 rounded-lg md:rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700"
+            >
+              {/* Always horizontal layout */}
+              <div className="flex flex-row gap-3 md:gap-6 p-3 md:p-6">
+                {/* Image Section - Fixed width on all screens */}
+                <div className="w-32 sm:w-40 md:w-64 shrink-0">
+                  <div className="relative aspect-square rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-700">
+                    <Link href={`/reviews/${product.slug.current}`}>
+                      <img
+                        src={
+                          product.mainImage
+                            ? getProductCardImage(product.mainImage)
+                            : "/placeholder.jpg"
+                        }
+                        alt={product.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 cursor-pointer"
+                      />
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Content Section */}
+                <div className="flex-1 flex flex-col justify-between min-w-0">
+                  <div className="space-y-1.5 md:space-y-3">
+                    {/* Category Badge */}
+                    {product.category?.title && (
+                      <span className="inline-block px-2 py-0.5 md:px-3 md:py-1 text-[10px] md:text-xs font-semibold text-cyan-600 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-900/30 rounded-full">
+                        {product.category.title}
+                      </span>
+                    )}
+
+                    {/* Title */}
+                    <Link href={`/reviews/${product.slug.current}`}>
+                      <h3 className="text-sm sm:text-base md:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors line-clamp-2">
+                        {product.title}
+                      </h3>
+                    </Link>
+
+                    {/* Excerpt - Always visible */}
+                    {product.excerpt && (
+                      <p className="text-xs sm:text-sm md:text-base text-gray-600 dark:text-gray-300 line-clamp-2 md:line-clamp-4 mb-2 mt-1 sm:mt-2">
+                        {product.excerpt}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Footer with Read Review Link */}
+                  <div className="flex items-center pt-2 md:pt-4 mt-auto border-t border-gray-100 dark:border-gray-700">
+                    <Link
+                      href={`/reviews/${product.slug.current}`}
+                      className="inline-flex items-center gap-1.5 md:gap-2 text-cyan-600 dark:text-cyan-400 font-semibold hover:gap-2 md:hover:gap-3 transition-all text-xs md:text-base"
+                    >
+                      Read Review
+                      <ArrowRight className="w-3 h-3 md:w-4 md:h-4" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
           ))}
         </div>
       ) : (
-        <div className="text-center py-16 bg-gray-50 dark:bg-gray-800 rounded-2xl">
-          <div className="w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
-            <FileText className="w-10 h-10 text-gray-400 dark:text-gray-500" />
+        <div className="text-center py-12 md:py-16 bg-gray-50 dark:bg-gray-800 rounded-xl md:rounded-2xl">
+          <div className="w-16 h-16 md:w-20 md:h-20 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+            <FileText className="w-8 h-8 md:w-10 md:h-10 text-gray-400 dark:text-gray-500" />
           </div>
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+          <h3 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white mb-2">
             No Reviews Found
           </h3>
-          <p className="text-gray-600 dark:text-gray-300 mb-6">
+          <p className="text-sm md:text-base text-gray-600 dark:text-gray-300 mb-4 md:mb-6">
             Try selecting a different category or check back later.
           </p>
           <Link
             href="/reviews"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-cyan-600 dark:bg-cyan-500 text-white font-semibold rounded-lg hover:bg-cyan-700 dark:hover:bg-cyan-600 transition-all"
+            className="inline-flex items-center gap-2 px-5 py-2.5 md:px-6 md:py-3 bg-cyan-600 dark:bg-cyan-500 text-white font-semibold rounded-lg hover:bg-cyan-700 dark:hover:bg-cyan-600 transition-all text-sm md:text-base"
           >
             View All Reviews
           </Link>
