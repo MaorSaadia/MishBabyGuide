@@ -126,6 +126,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images }) => {
         {/* Main Image with smooth transition */}
         <div className="relative w-full h-full">
           <Image
+            onClick={() => setIsZoomed(true)}
             src={images[currentIndex].url}
             alt={images[currentIndex].alt}
             fill
@@ -203,7 +204,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images }) => {
                   setCurrentIndex(index);
                   setTimeout(() => setIsTransitioning(false), 300);
                 }}
-                className={`relative shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden transition-all duration-300 snap-center group/thumb ${
+                className={`relative shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden transition-all duration-300 snap-center group/thumb${
                   index === currentIndex
                     ? "ring-1 ring-cyan-500 dark:ring-cyan-400 shadow-lg scale-105 ml-1 mt-2"
                     : "hover:ring-2 hover:ring-gray-400 dark:hover:ring-gray-500 ring-offset-2 dark:ring-offset-gray-900 hover:scale-105 shadow-md hover:shadow-lg opacity-70 hover:opacity-100 mt-3 ml-1"
@@ -402,7 +403,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images }) => {
           </div>
 
           {/* Instruction hint */}
-          <div className="fixed bottom-6 left-1/2 -translate-x-1/2 text-white/80 text-sm font-medium drop-shadow-md">
+          <div className="hidden sm:block fixed bottom-6 left-1/2 -translate-x-1/2 text-white/80 text-sm font-medium drop-shadow-md">
             Press ESC to close
           </div>
         </div>
