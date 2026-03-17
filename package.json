@@ -18,6 +18,7 @@
     "@sanity/vision": "^4.22.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "creatorsapi-nodejs-sdk": "^1.2.0",
     "groq": "^5.1.0",
     "lucide-react": "^0.562.0",
     "motion": "^12.23.26",
