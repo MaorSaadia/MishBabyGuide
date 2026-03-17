@@ -4,12 +4,17 @@ export default defineType({
   name: "amazonProductData",
   title: "Amazon Product Data",
   type: "object",
+  options: {
+    collapsible: true,
+    collapsed: false,
+  },
   fields: [
     defineField({
       name: "asin",
       title: "ASIN",
       type: "string",
       readOnly: true,
+      description: "Amazon Standard Identification Number for this synced product.",
     }),
     defineField({
       name: "title",
@@ -46,6 +51,7 @@ export default defineType({
       title: "Sync Status",
       type: "string",
       readOnly: true,
+      description: "Shows whether the last Amazon sync is pending, synced, or failed.",
       options: {
         list: [
           { title: "Pending", value: "pending" },
@@ -59,6 +65,7 @@ export default defineType({
       title: "Last Synced At",
       type: "datetime",
       readOnly: true,
+      description: "Timestamp of the most recent successful Amazon sync attempt.",
     }),
     defineField({
       name: "lastError",
@@ -66,12 +73,14 @@ export default defineType({
       type: "text",
       rows: 3,
       readOnly: true,
+      description: "Most recent sync failure message, if one occurred.",
     }),
     defineField({
       name: "source",
       title: "Import Source",
       type: "string",
       readOnly: true,
+      description: "Indicates whether this document came from Amazon data or was authored manually.",
     }),
   ],
 });

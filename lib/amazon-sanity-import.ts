@@ -20,6 +20,7 @@ type ProductDocumentType = "productRecommendation" | "productReview";
 type ExistingProductDocument = {
   _id: string;
   _type: ProductDocumentType;
+  [key: string]: unknown;
   title?: string;
   slug?: { current?: string };
   excerpt?: string;
@@ -30,6 +31,18 @@ type ExistingProductDocument = {
   amazonLink?: string;
   featured?: boolean;
   publishedAt?: string;
+  amazon?: {
+    asin?: string;
+    title?: string | null;
+    detailPageUrl?: string | null;
+    imageUrl?: string | null;
+    price?: string | null;
+    rating?: number | null;
+    syncStatus?: "pending" | "synced" | "error";
+    lastSyncedAt?: string;
+    lastError?: string;
+    source?: string;
+  };
 };
 
 type ImportDocument = {
@@ -102,24 +115,53 @@ function slugify(input: string) {
     .slice(0, 96);
 }
 
-async function findExistingProductByAsin(asin: string) {
-  return writeClient.fetch<ExistingProductDocument | null>(
-    `*[_type in ["productReview", "productRecommendation"] && amazon.asin == $asin][0]{
-      _id,
-      _type,
-      title,
-      slug,
-      excerpt,
-      description,
-      review,
-      pros,
-      cons,
-      amazonLink,
-      featured,
-      publishedAt
+export function getDraftDocumentId(documentId: string) {
+  return documentId.startsWith("drafts.") ? documentId : `drafts.${documentId}`;
+}
+
+export function getPublishedDocumentId(documentId: string) {
+  return documentId.replace(/^drafts\./, "");
+}
+
+function stripSystemFields(document: ExistingProductDocument) {
+  const {
+    _id,
+    _rev,
+    _createdAt,
+    _updatedAt,
+    ...rest
+  } = document as ExistingProductDocument & {
+    _rev?: string;
+    _createdAt?: string;
+    _updatedAt?: string;
+  };
+
+  void _id;
+  void _rev;
+  void _createdAt;
+  void _updatedAt;
+
+  return rest;
+}
+
+async function findExistingProductsByAsin(asin: string) {
+  return writeClient.fetch<ExistingProductDocument[]>(
+    `*[_type in ["productReview", "productRecommendation"] && amazon.asin == $asin]{
+      ...
     }`,
     { asin },
   );
+}
+
+function pickExistingDocument(
+  documents: ExistingProductDocument[],
+): ExistingProductDocument | null {
+  if (documents.length === 0) {
+    return null;
+  }
+
+  const draft = documents.find((document) => document._id.startsWith("drafts."));
+  return draft ?? documents[0];
 }
 
 function buildDraftId(documentType: ProductDocumentType, asin: string) {
@@ -249,14 +291,23 @@ export async function importAmazonProductToSanity(input: {
   }
 
   const now = new Date().toISOString();
-  const existing = await findExistingProductByAsin(asin);
+  const existingDocuments = await findExistingProductsByAsin(asin);
+  const existing = pickExistingDocument(existingDocuments);
 
   if (existing) {
     const patch = buildUpdatePatch(existing, asin, amazonProduct, now);
-    await writeClient.patch(existing._id).set(patch).commit();
+    const targetId = getDraftDocumentId(existing._id);
+    const baseDocument = {
+      ...stripSystemFields(existing),
+      ...patch,
+      _id: targetId,
+      _type: existing._type,
+    };
+
+    await writeClient.createOrReplace(baseDocument);
 
     return {
-      documentId: existing._id,
+      documentId: targetId,
       mode: "updated",
       documentType: existing._type,
       asin,
