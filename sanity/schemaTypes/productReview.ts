@@ -114,6 +114,12 @@ export default defineType({
       initialValue: false,
     }),
     defineField({
+      name: "amazon",
+      title: "Amazon Sync Data",
+      type: "amazonProductData",
+      description: "Read-only Amazon metadata synced by the import pipeline.",
+    }),
+    defineField({
       name: "publishedAt",
       title: "Published At",
       type: "datetime",

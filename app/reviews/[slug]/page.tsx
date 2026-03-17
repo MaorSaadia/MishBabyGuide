@@ -14,6 +14,7 @@ import {
   isProductReview,
 } from "@/lib/sanity.client";
 import { getImageUrl } from "@/lib/sanity.image";
+import { getProductDisplayImage, getProductDisplayLink } from "@/lib/product-display";
 import {
   generateProductMetadata,
   generateProductJsonLd,
@@ -107,9 +108,7 @@ export default async function ReviewPage({
   // Prepare gallery images
   const galleryImages = [
     {
-      url: product.mainImage
-        ? getImageUrl(product.mainImage, 800)
-        : "/placeholder-product.jpg",
+      url: getProductDisplayImage(product, "detail"),
       alt: product.title,
     },
     ...(product.gallery?.map((img) => ({
@@ -148,7 +147,7 @@ export default async function ReviewPage({
       description: product.excerpt,
       offers: {
         "@type": "Offer",
-        url: product.amazonLink,
+        url: getProductDisplayLink(product),
         availability: "https://schema.org/InStock",
         priceCurrency: "USD",
       },
@@ -219,7 +218,7 @@ export default async function ReviewPage({
               {/* Primary CTA */}
               <div className="space-y-4 animate-[fadeIn_1s_ease-out]">
                 <Link
-                  href={product.amazonLink}
+                  href={getProductDisplayLink(product)}
                   target="_blank"
                   rel="nofollow noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 w-full px-8 py-4 bg-cyan-600 dark:bg-cyan-500 text-white font-bold text-lg rounded-lg hover:bg-cyan-700 dark:hover:bg-cyan-600 transition-all shadow-lg hover:shadow-xl"
@@ -334,7 +333,7 @@ export default async function ReviewPage({
               Get the {cleanProductTitle(product.title)} on Amazon
             </p>
             <Link
-              href={product.amazonLink}
+              href={getProductDisplayLink(product)}
               target="_blank"
               rel="nofollow noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-cyan-600 font-bold text-lg rounded-lg hover:bg-gray-100 transition-all shadow-lg"

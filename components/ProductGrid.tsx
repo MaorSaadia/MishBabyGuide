@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { Package, Loader2 } from "lucide-react";
 
 import { Product } from "@/lib/sanity.client";
-import { getProductCardImage } from "@/lib/sanity.image";
+import { getProductDisplayImage, getProductDisplayLink } from "@/lib/product-display";
 import ProductCard from "./ProductCard";
 
 interface ProductGridProps {
@@ -94,13 +94,9 @@ const ProductGrid: React.FC<ProductGridProps> = ({
             key={product._id}
             title={product.title}
             slug={product.slug.current}
-            image={
-              product.mainImage
-                ? getProductCardImage(product.mainImage)
-                : "/placeholder-product.jpg"
-            }
+            image={getProductDisplayImage(product)}
             excerpt={product.excerpt}
-            amazonLink={product.amazonLink}
+            amazonLink={getProductDisplayLink(product)}
             category={product.category?.title}
           />
         ))}

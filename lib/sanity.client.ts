@@ -42,6 +42,17 @@ interface BaseProduct {
   };
   excerpt: string;
   amazonLink: string;
+  imageUrl?: string;
+  amazon?: {
+    asin?: string;
+    title?: string;
+    detailPageUrl?: string;
+    imageUrl?: string;
+    price?: string;
+    rating?: number;
+    syncStatus?: string;
+    lastSyncedAt?: string;
+  };
   category?: {
     _id: string;
     title: string;

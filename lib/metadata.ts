@@ -89,6 +89,7 @@ export function generateProductMetadata(product: {
   title: string;
   excerpt: string;
   mainImage?: { asset: { url?: string; _id?: string } };
+  imageUrl?: string;
   category?: { title: string };
   seo?: {
     metaTitle?: string;
@@ -96,10 +97,20 @@ export function generateProductMetadata(product: {
     keywords?: string[];
   };
   slug: { current: string };
+  amazon?: {
+    price?: string;
+    rating?: number;
+    imageUrl?: string;
+  };
+  amazonLink: string;
 }): Metadata {
   const title = product.seo?.metaTitle || `${product.title} - ${siteName}`;
   const description = product.seo?.metaDescription || product.excerpt;
-  const imageUrl = product.mainImage?.asset?.url || `${baseUrl}/og-image.jpg`;
+  const imageUrl =
+    product.mainImage?.asset?.url ||
+    product.imageUrl ||
+    product.amazon?.imageUrl ||
+    `${baseUrl}/og-image.jpg`;
 
   // Enhanced keywords based on product type
   const defaultKeywords = [
@@ -246,18 +257,28 @@ export function generateProductJsonLd(product: {
   title: string;
   excerpt: string;
   mainImage?: { asset: { url?: string } };
+  imageUrl?: string;
   amazonLink: string;
   publishedAt: string;
   slug: { current: string };
   pros?: string[];
   cons?: string[];
+  amazon?: {
+    price?: string;
+    rating?: number;
+    imageUrl?: string;
+  };
 }) {
   const schema: any = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: product.title,
     description: product.excerpt,
-    image: product.mainImage?.asset?.url || `${baseUrl}/og-image.jpg`,
+    image:
+      product.mainImage?.asset?.url ||
+      product.imageUrl ||
+      product.amazon?.imageUrl ||
+      `${baseUrl}/og-image.jpg`,
     url: `${baseUrl}/products/${product.slug.current}`,
     offers: {
       "@type": "Offer",
@@ -270,6 +291,22 @@ export function generateProductJsonLd(product: {
       },
     },
   };
+
+  if (product.amazon?.price) {
+    const cleanPrice = product.amazon.price.replace(/[^0-9.]/g, "");
+    if (cleanPrice) {
+      schema.offers.price = cleanPrice;
+      schema.offers.priceCurrency = "USD";
+    }
+  }
+
+  if (product.amazon?.rating) {
+    schema.aggregateRating = {
+      "@type": "AggregateRating",
+      ratingValue: product.amazon.rating.toFixed(1),
+      reviewCount: "1",
+    };
+  }
 
   // Add review data if this is a product review
   if (product._type === "productReview") {

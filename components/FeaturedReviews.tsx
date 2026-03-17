@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { FileText, Star } from "lucide-react";
-import { getProductCardImage } from "@/lib/sanity.image";
 import { getProductReviews } from "@/lib/sanity.client";
+import { getProductDisplayImage, getProductDisplayLink } from "@/lib/product-display";
 import ProductReviewCard from "./ProductReviewCard";
 
 // Server Component - no "use client" needed
@@ -77,13 +77,9 @@ const FeaturedReviews = async () => {
               key={review._id}
               title={review.title}
               slug={review.slug.current}
-              image={
-                review.mainImage
-                  ? getProductCardImage(review.mainImage)
-                  : "/placeholder.jpg"
-              }
+              image={getProductDisplayImage(review)}
               excerpt={review.excerpt}
-              amazonLink={review.amazonLink}
+              amazonLink={getProductDisplayLink(review)}
               category={review.category?.title}
             />
           ))}

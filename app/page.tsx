@@ -9,7 +9,7 @@ import TrustBadges from "@/components/TrustBadges";
 import { FeaturedProductsSkeleton } from "@/components/skeleton/FeaturedProductsSkeleton";
 import { FeaturedReviewsSkeleton } from "@/components/skeleton/FeaturedReviewsSkeleton";
 import { getFeaturedProducts, getProductReviews } from "@/lib/sanity.client";
-import { getProductCardImage } from "@/lib/sanity.image";
+import { getProductDisplayImage } from "@/lib/product-display";
 import { generateItemListSchema, renderJsonLd } from "@/lib/structuredData";
 import { LatestBlogsSkeleton } from "@/components/skeleton/LatestBlogsSkeleton";
 import HomePageNewsletter from "@/components/HomePageNewsletter";
@@ -30,9 +30,7 @@ export default async function Home() {
     featuredProducts.slice(0, 4).map((product) => ({
       name: product.title,
       url: `/products/${product.slug.current}`,
-      image: product.mainImage
-        ? getProductCardImage(product.mainImage)
-        : undefined,
+      image: getProductDisplayImage(product),
     })),
   );
 
@@ -42,9 +40,7 @@ export default async function Home() {
     productReviews.slice(0, 3).map((review) => ({
       name: review.title,
       url: `/products/${review.slug.current}`,
-      image: review.mainImage
-        ? getProductCardImage(review.mainImage)
-        : undefined,
+      image: getProductDisplayImage(review),
     })),
   );
 

@@ -12,6 +12,7 @@ import productRecommendation from "./schemaTypes/productRecommendation";
 import productReview from "./schemaTypes/productReview";
 import newsletter from "./schemaTypes/newsletter";
 import newsletterSubscriber from "./schemaTypes/newsletterSubscriber";
+import amazonProductData from "./schemaTypes/amazonProductData";
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
@@ -28,6 +29,7 @@ export default defineConfig({
   ],
   schema: {
     types: [
+      amazonProductData,
       post,
       productCategory,
       blogCategory,
