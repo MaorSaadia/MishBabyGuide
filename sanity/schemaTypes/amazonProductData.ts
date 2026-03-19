@@ -82,5 +82,34 @@ export default defineType({
       readOnly: true,
       description: "Indicates whether this document came from Amazon data or was authored manually.",
     }),
+    defineField({
+      name: "importedImageAssetId",
+      title: "Imported Image Asset ID",
+      type: "string",
+      readOnly: true,
+      description: "Tracks the Sanity image asset that was auto-imported from Amazon.",
+    }),
+    defineField({
+      name: "imageSyncStatus",
+      title: "Image Sync Status",
+      type: "string",
+      readOnly: true,
+      description: "Shows whether the Amazon image was imported, skipped, or failed.",
+      options: {
+        list: [
+          { title: "Synced", value: "synced" },
+          { title: "Skipped", value: "skipped" },
+          { title: "Error", value: "error" },
+        ],
+      },
+    }),
+    defineField({
+      name: "lastImageSyncError",
+      title: "Last Image Sync Error",
+      type: "text",
+      rows: 3,
+      readOnly: true,
+      description: "Most recent image import failure message, if one occurred.",
+    }),
   ],
 });

@@ -24,6 +24,11 @@ type ExistingProductDocument = {
   [key: string]: unknown;
   title?: string;
   slug?: { current?: string };
+  mainImage?: {
+    asset?: {
+      _ref?: string;
+    };
+  };
   excerpt?: string;
   description?: unknown[];
   review?: unknown[];
@@ -43,6 +48,9 @@ type ExistingProductDocument = {
     lastSyncedAt?: string;
     lastError?: string;
     source?: string;
+    importedImageAssetId?: string;
+    imageSyncStatus?: "synced" | "error" | "skipped";
+    lastImageSyncError?: string;
   };
 };
 
@@ -52,6 +60,13 @@ type ImportDocument = {
   title: string;
   slug: { _type: "slug"; current: string };
   amazonLink: string;
+  mainImage?: {
+    _type: "image";
+    asset: {
+      _type: "reference";
+      _ref: string;
+    };
+  };
   excerpt: string;
   description?: unknown[];
   review?: unknown[];
@@ -70,6 +85,9 @@ type ImportDocument = {
     lastSyncedAt: string;
     lastError: undefined;
     source: "creatorsapi";
+    importedImageAssetId?: string;
+    imageSyncStatus: "synced" | "error" | "skipped";
+    lastImageSyncError?: string;
   };
 };
 
@@ -202,17 +220,121 @@ function buildPortableTextFromFeatures(features: string[]) {
   }));
 }
 
-function createBaseDocument(
+function buildImageReference(assetId: string) {
+  return {
+    _type: "image" as const,
+    asset: {
+      _type: "reference" as const,
+      _ref: assetId,
+    },
+  };
+}
+
+function getImageFilename(imageUrl: string, asin: string) {
+  try {
+    const pathname = new URL(imageUrl).pathname;
+    const extensionMatch = pathname.match(/\.(jpg|jpeg|png|webp|gif|avif)$/i);
+    const extension = extensionMatch?.[1]?.toLowerCase() ?? "jpg";
+    return `amazon-${asin.toLowerCase()}.${extension}`;
+  } catch {
+    return `amazon-${asin.toLowerCase()}.jpg`;
+  }
+}
+
+async function uploadAmazonImage(input: { imageUrl: string; asin: string }) {
+  const response = await fetch(input.imageUrl);
+
+  if (!response.ok) {
+    throw new Error(`Failed to download Amazon image (${response.status}).`);
+  }
+
+  const arrayBuffer = await response.arrayBuffer();
+  const contentType = response.headers.get("content-type") ?? "image/jpeg";
+  const filename = getImageFilename(input.imageUrl, input.asin);
+
+  const asset = await writeClient.assets.upload(
+    "image",
+    Buffer.from(arrayBuffer),
+    {
+      filename,
+      contentType,
+    },
+  );
+
+  return {
+    assetId: asset._id,
+    image: buildImageReference(asset._id),
+  };
+}
+
+async function syncAmazonImage(input: {
+  asin: string;
+  imageUrl: string | null;
+  currentMainImageAssetId?: string;
+  currentImportedImageAssetId?: string;
+}) {
+  if (!input.imageUrl) {
+    return {
+      mainImage: undefined,
+      importedImageAssetId: input.currentImportedImageAssetId,
+      imageSyncStatus: "skipped" as const,
+      lastImageSyncError: undefined,
+    };
+  }
+
+  const canReplaceCurrentImage =
+    !input.currentMainImageAssetId ||
+    input.currentMainImageAssetId === input.currentImportedImageAssetId;
+
+  if (!canReplaceCurrentImage) {
+    return {
+      mainImage: undefined,
+      importedImageAssetId: input.currentImportedImageAssetId,
+      imageSyncStatus: "skipped" as const,
+      lastImageSyncError: undefined,
+    };
+  }
+
+  try {
+    const uploaded = await uploadAmazonImage({
+      imageUrl: input.imageUrl,
+      asin: input.asin,
+    });
+
+    return {
+      mainImage: uploaded.image,
+      importedImageAssetId: uploaded.assetId,
+      imageSyncStatus: "synced" as const,
+      lastImageSyncError: undefined,
+    };
+  } catch (error) {
+    return {
+      mainImage: undefined,
+      importedImageAssetId: input.currentImportedImageAssetId,
+      imageSyncStatus: "error" as const,
+      lastImageSyncError:
+        error instanceof Error
+          ? error.message
+          : "Failed to import Amazon image into Sanity.",
+    };
+  }
+}
+
+async function createBaseDocument(
   asin: string,
   documentType: ProductDocumentType,
   amazonProduct: NonNullable<Awaited<ReturnType<typeof getProductByAsin>>>,
   now: string,
-): ImportDocument {
+): Promise<ImportDocument> {
   const title = normalizeImportedTitle(amazonProduct.title, asin);
   const slug = slugify(title || asin) || asin.toLowerCase();
   const amazonLink = amazonProduct.url ?? "";
   const excerpt = `Imported from Amazon. Add your editorial summary for ${title}.`;
   const descriptionBlocks = buildPortableTextFromFeatures(amazonProduct.features);
+  const imageSync = await syncAmazonImage({
+    asin,
+    imageUrl: amazonProduct.imageUrl,
+  });
 
   const amazonData = {
     asin,
@@ -225,6 +347,9 @@ function createBaseDocument(
     lastSyncedAt: now,
     lastError: undefined,
     source: "creatorsapi" as const,
+    importedImageAssetId: imageSync.importedImageAssetId,
+    imageSyncStatus: imageSync.imageSyncStatus,
+    lastImageSyncError: imageSync.lastImageSyncError,
   };
 
   if (documentType === "productReview") {
@@ -234,6 +359,7 @@ function createBaseDocument(
       title,
       slug: { _type: "slug", current: slug },
       amazonLink,
+      ...(imageSync.mainImage ? { mainImage: imageSync.mainImage } : {}),
       excerpt,
       pros: [],
       cons: [],
@@ -250,6 +376,7 @@ function createBaseDocument(
     title,
     slug: { _type: "slug", current: slug },
     amazonLink,
+    ...(imageSync.mainImage ? { mainImage: imageSync.mainImage } : {}),
     excerpt,
     description: descriptionBlocks,
     featured: false,
@@ -258,7 +385,7 @@ function createBaseDocument(
   };
 }
 
-function buildUpdatePatch(
+async function buildUpdatePatch(
   existing: ExistingProductDocument,
   asin: string,
   amazonProduct: NonNullable<Awaited<ReturnType<typeof getProductByAsin>>>,
@@ -271,6 +398,12 @@ function buildUpdatePatch(
   const nextTitle = shouldRefreshImportedTitle
     ? normalizedTitle
     : existing.title ?? normalizedTitle;
+  const imageSync = await syncAmazonImage({
+    asin,
+    imageUrl: amazonProduct.imageUrl,
+    currentMainImageAssetId: existing.mainImage?.asset?._ref,
+    currentImportedImageAssetId: existing.amazon?.importedImageAssetId,
+  });
 
   return {
     title: nextTitle,
@@ -282,6 +415,7 @@ function buildUpdatePatch(
             current: slugify(normalizedTitle || asin) || asin.toLowerCase(),
           },
     amazonLink: amazonProduct.url ?? existing.amazonLink ?? "",
+    ...(imageSync.mainImage ? { mainImage: imageSync.mainImage } : {}),
     excerpt:
       existing.excerpt ||
       `Imported from Amazon. Add your editorial summary for ${normalizedTitle || asin}.`,
@@ -305,6 +439,9 @@ function buildUpdatePatch(
       lastSyncedAt: now,
       lastError: undefined,
       source: "creatorsapi" as const,
+      importedImageAssetId: imageSync.importedImageAssetId,
+      imageSyncStatus: imageSync.imageSyncStatus,
+      lastImageSyncError: imageSync.lastImageSyncError,
     },
   };
 }
@@ -359,7 +496,7 @@ export async function importAmazonProductToSanity(input: {
   const existing = pickExistingDocument(existingDocuments);
 
   if (existing) {
-    const patch = buildUpdatePatch(existing, asin, amazonProduct, now);
+    const patch = await buildUpdatePatch(existing, asin, amazonProduct, now);
     const targetId = getDraftDocumentId(existing._id);
     const baseDocument = {
       ...stripSystemFields(existing),
@@ -382,7 +519,7 @@ export async function importAmazonProductToSanity(input: {
   }
 
   const documentType = input.documentType ?? "productRecommendation";
-  const document: ImportDocument = createBaseDocument(
+  const document: ImportDocument = await createBaseDocument(
     asin,
     documentType,
     amazonProduct,

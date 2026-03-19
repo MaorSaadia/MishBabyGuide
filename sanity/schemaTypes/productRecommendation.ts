@@ -63,7 +63,8 @@ export default defineType({
       options: {
         hotspot: true,
       },
-      description: "Required before publishing imported products.",
+      description:
+        "Imported products try to auto-fill this from Amazon. Replace it if you want a custom editorial image.",
       validation: (Rule) => [
         Rule.required(),
         Rule.custom((value, context) =>
