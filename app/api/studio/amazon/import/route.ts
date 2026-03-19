@@ -57,18 +57,6 @@ function stripSystemFields(document: ExistingProductDocument) {
   return rest;
 }
 
-function isStudioRequest(request: NextRequest) {
-  const origin = request.headers.get("origin");
-  const referer = request.headers.get("referer");
-  const expectedOrigin = request.nextUrl.origin;
-
-  return (
-    origin === expectedOrigin &&
-    typeof referer === "string" &&
-    referer.startsWith(`${expectedOrigin}/studio`)
-  );
-}
-
 async function fetchExistingProductDocument(documentId: string) {
   return writeClient.fetch<ExistingProductDocument | null>(
     `*[_id in [$draftId, $publishedId]][0]{
@@ -107,13 +95,6 @@ async function markSyncState(input: {
 }
 
 export async function POST(request: NextRequest) {
-  if (!isStudioRequest(request)) {
-    return NextResponse.json(
-      { error: "Studio import requests must originate from the embedded Studio." },
-      { status: 403 },
-    );
-  }
-
   let body: StudioImportBody = {};
 
   try {

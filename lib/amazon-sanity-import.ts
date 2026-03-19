@@ -1,6 +1,7 @@
 import "server-only";
 
-import { getProductByAsin } from "@/lib/amazon-creators";
+import { AmazonCreatorsError, getProductByAsin } from "@/lib/amazon-creators";
+import { cleanProductTitle } from "@/lib/helper";
 import { writeClient } from "@/lib/sanity.write.client";
 
 export class AmazonSanityImportError extends Error {
@@ -168,16 +169,50 @@ function buildDraftId(documentType: ProductDocumentType, asin: string) {
   return `drafts.${documentType}-${asin.toLowerCase()}`;
 }
 
+function normalizeImportedTitle(title: string | null | undefined, asin: string) {
+  const fallbackTitle = title || `Amazon Product ${asin}`;
+  const cleanedTitle = cleanProductTitle(fallbackTitle).replace(/\s+/g, " ").trim();
+  const words = cleanedTitle.split(/\s+/).filter(Boolean);
+
+  if (words.length <= 12 && cleanedTitle.length <= 90) {
+    return cleanedTitle;
+  }
+
+  return words.slice(0, 12).join(" ").trim();
+}
+
+function buildPortableTextFromFeatures(features: string[]) {
+  if (features.length === 0) {
+    return [];
+  }
+
+  return features.map((feature) => ({
+    _type: "block",
+    style: "normal",
+    markDefs: [],
+    children: [
+      {
+        _type: "span",
+        marks: [],
+        text: feature,
+      },
+    ],
+    listItem: "bullet",
+    level: 1,
+  }));
+}
+
 function createBaseDocument(
   asin: string,
   documentType: ProductDocumentType,
   amazonProduct: NonNullable<Awaited<ReturnType<typeof getProductByAsin>>>,
   now: string,
 ): ImportDocument {
-  const title = amazonProduct.title || `Amazon Product ${asin}`;
+  const title = normalizeImportedTitle(amazonProduct.title, asin);
   const slug = slugify(title || asin) || asin.toLowerCase();
   const amazonLink = amazonProduct.url ?? "";
   const excerpt = `Imported from Amazon. Add your editorial summary for ${title}.`;
+  const descriptionBlocks = buildPortableTextFromFeatures(amazonProduct.features);
 
   const amazonData = {
     asin,
@@ -216,7 +251,7 @@ function createBaseDocument(
     slug: { _type: "slug", current: slug },
     amazonLink,
     excerpt,
-    description: [],
+    description: descriptionBlocks,
     featured: false,
     publishedAt: now,
     amazon: amazonData,
@@ -229,19 +264,34 @@ function buildUpdatePatch(
   amazonProduct: NonNullable<Awaited<ReturnType<typeof getProductByAsin>>>,
   now: string,
 ) {
+  const normalizedTitle = normalizeImportedTitle(amazonProduct.title, asin);
+  const descriptionBlocks = buildPortableTextFromFeatures(amazonProduct.features);
+  const shouldRefreshImportedTitle =
+    !existing.title || existing.title === existing.amazon?.title;
+  const nextTitle = shouldRefreshImportedTitle
+    ? normalizedTitle
+    : existing.title ?? normalizedTitle;
+
   return {
-    title: existing.title || amazonProduct.title || `Amazon Product ${asin}`,
+    title: nextTitle,
     slug:
       existing.slug?.current
         ? existing.slug
         : {
             _type: "slug",
-            current: slugify(amazonProduct.title || asin) || asin.toLowerCase(),
+            current: slugify(normalizedTitle || asin) || asin.toLowerCase(),
           },
     amazonLink: amazonProduct.url ?? existing.amazonLink ?? "",
     excerpt:
       existing.excerpt ||
-      `Imported from Amazon. Add your editorial summary for ${amazonProduct.title || asin}.`,
+      `Imported from Amazon. Add your editorial summary for ${normalizedTitle || asin}.`,
+    ...(
+      existing._type === "productRecommendation" &&
+      (!Array.isArray(existing.description) || existing.description.length === 0) &&
+      descriptionBlocks.length > 0
+        ? { description: descriptionBlocks }
+        : {}
+    ),
     publishedAt: existing.publishedAt || now,
     featured: existing.featured ?? false,
     amazon: {
@@ -280,7 +330,21 @@ export async function importAmazonProductToSanity(input: {
     );
   }
 
-  const amazonProduct = await getProductByAsin(asin);
+  let amazonProduct;
+
+  try {
+    amazonProduct = await getProductByAsin(asin);
+  } catch (error) {
+    if (error instanceof AmazonCreatorsError) {
+      throw new AmazonSanityImportError(
+        error.message,
+        error.status,
+        error.code,
+      );
+    }
+
+    throw error;
+  }
 
   if (!amazonProduct) {
     throw new AmazonSanityImportError(

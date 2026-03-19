@@ -52,8 +52,7 @@ export default defineType({
       type: "url",
       group: "amazonSync",
       description:
-        "Machine-managed for Amazon imports. Manual reviews can still define this link directly.",
-      readOnly: ({ document }) => isAmazonImportedDocument(document),
+        "Paste your amzn.to short link here if you have one. The raw Amazon URL stays in Amazon Sync data.",
       validation: (Rule) => Rule.required().uri({ scheme: ["http", "https"] }),
     }),
     defineField({

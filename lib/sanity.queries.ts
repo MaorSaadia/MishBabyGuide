@@ -16,7 +16,7 @@ export const allProductsQuery = groq`
     },
     "imageUrl": coalesce(mainImage.asset->url, amazon.imageUrl),
     "excerpt": coalesce(excerpt, ""),
-    "amazonLink": coalesce(amazon.detailPageUrl, amazonLink, ""),
+    "amazonLink": coalesce(amazonLink, amazon.detailPageUrl, ""),
     amazon {
       asin,
       title,
@@ -52,7 +52,7 @@ export const featuredProductsQuery = groq`
     },
     "imageUrl": coalesce(mainImage.asset->url, amazon.imageUrl),
     "excerpt": coalesce(excerpt, ""),
-    "amazonLink": coalesce(amazon.detailPageUrl, amazonLink, ""),
+    "amazonLink": coalesce(amazonLink, amazon.detailPageUrl, ""),
     amazon {
       asin,
       title,
@@ -87,7 +87,7 @@ export const productBySlugQuery = groq`
     },
     "imageUrl": coalesce(mainImage.asset->url, amazon.imageUrl),
     "excerpt": coalesce(excerpt, ""),
-    "amazonLink": coalesce(amazon.detailPageUrl, amazonLink, ""),
+    "amazonLink": coalesce(amazonLink, amazon.detailPageUrl, ""),
     amazon {
       asin,
       title,
@@ -152,7 +152,7 @@ export const productsByCategoryQuery = groq`
     },
     "imageUrl": coalesce(mainImage.asset->url, amazon.imageUrl),
     "excerpt": coalesce(excerpt, ""),
-    "amazonLink": coalesce(amazon.detailPageUrl, amazonLink, ""),
+    "amazonLink": coalesce(amazonLink, amazon.detailPageUrl, ""),
     amazon {
       asin,
       title,
@@ -187,7 +187,7 @@ export const relatedProductsQuery = groq`
     },
     "imageUrl": coalesce(mainImage.asset->url, amazon.imageUrl),
     "excerpt": coalesce(excerpt, ""),
-    "amazonLink": coalesce(amazon.detailPageUrl, amazonLink, ""),
+    "amazonLink": coalesce(amazonLink, amazon.detailPageUrl, ""),
     amazon {
       asin,
       title,
@@ -223,7 +223,7 @@ export const searchProductsQuery = groq`
     },
     "imageUrl": coalesce(mainImage.asset->url, amazon.imageUrl),
     "excerpt": coalesce(excerpt, ""),
-    "amazonLink": coalesce(amazon.detailPageUrl, amazonLink, ""),
+    "amazonLink": coalesce(amazonLink, amazon.detailPageUrl, ""),
     amazon {
       asin,
       title,
@@ -256,7 +256,7 @@ export const productReviewsQuery = groq`
     },
     "imageUrl": coalesce(mainImage.asset->url, amazon.imageUrl),
     "excerpt": coalesce(excerpt, ""),
-    "amazonLink": coalesce(amazon.detailPageUrl, amazonLink, ""),
+    "amazonLink": coalesce(amazonLink, amazon.detailPageUrl, ""),
     amazon {
       asin,
       title,
@@ -290,7 +290,7 @@ export const productRecommendationsQuery = groq`
     },
     "imageUrl": coalesce(mainImage.asset->url, amazon.imageUrl),
     "excerpt": coalesce(excerpt, ""),
-    "amazonLink": coalesce(amazon.detailPageUrl, amazonLink, ""),
+    "amazonLink": coalesce(amazonLink, amazon.detailPageUrl, ""),
     amazon {
       asin,
       title,
