@@ -13,7 +13,7 @@ import {
   getAllProducts,
   isProductRecommendation,
 } from "@/lib/sanity.client";
-import { getImageUrl } from "@/lib/sanity.image";
+import { getProductDisplayImage, getProductDisplayLink } from "@/lib/product-display";
 import {
   generateProductMetadata,
   generateProductJsonLd,
@@ -113,9 +113,7 @@ export default async function ProductPage({
   let galleryImages: { url: string; alt: string }[] = [];
   galleryImages = [
     {
-      url: product.mainImage
-        ? getImageUrl(product.mainImage, 800)
-        : "/placeholder-product.jpg",
+      url: getProductDisplayImage(product, "detail"),
       alt: product.title,
     },
   ];
@@ -272,7 +270,7 @@ export default async function ProductPage({
                   Get the {cleanProductTitle(product.title)} on Amazon
                 </p>
                 <Link
-                  href={product.amazonLink}
+                  href={getProductDisplayLink(product)}
                   target="_blank"
                   rel="nofollow noopener noreferrer"
                   className="inline-flex items-center gap-3 px-8 py-3 bg-white text-cyan-600 text-lg font-bold rounded-lg hover:bg-gray-50 transition-all shadow-md hover:shadow-xl w-full justify-center"
@@ -303,7 +301,7 @@ export default async function ProductPage({
 
       {/* Sticky Buy Footer */}
       <StickyBuyFooter
-        amazonLink={product.amazonLink}
+        amazonLink={getProductDisplayLink(product)}
         productTitle={product.title}
       />
 

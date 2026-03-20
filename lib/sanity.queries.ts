@@ -6,7 +6,7 @@ export const allProductsQuery = groq`
   *[_type in ["productRecommendation"]] | order(publishedAt desc) {
     _id,
     _type,
-    title,
+    "title": coalesce(title, amazon.title, "Untitled Product"),
     slug,
     mainImage {
       asset-> {
@@ -14,8 +14,19 @@ export const allProductsQuery = groq`
         url
       }
     },
-    excerpt,
-    amazonLink,
+    "imageUrl": coalesce(mainImage.asset->url, amazon.imageUrl),
+    "excerpt": coalesce(excerpt, ""),
+    "amazonLink": coalesce(amazonLink, amazon.detailPageUrl, ""),
+    amazon {
+      asin,
+      title,
+      detailPageUrl,
+      imageUrl,
+      price,
+      rating,
+      syncStatus,
+      lastSyncedAt
+    },
     category-> {
       _id,
       title,
@@ -31,7 +42,7 @@ export const featuredProductsQuery = groq`
   *[_type in ["productReview", "productRecommendation"] && featured == true] | order(publishedAt desc) {
     _id,
     _type,
-    title,
+    "title": coalesce(title, amazon.title, "Untitled Product"),
     slug,
     mainImage {
       asset-> {
@@ -39,8 +50,19 @@ export const featuredProductsQuery = groq`
         url
       }
     },
-    excerpt,
-    amazonLink,
+    "imageUrl": coalesce(mainImage.asset->url, amazon.imageUrl),
+    "excerpt": coalesce(excerpt, ""),
+    "amazonLink": coalesce(amazonLink, amazon.detailPageUrl, ""),
+    amazon {
+      asin,
+      title,
+      detailPageUrl,
+      imageUrl,
+      price,
+      rating,
+      syncStatus,
+      lastSyncedAt
+    },
     category-> {
       _id,
       title,
@@ -55,7 +77,7 @@ export const productBySlugQuery = groq`
   *[_type in ["productReview", "productRecommendation"] && slug.current == $slug][0] {
     _id,
     _type,
-    title,
+    "title": coalesce(title, amazon.title, "Untitled Product"),
     slug,
     mainImage {
       asset-> {
@@ -63,8 +85,19 @@ export const productBySlugQuery = groq`
         url
       }
     },
-    excerpt,
-    amazonLink,
+    "imageUrl": coalesce(mainImage.asset->url, amazon.imageUrl),
+    "excerpt": coalesce(excerpt, ""),
+    "amazonLink": coalesce(amazonLink, amazon.detailPageUrl, ""),
+    amazon {
+      asin,
+      title,
+      detailPageUrl,
+      imageUrl,
+      price,
+      rating,
+      syncStatus,
+      lastSyncedAt
+    },
     category-> {
       _id,
       title,
@@ -109,7 +142,7 @@ export const productsByCategoryQuery = groq`
   *[_type in ["productRecommendation"] && category->slug.current == $slug] | order(publishedAt desc) {
     _id,
     _type,
-    title,
+    "title": coalesce(title, amazon.title, "Untitled Product"),
     slug,
     mainImage {
       asset-> {
@@ -117,8 +150,19 @@ export const productsByCategoryQuery = groq`
         url
       }
     },
-    excerpt,
-    amazonLink,
+    "imageUrl": coalesce(mainImage.asset->url, amazon.imageUrl),
+    "excerpt": coalesce(excerpt, ""),
+    "amazonLink": coalesce(amazonLink, amazon.detailPageUrl, ""),
+    amazon {
+      asin,
+      title,
+      detailPageUrl,
+      imageUrl,
+      price,
+      rating,
+      syncStatus,
+      lastSyncedAt
+    },
     category-> {
       _id,
       title,
@@ -133,7 +177,7 @@ export const relatedProductsQuery = groq`
   *[_type in ["productReview", "productRecommendation"] && category._ref == $categoryId && _id != $currentProductId][0...3] {
     _id,
     _type,
-    title,
+    "title": coalesce(title, amazon.title, "Untitled Product"),
     slug,
     mainImage {
       asset-> {
@@ -141,8 +185,19 @@ export const relatedProductsQuery = groq`
         url
       }
     },
-    excerpt,
-    amazonLink,
+    "imageUrl": coalesce(mainImage.asset->url, amazon.imageUrl),
+    "excerpt": coalesce(excerpt, ""),
+    "amazonLink": coalesce(amazonLink, amazon.detailPageUrl, ""),
+    amazon {
+      asin,
+      title,
+      detailPageUrl,
+      imageUrl,
+      price,
+      rating,
+      syncStatus,
+      lastSyncedAt
+    },
     category-> {
       title,
       slug
@@ -158,7 +213,7 @@ export const searchProductsQuery = groq`
   )] | order(publishedAt desc) {
     _id,
     _type,
-    title,
+    "title": coalesce(title, amazon.title, "Untitled Product"),
     slug,
     mainImage {
       asset-> {
@@ -166,8 +221,19 @@ export const searchProductsQuery = groq`
         url
       }
     },
-    excerpt,
-    amazonLink,
+    "imageUrl": coalesce(mainImage.asset->url, amazon.imageUrl),
+    "excerpt": coalesce(excerpt, ""),
+    "amazonLink": coalesce(amazonLink, amazon.detailPageUrl, ""),
+    amazon {
+      asin,
+      title,
+      detailPageUrl,
+      imageUrl,
+      price,
+      rating,
+      syncStatus,
+      lastSyncedAt
+    },
     category-> {
       title,
       slug
@@ -180,7 +246,7 @@ export const productReviewsQuery = groq`
   *[_type == "productReview"] | order(publishedAt desc) {
     _id,
     _type,
-    title,
+    "title": coalesce(title, amazon.title, "Untitled Product"),
     slug,
     mainImage {
       asset-> {
@@ -188,8 +254,19 @@ export const productReviewsQuery = groq`
         url
       }
     },
-    excerpt,
-    amazonLink,
+    "imageUrl": coalesce(mainImage.asset->url, amazon.imageUrl),
+    "excerpt": coalesce(excerpt, ""),
+    "amazonLink": coalesce(amazonLink, amazon.detailPageUrl, ""),
+    amazon {
+      asin,
+      title,
+      detailPageUrl,
+      imageUrl,
+      price,
+      rating,
+      syncStatus,
+      lastSyncedAt
+    },
     category-> {
       title,
       slug
@@ -203,7 +280,7 @@ export const productRecommendationsQuery = groq`
   *[_type == "productRecommendation"] | order(publishedAt desc) {
     _id,
     _type,
-    title,
+    "title": coalesce(title, amazon.title, "Untitled Product"),
     slug,
     mainImage {
       asset-> {
@@ -211,8 +288,19 @@ export const productRecommendationsQuery = groq`
         url
       }
     },
-    excerpt,
-    amazonLink,
+    "imageUrl": coalesce(mainImage.asset->url, amazon.imageUrl),
+    "excerpt": coalesce(excerpt, ""),
+    "amazonLink": coalesce(amazonLink, amazon.detailPageUrl, ""),
+    amazon {
+      asin,
+      title,
+      detailPageUrl,
+      imageUrl,
+      price,
+      rating,
+      syncStatus,
+      lastSyncedAt
+    },
     category-> {
       title,
       slug

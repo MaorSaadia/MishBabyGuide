@@ -2,6 +2,13 @@ import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 import { visionTool } from "@sanity/vision";
 
+import { amazonReSyncAction } from "./document/amazonReSyncAction";
+import {
+  amazonSourceBadge,
+  amazonSyncBadge,
+  editorialReadinessBadge,
+} from "./document/amazonDocumentBadges";
+import { amazonImportTool } from "./plugins/amazonImportTool";
 import { structure } from "./structure";
 
 // Import schemas
@@ -12,6 +19,7 @@ import productRecommendation from "./schemaTypes/productRecommendation";
 import productReview from "./schemaTypes/productReview";
 import newsletter from "./schemaTypes/newsletter";
 import newsletterSubscriber from "./schemaTypes/newsletterSubscriber";
+import amazonProductData from "./schemaTypes/amazonProductData";
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
@@ -25,9 +33,38 @@ export default defineConfig({
   plugins: [
     structureTool({ structure }),
     visionTool({ defaultApiVersion: "2024-12-06" }),
+    amazonImportTool(),
   ],
+  document: {
+    actions: (previousActions, context) => {
+      if (
+        context.schemaType === "productRecommendation" ||
+        context.schemaType === "productReview"
+      ) {
+        return [amazonReSyncAction, ...previousActions];
+      }
+
+      return previousActions;
+    },
+    badges: (previousBadges, context) => {
+      if (
+        context.schemaType === "productRecommendation" ||
+        context.schemaType === "productReview"
+      ) {
+        return [
+          amazonSourceBadge,
+          editorialReadinessBadge,
+          amazonSyncBadge,
+          ...previousBadges,
+        ];
+      }
+
+      return previousBadges;
+    },
+  },
   schema: {
     types: [
+      amazonProductData,
       post,
       productCategory,
       blogCategory,

@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Product } from "@/lib/sanity.client";
-import { getProductCardImage } from "@/lib/sanity.image";
+import { getProductDisplayImage, getProductDisplayLink } from "@/lib/product-display";
 import { Sparkles, ExternalLink, ArrowRight } from "lucide-react";
 
 interface RelatedProductsProps {
@@ -35,9 +35,7 @@ const RelatedProducts: React.FC<RelatedProductsProps> = ({
         {/* Products Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {products.slice(0, 3).map((product) => {
-            const imageUrl = product.mainImage
-              ? getProductCardImage(product.mainImage)
-              : "/placeholder-product.jpg";
+            const imageUrl = getProductDisplayImage(product);
 
             return (
               <div
@@ -88,7 +86,7 @@ const RelatedProducts: React.FC<RelatedProductsProps> = ({
                       <ArrowRight className="h-4 w-4" />
                     </Link>
                     <Link
-                      href={product.amazonLink}
+                      href={getProductDisplayLink(product)}
                       target="_blank"
                       rel="nofollow noopener noreferrer"
                       className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white dark:bg-gray-800 text-cyan-600 dark:text-cyan-400 text-sm font-semibold rounded-lg border-2 border-cyan-600 dark:border-cyan-400 hover:bg-cyan-50 dark:hover:bg-gray-700 transition-all"

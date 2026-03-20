@@ -9,6 +9,7 @@ export type AmazonCreatorsProduct = {
   imageUrl: string | null;
   price: string | null;
   rating: number | null;
+  features: string[];
 };
 
 type SearchProductsOptions = {
@@ -36,6 +37,9 @@ type AmazonCreatorsItem = {
   itemInfo?: {
     title?: {
       displayValue?: string;
+    };
+    features?: {
+      displayValues?: string[];
     };
   };
   images?: {
@@ -85,6 +89,7 @@ const DEFAULT_ITEM_RESOURCES = [
   "images.primary.large",
   "images.primary.medium",
   "itemInfo.title",
+  "itemInfo.features",
   "offersV2.listings.price",
   "customerReviews.starRating",
 ] as const;
@@ -184,6 +189,7 @@ function normalizeItem(item: AmazonCreatorsItem): AmazonCreatorsProduct {
     price:
       item.offersV2?.listings?.[0]?.price?.money?.displayAmount ?? null,
     rating: item.customerReviews?.starRating?.value ?? null,
+    features: item.itemInfo?.features?.displayValues ?? [],
   };
 }
 
@@ -210,6 +216,9 @@ function normalizeAmazonError(error: unknown, fallback: string) {
       status?: number;
       body?: {
         errors?: AmazonErrorPayload;
+        message?: string;
+        reason?: string;
+        type?: string;
       };
       error?: {
         message?: string;
@@ -220,9 +229,13 @@ function normalizeAmazonError(error: unknown, fallback: string) {
     const apiError = candidate.body?.errors?.[0];
 
     return new AmazonCreatorsError(
-      apiError?.message ?? candidate.message ?? candidate.error?.message ?? fallback,
+      apiError?.message ??
+        candidate.body?.message ??
+        candidate.message ??
+        candidate.error?.message ??
+        fallback,
       candidate.status ?? 502,
-      apiError?.code ?? "AMAZON_API_ERROR",
+      apiError?.code ?? candidate.body?.reason ?? candidate.body?.type ?? "AMAZON_API_ERROR",
     );
   }
 

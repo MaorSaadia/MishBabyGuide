@@ -1,79 +1,116 @@
-// schemas/productRecommendation.ts
-import { defineType, defineField } from "sanity";
 import { SparklesIcon } from "@sanity/icons";
+import { defineField, defineType } from "sanity";
+
+import {
+  buildEditorialWarning,
+  isAmazonImportedDocument,
+} from "@/sanity/lib/amazon-editorial";
 
 export default defineType({
   name: "productRecommendation",
   title: "Product Recommendation",
   type: "document",
   icon: SparklesIcon,
+  groups: [
+    { name: "editorial", title: "Editorial", default: true },
+    { name: "amazonSync", title: "Amazon Sync" },
+    { name: "publishing", title: "Publishing" },
+    { name: "seo", title: "SEO" },
+  ],
   fields: [
     defineField({
       name: "title",
       title: "Product Name",
       type: "string",
+      group: "editorial",
+      description:
+        "Editor-facing product name. Amazon source data stays visible in the Amazon Sync section.",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
+      group: "editorial",
       options: {
         source: "title",
         maxLength: 96,
       },
-      validation: (Rule) => Rule.required(),
+      description: "Required before publishing.",
+      validation: (Rule) => [
+        Rule.required(),
+        Rule.custom((value, context) =>
+          isAmazonImportedDocument(context.document) && !value?.current
+            ? buildEditorialWarning("Slug")
+            : true,
+        ).warning(),
+      ],
     }),
     defineField({
       name: "amazonLink",
       title: "Amazon Affiliate Link",
       type: "url",
-      validation: (Rule) =>
-        Rule.required().uri({
-          scheme: ["http", "https"],
-        }),
+      group: "amazonSync",
+      description:
+        "Paste your amzn.to short link here if you have one. The raw Amazon URL stays in Amazon Sync data.",
+      validation: (Rule) => Rule.required().uri({ scheme: ["http", "https"] }),
     }),
     defineField({
       name: "mainImage",
       title: "Main Product Image",
       type: "image",
+      group: "editorial",
       options: {
         hotspot: true,
       },
-      validation: (Rule) => Rule.required(),
+      description:
+        "Imported products try to auto-fill this from Amazon. Replace it if you want a custom editorial image.",
+      validation: (Rule) => [
+        Rule.required(),
+        Rule.custom((value, context) =>
+          isAmazonImportedDocument(context.document) && !value
+            ? buildEditorialWarning("Main image")
+            : true,
+        ).warning(),
+      ],
     }),
-    // defineField({
-    //   name: "additionalImages",
-    //   title: "Additional Images",
-    //   type: "array",
-    //   of: [
-    //     {
-    //       type: "image",
-    //       options: { hotspot: true },
-    //     },
-    //   ],
-    //   description: "📸 2-4 extra product images",
-    //   validation: (Rule) => Rule.max(4),
-    // }),
     defineField({
       name: "category",
       title: "Product Category",
       type: "reference",
+      group: "editorial",
       to: [{ type: "productCategory" }],
-      validation: (Rule) => Rule.required(),
+      description: "Required before publishing.",
+      validation: (Rule) => [
+        Rule.required(),
+        Rule.custom((value, context) =>
+          isAmazonImportedDocument(context.document) && !value
+            ? buildEditorialWarning("Category")
+            : true,
+        ).warning(),
+      ],
     }),
     defineField({
       name: "excerpt",
       title: "Short Summary",
       type: "text",
+      group: "editorial",
       rows: 3,
-      validation: (Rule) => Rule.required(),
-      description: "Brief summary for cards and previews (1-2 sentences)",
+      description: "Brief summary for cards and previews. Required before publishing.",
+      validation: (Rule) => [
+        Rule.required(),
+        Rule.custom((value, context) =>
+          isAmazonImportedDocument(context.document) && !value?.trim()
+            ? buildEditorialWarning("Short summary")
+            : true,
+        ).warning(),
+      ],
     }),
     defineField({
       name: "description",
       title: "Product Description",
       type: "array",
+      group: "editorial",
       of: [
         {
           type: "block",
@@ -93,26 +130,45 @@ export default defineType({
           },
         },
       ],
-      validation: (Rule) => Rule.required(),
-      description: "📝 Rich text description with emojis, bullets, formatting",
+      description: "Rich text description. Required before publishing imported products.",
+      validation: (Rule) => [
+        Rule.required(),
+        Rule.custom((value, context) =>
+          isAmazonImportedDocument(context.document) &&
+          (!Array.isArray(value) || value.length === 0)
+            ? buildEditorialWarning("Description")
+            : true,
+        ).warning(),
+      ],
     }),
     defineField({
       name: "featured",
       title: "Featured Product",
       type: "boolean",
+      group: "publishing",
       description: "Show this product on homepage",
       initialValue: false,
+    }),
+    defineField({
+      name: "amazon",
+      title: "Amazon Sync Data",
+      type: "amazonProductData",
+      group: "amazonSync",
+      description: "Read-only Amazon metadata synced by the import pipeline.",
+      readOnly: true,
     }),
     defineField({
       name: "publishedAt",
       title: "Published At",
       type: "datetime",
+      group: "publishing",
       initialValue: () => new Date().toISOString(),
     }),
     defineField({
       name: "seo",
       title: "SEO Settings",
       type: "object",
+      group: "seo",
       fields: [
         { name: "metaTitle", type: "string", title: "Meta Title" },
         {
@@ -135,12 +191,17 @@ export default defineType({
       title: "title",
       media: "mainImage",
       category: "category.title",
+      asin: "amazon.asin",
+      syncStatus: "amazon.syncStatus",
     },
-    prepare({ title, media, category }) {
+    prepare({ title, media, category, asin, syncStatus }) {
+      const sourceLabel = asin ? "Amazon import" : "Manual";
+      const syncLabel = asin && syncStatus ? ` | ${syncStatus}` : "";
+
       return {
-        title: title,
-        subtitle: `${category} • ⚡ Quick Pick`,
-        media: media,
+        title,
+        subtitle: `${category || "Uncategorized"} | ${sourceLabel}${syncLabel}`,
+        media,
       };
     },
   },

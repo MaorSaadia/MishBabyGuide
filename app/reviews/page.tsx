@@ -8,7 +8,7 @@ import {
   getProductReviews,
   getAllProductCategories,
 } from "@/lib/sanity.client";
-import { getProductCardImage } from "@/lib/sanity.image";
+import { getProductDisplayImage } from "@/lib/product-display";
 import NewsletterSubscribe from "@/components/NewsletterSubscribe";
 
 // Enhanced metadata with better SEO
@@ -104,11 +104,7 @@ async function ReviewsContent({
                   <div className="relative aspect-square rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-700">
                     <Link href={`/reviews/${product.slug.current}`}>
                       <img
-                        src={
-                          product.mainImage
-                            ? getProductCardImage(product.mainImage)
-                            : "/placeholder.jpg"
-                        }
+                        src={getProductDisplayImage(product)}
                         alt={product.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 cursor-pointer"
                       />

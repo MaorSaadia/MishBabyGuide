@@ -2,7 +2,8 @@ import { Metadata } from "next";
 import { Search, Package, BookOpen } from "lucide-react";
 
 import { searchProducts, getAllPosts } from "@/lib/sanity.client";
-import { getProductCardImage, getBlogCardImage } from "@/lib/sanity.image";
+import { getBlogCardImage } from "@/lib/sanity.image";
+import { getProductDisplayImage, getProductDisplayLink } from "@/lib/product-display";
 import ProductCard from "@/components/ProductCard";
 import BlogCard from "@/components/BlogCard";
 import SearchComponent from "@/components/Search";
@@ -136,13 +137,9 @@ export default async function SearchPage({
                       key={product._id}
                       title={product.title}
                       slug={product.slug.current}
-                      image={
-                        product.mainImage
-                          ? getProductCardImage(product.mainImage)
-                          : "/placeholder-product.jpg"
-                      }
+                      image={getProductDisplayImage(product)}
                       excerpt={product.excerpt}
-                      amazonLink={product.amazonLink}
+                      amazonLink={getProductDisplayLink(product)}
                       category={product.category?.title}
                     />
                   ))}

@@ -6,8 +6,11 @@ import blogCategory from "./blogCategory";
 import post from "./post";
 import newsletter from "./newsletter";
 import newsletterSubscriber from "./newsletterSubscriber";
+import amazonProductData from "./amazonProductData";
 
 export const schemaTypes = [
+  amazonProductData,
+
   // Products
   productReview,
   productRecommendation,
