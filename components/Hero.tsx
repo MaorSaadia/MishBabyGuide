@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Search, Shield, Heart, Star } from "lucide-react";
+import { Search, Shield, Heart, Star, Sparkles } from "lucide-react";
 
 const Hero = () => {
   return (
@@ -33,6 +33,27 @@ const Hero = () => {
               to feeding gear, we&apos;ve tested it all.
             </p>
 
+            <div className="inline-flex max-w-2xl items-start gap-3 rounded-2xl border border-cyan-100 bg-white/90 px-4 py-4 text-left shadow-sm dark:border-cyan-900 dark:bg-gray-800/90">
+              <div className="mt-0.5 rounded-full bg-cyan-100 p-2 text-cyan-700 dark:bg-cyan-900 dark:text-cyan-300">
+                <Sparkles className="h-4 w-4" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-cyan-700 dark:text-cyan-300">
+                  New
+                </p>
+                <p className="mt-1 text-sm leading-6 text-gray-600 dark:text-gray-300">
+                  Need more options? Try our new live{" "}
+                  <Link
+                    href="/shop"
+                    className="font-semibold text-cyan-700 underline decoration-cyan-300 underline-offset-4 dark:text-cyan-300"
+                  >
+                    Shop
+                  </Link>{" "}
+                  page to search Amazon-backed baby products instantly.
+                </p>
+              </div>
+            </div>
+
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
               <Link
@@ -60,6 +81,12 @@ const Hero = () => {
                 className="inline-flex items-center justify-center px-8 py-4 bg-white text-cyan-600 font-semibold rounded-lg border-2 border-cyan-600 hover:bg-cyan-50 transition-all"
               >
                 View All Categories
+              </Link>
+              <Link
+                href="/shop"
+                className="inline-flex items-center justify-center px-8 py-4 bg-cyan-50 text-cyan-700 font-semibold rounded-lg border border-cyan-200 hover:bg-cyan-100 transition-all dark:bg-cyan-950/40 dark:text-cyan-300 dark:border-cyan-900 dark:hover:bg-cyan-950/60"
+              >
+                Search Live Shop
               </Link>
             </div>
 
