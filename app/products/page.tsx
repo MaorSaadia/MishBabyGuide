@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { Metadata } from "next";
 import { Suspense } from "react";
-import { Package, Zap } from "lucide-react";
+import { ArrowRight, Package, Search, Zap } from "lucide-react";
 
 import {
   getAllProductCategories,
@@ -137,6 +137,19 @@ export default async function ProductsPage({
             Curated baby products we recommend. Perfect for fast shopping
             decisions.
           </p>
+          <div className="mt-6 inline-flex flex-col items-center gap-3 rounded-2xl border border-cyan-100 bg-cyan-50/70 px-5 py-4 text-sm text-cyan-900 dark:border-cyan-900 dark:bg-cyan-950/30 dark:text-cyan-100">
+            <div className="flex items-center gap-2 font-semibold">
+              <Search className="h-4 w-4" />
+              Need more options than our curated picks?
+            </div>
+            <Link
+              href="/shop"
+              className="inline-flex items-center gap-2 rounded-full bg-cyan-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-cyan-700"
+            >
+              Search live Amazon results
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
         </div>
 
         {/* Category Filter */}

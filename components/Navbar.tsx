@@ -176,6 +176,9 @@ const Navbar = () => {
               <Link href="/reviews" className={navLinkStyles}>
                 Products Review
               </Link>
+              <Link href="/shop" className={navLinkStyles}>
+                Shop
+              </Link>
               <Link href="/blog" className={navLinkStyles}>
                 Blog
               </Link>
@@ -289,6 +292,13 @@ const Navbar = () => {
                     className="flex items-center gap-2 p-2 font-medium text-gray-700 dark:text-gray-200 hover:text-cyan-600 dark:hover:text-cyan-400"
                   >
                     Products Review
+                  </Link>
+                  <Link
+                    href="/shop"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="block p-2 font-medium text-gray-700 dark:text-gray-200 hover:text-cyan-600 dark:hover:text-cyan-400"
+                  >
+                    Shop
                   </Link>
                   <Link
                     href="/blog"
