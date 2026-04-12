@@ -1,9 +1,12 @@
 import { Metadata } from "next";
-import { Search, Package, BookOpen } from "lucide-react";
+import { BookOpen, Package, Search, Sparkles } from "lucide-react";
 
 import { searchProducts, getAllPosts } from "@/lib/sanity.client";
 import { getBlogCardImage } from "@/lib/sanity.image";
-import { getProductDisplayImage, getProductDisplayLink } from "@/lib/product-display";
+import {
+  getProductDisplayImage,
+  getProductDisplayLink,
+} from "@/lib/product-display";
 import ProductCard from "@/components/ProductCard";
 import BlogCard from "@/components/BlogCard";
 import SearchComponent from "@/components/Search";
@@ -23,17 +26,19 @@ export default async function SearchPage({
 
   if (!query) {
     return (
-      <div className="min-h-screen bg-white dark:bg-gray-900">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="text-center">
-            <Search className="h-16 w-16 text-gray-400 dark:text-gray-500 mx-auto mb-6" />
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+      <div className="min-h-screen bg-slate-50 dark:bg-gray-950">
+        <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
+          <div className="rounded-lg border border-gray-200 bg-white p-6 text-center shadow-sm dark:border-gray-800 dark:bg-gray-900 sm:p-10">
+            <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-lg bg-cyan-50 text-cyan-600 dark:bg-cyan-950/50 dark:text-cyan-300">
+              <Search className="h-7 w-7" />
+            </div>
+            <h1 className="mb-4 text-3xl font-bold text-gray-950 dark:text-white">
               Search Products & Articles
             </h1>
-            <p className="text-gray-600 dark:text-gray-400 mb-8">
+            <p className="mb-8 text-gray-600 dark:text-gray-400">
               Find baby products and helpful articles
             </p>
-            <div className="max-w-xl mx-auto">
+            <div className="mx-auto max-w-xl">
               <SearchComponent />
             </div>
           </div>
@@ -56,19 +61,31 @@ export default async function SearchPage({
   const totalResults = products.length + filteredPosts.length;
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-            Search Results for &quot;{query}&quot;
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
-            Found{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {totalResults}
-            </span>{" "}
-            results
-          </p>
+    <div className="min-h-screen bg-slate-50 dark:bg-gray-950">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
+        <div className="mb-8 rounded-lg border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900 sm:p-7">
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <div className="mb-3 inline-flex items-center gap-2 rounded-lg border border-cyan-100 bg-cyan-50 px-3 py-1 text-sm font-semibold text-cyan-700 dark:border-cyan-900/70 dark:bg-cyan-950/50 dark:text-cyan-300">
+                <Sparkles className="h-4 w-4" />
+                {totalResults} {totalResults === 1 ? "result" : "results"} found
+              </div>
+              <h1 className="text-3xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-4xl">
+                Search results for &quot;{query}&quot;
+              </h1>
+              <p className="mt-3 max-w-2xl text-gray-600 dark:text-gray-400">
+                Browse matching products and articles from MishBabyGuide.
+              </p>
+            </div>
+            <div className="flex gap-2 text-sm font-medium text-gray-600 dark:text-gray-300">
+              <span className="rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 dark:border-gray-700 dark:bg-gray-800">
+                {products.length} products
+              </span>
+              <span className="rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 dark:border-gray-700 dark:bg-gray-800">
+                {filteredPosts.length} articles
+              </span>
+            </div>
+          </div>
 
           {/* <div className="max-w-2xl">
             <SearchComponent />
@@ -76,25 +93,25 @@ export default async function SearchPage({
         </div>
 
         {totalResults === 0 ? (
-          <div className="text-center py-16 bg-gray-50 dark:bg-gray-800 rounded-2xl">
-            <Search className="h-16 w-16 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+          <div className="rounded-lg border border-gray-200 bg-white px-6 py-16 text-center shadow-sm dark:border-gray-800 dark:bg-gray-900">
+            <Search className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-500" />
+            <h3 className="mb-2 text-xl font-bold text-gray-950 dark:text-white">
               No Results Found
             </h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">
+            <p className="mb-6 text-gray-600 dark:text-gray-400">
               We couldn&apos;t find anything matching &quot;{query}&quot;. Try
               different keywords.
             </p>
 
             <div className="space-y-4">
               <div>
-                <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                <p className="mb-3 text-sm font-medium text-gray-700 dark:text-gray-300">
                   Suggestions:
                 </p>
-                <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-2">
-                  <li>• Check your spelling</li>
-                  <li>• Try more general keywords</li>
-                  <li>• Try different keywords</li>
+                <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                  <li>Check your spelling</li>
+                  <li>Try more general keywords</li>
+                  <li>Try different keywords</li>
                 </ul>
               </div>
 
@@ -125,13 +142,15 @@ export default async function SearchPage({
           <div className="space-y-12">
             {products.length > 0 && (
               <section>
-                <div className="flex items-center gap-3 mb-6">
-                  <Package className="h-6 w-6 text-cyan-600 dark:text-cyan-400" />
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                <div className="mb-5 flex items-center gap-3">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-cyan-50 text-cyan-600 dark:bg-cyan-950/50 dark:text-cyan-300">
+                    <Package className="h-5 w-5" />
+                  </span>
+                  <h2 className="text-2xl font-bold text-gray-950 dark:text-white">
                     Products ({products.length})
                   </h2>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6 xl:grid-cols-4">
                   {products.map((product) => (
                     <ProductCard
                       key={product._id}
@@ -149,13 +168,15 @@ export default async function SearchPage({
 
             {filteredPosts.length > 0 && (
               <section>
-                <div className="flex items-center gap-3 mb-6">
-                  <BookOpen className="h-6 w-6 text-cyan-600 dark:text-cyan-400" />
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                <div className="mb-5 flex items-center gap-3">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-cyan-50 text-cyan-600 dark:bg-cyan-950/50 dark:text-cyan-300">
+                    <BookOpen className="h-5 w-5" />
+                  </span>
+                  <h2 className="text-2xl font-bold text-gray-950 dark:text-white">
                     Articles ({filteredPosts.length})
                   </h2>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
                   {filteredPosts.map((post) => (
                     <BlogCard
                       key={post._id}
