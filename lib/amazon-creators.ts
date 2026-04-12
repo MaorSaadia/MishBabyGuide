@@ -16,6 +16,7 @@ type SearchProductsOptions = {
   keywords: string;
   searchIndex?: string;
   itemCount?: number;
+  itemPage?: number;
 };
 
 type AmazonCreatorsConfig = {
@@ -73,6 +74,7 @@ type AmazonErrorPayload = Array<{
 
 type SearchItemsResponse = {
   searchResult?: {
+    totalResultCount?: number;
     items?: AmazonCreatorsItem[];
   };
   errors?: AmazonErrorPayload;
@@ -245,6 +247,16 @@ function normalizeAmazonError(error: unknown, fallback: string) {
 export async function searchProducts(
   options: SearchProductsOptions,
 ): Promise<AmazonCreatorsProduct[]> {
+  const result = await searchProductsWithMetadata(options);
+  return result.products;
+}
+
+export async function searchProductsWithMetadata(
+  options: SearchProductsOptions,
+): Promise<{
+  products: AmazonCreatorsProduct[];
+  totalResultCount: number | null;
+}> {
   const config = getConfig();
   const api = createApi();
 
@@ -255,13 +267,17 @@ export async function searchProducts(
         keywords: options.keywords,
         searchIndex: options.searchIndex ?? config.searchIndex,
         itemCount: options.itemCount ?? 5,
+        itemPage: options.itemPage,
         resources: [...DEFAULT_ITEM_RESOURCES],
       },
     })) as SearchItemsResponse;
 
     throwIfAmazonErrors(response.errors, "Amazon search request failed.");
 
-    return (response.searchResult?.items ?? []).map(normalizeItem);
+    return {
+      products: (response.searchResult?.items ?? []).map(normalizeItem),
+      totalResultCount: response.searchResult?.totalResultCount ?? null,
+    };
   } catch (error) {
     throw normalizeAmazonError(error, "Amazon search request failed.");
   }

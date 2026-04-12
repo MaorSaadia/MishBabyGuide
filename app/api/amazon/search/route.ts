@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { AmazonCreatorsError } from "@/lib/amazon-creators";
 import {
   normalizeLiveAmazonItemCount,
+  normalizeLiveAmazonItemPage,
   searchLiveAmazonProducts,
   validateLiveAmazonQuery,
 } from "@/lib/amazon-live-search";
@@ -45,6 +46,10 @@ export async function GET(request: NextRequest) {
     const itemCount = normalizeLiveAmazonItemCount(
       itemCountValue ? Number(itemCountValue) : undefined,
     );
+    const itemPageValue = request.nextUrl.searchParams.get("itemPage");
+    const itemPage = normalizeLiveAmazonItemPage(
+      itemPageValue ? Number(itemPageValue) : undefined,
+    );
 
     validateLiveAmazonQuery(q);
 
@@ -67,6 +72,7 @@ export async function GET(request: NextRequest) {
     const result = await searchLiveAmazonProducts({
       query: q,
       itemCount,
+      itemPage,
     });
 
     return NextResponse.json(result, {

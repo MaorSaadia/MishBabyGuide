@@ -3,13 +3,11 @@
 import Link from "next/link";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
 import { ExternalLink, ShoppingCart } from "lucide-react";
 import { PortableText } from "@portabletext/react";
 
 import {
   getProductBySlug,
-  getRelatedProducts,
   getAllProducts,
   isProductRecommendation,
 } from "@/lib/sanity.client";
@@ -23,7 +21,7 @@ import { cleanProductTitle } from "@/lib/helper";
 import { portableTextComponents } from "@/components/PortableTextComponents";
 import Breadcrumb from "@/components/Breadcrumb";
 import ImageGallery from "@/components/ImageGallery";
-import RelatedProducts from "@/components/RelatedProducts";
+import AmazonRelatedProducts from "@/components/AmazonRelatedProducts";
 import StickyBuyFooter from "@/components/StickyBuyFooter";
 import ProductShareButton from "@/components/ProductShareButton";
 
@@ -54,42 +52,6 @@ export async function generateMetadata({
 
   // Use our centralized metadata helper
   return generateProductMetadata(product);
-}
-
-// Loading skeleton for related products
-function RelatedProductsSkeleton() {
-  return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 className="text-2xl font-bold mb-6">Related Products</h2>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {[...Array(4)].map((_, i) => (
-          <div
-            key={i}
-            className="bg-gray-100 dark:bg-gray-800 rounded-2xl h-80 animate-pulse"
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// Separate component for related products to enable Suspense
-async function RelatedProductsSection({
-  categoryId,
-  productId,
-}: {
-  categoryId: string;
-  productId: string;
-}) {
-  const relatedProducts = await getRelatedProducts(categoryId, productId);
-
-  if (relatedProducts.length === 0) return null;
-
-  return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mb-12">
-      <RelatedProducts products={relatedProducts} />
-    </div>
-  );
 }
 
 export default async function ProductPage({
@@ -288,15 +250,12 @@ export default async function ProductPage({
           </div>
         </div>
 
-        {/* Related Products with Suspense */}
-        {product.category?._id && (
-          <Suspense fallback={<RelatedProductsSkeleton />}>
-            <RelatedProductsSection
-              categoryId={product.category._id}
-              productId={product._id}
-            />
-          </Suspense>
-        )}
+        {/* Live Amazon related products */}
+        <AmazonRelatedProducts
+          productTitle={product.title}
+          categoryTitle={product.category?.title}
+          currentAsin={product.amazon?.asin}
+        />
       </div>
 
       {/* Sticky Buy Footer */}

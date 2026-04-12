@@ -18,17 +18,17 @@ const ProductCard: React.FC<ProductCardProps> = ({
   amazonLink,
 }) => {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group border border-gray-100 dark:border-gray-900 flex flex-col h-full">
+    <div className="group flex h-full flex-col overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-cyan-200 hover:shadow-lg dark:border-gray-800 dark:bg-gray-900 dark:hover:border-cyan-900">
       {/* Image Section */}
       <Link
         href={`/products/${slug}`}
-        className="block relative h-48 sm:h-56 md:h-64 lg:h-72 bg-linear-to-br from-gray-50 to-gray-100 overflow-hidden"
+        className="relative block aspect-square overflow-hidden bg-linear-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-900"
       >
         <Image
           src={image}
           alt={title}
           fill
-          className="group-hover:scale-110 transition-transform duration-500"
+          className="object-contain p-3 transition-transform duration-500 group-hover:scale-105 sm:p-4"
           sizes="(max-width: 640px) 50vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
         />
         {/* {category && (
@@ -41,10 +41,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
       </Link>
 
       {/* Content Section */}
-      <div className="p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col grow bg-white dark:bg-gray-800">
+      <div className="flex grow flex-col bg-white p-3 dark:bg-gray-900 sm:p-4">
         {/* Product Title */}
-        <Link href={`/products/${slug}`} className="mb-2 sm:mb-3">
-          <h3 className="text-sm sm:text-base md:text-lg font-bold text-gray-900 dark:text-gray-100 hover:text-cyan-600 transition-colors line-clamp-3 min-h-10 sm:min-h-12 md:min-h-14 leading-tight sm:leading-snug">
+        <Link href={`/products/${slug}`} className="mb-3">
+          <h3 className="line-clamp-3 min-h-14 text-sm font-bold leading-snug text-gray-950 transition-colors hover:text-cyan-600 dark:text-gray-100 sm:text-base">
             {title}
           </h3>
         </Link>
@@ -55,11 +55,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
         </p> */}
 
         {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-2 mt-auto">
+        <div className="mt-auto flex gap-2">
           {/* View Product Button */}
           <Link
             href={`/products/${slug}`}
-            className="flex-1 inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 md:py-3 bg-cyan-600 text-white text-xs sm:text-sm font-semibold rounded-lg hover:bg-cyan-700 transition-all shadow-sm hover:shadow-md"
+            className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-cyan-600 px-3 py-2.5 text-xs font-semibold text-white shadow-sm transition-all hover:bg-cyan-700 hover:shadow-md sm:gap-2 sm:text-sm"
           >
             <span className="hidden sm:inline">View Product</span>
             <span className="sm:hidden">View</span>
@@ -71,7 +71,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             href={amazonLink}
             target="_blank"
             rel="nofollow noopener noreferrer"
-            className="inline-flex items-center justify-center px-3 sm:px-4 py-2 sm:py-2.5 md:py-3 bg-white dark:bg-gray-800 text-cyan-600 text-xs sm:text-sm font-semibold rounded-lg border-2 border-cyan-600 hover:bg-cyan-50 transition-all"
+            className="inline-flex items-center justify-center rounded-lg border border-cyan-600 bg-white px-3 py-2.5 text-xs font-semibold text-cyan-600 transition-all hover:bg-cyan-50 dark:bg-gray-900 dark:hover:bg-cyan-950/30 sm:px-4 sm:text-sm"
             title="View on Amazon"
           >
             <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4" />

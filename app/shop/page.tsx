@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { AlertCircle, ArrowRight, Clock3, Search, Sparkles } from "lucide-react";
+import { AlertCircle, ArrowRight, Search, Sparkles } from "lucide-react";
 
-import LiveAmazonProductCard from "@/components/LiveAmazonProductCard";
+import LiveAmazonResultsSection from "@/components/LiveAmazonResultsSection";
 import LiveAmazonSearchForm from "@/components/LiveAmazonSearchForm";
 import {
   searchLiveAmazonProducts,
@@ -17,13 +17,6 @@ export const metadata: Metadata = {
     canonical: "/shop",
   },
 };
-
-function formatFetchedAt(isoString: string) {
-  return new Intl.DateTimeFormat("en-US", {
-    dateStyle: "medium",
-    timeStyle: "short",
-  }).format(new Date(isoString));
-}
 
 export default async function ShopPage({
   searchParams,
@@ -132,62 +125,7 @@ export default async function ShopPage({
         ) : null}
 
         {results ? (
-          <section className="mt-10">
-            <div className="flex flex-col gap-5 rounded-[2rem] border border-cyan-100 bg-white/80 p-6 dark:border-gray-800 dark:bg-gray-900/75 md:flex-row md:items-end md:justify-between">
-              <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-700 dark:text-cyan-300">
-                  Live results
-                </p>
-                <h2 className="mt-2 text-3xl font-black tracking-tight text-gray-900 dark:text-white">
-                  {results.products.length} result
-                  {results.products.length === 1 ? "" : "s"} for
-                  {" "}&quot;{results.query}&quot;
-                </h2>
-              </div>
-
-              <div className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
-                <p className="inline-flex items-center gap-2">
-                  <Clock3 className="h-4 w-4 text-cyan-700 dark:text-cyan-300" />
-                  Price and rating last fetched {formatFetchedAt(results.fetchedAt)}
-                </p>
-                <p>
-                  Prices and availability are accurate as of the displayed time
-                  and are subject to change.
-                </p>
-              </div>
-            </div>
-
-            {results.products.length === 0 ? (
-              <div className="mt-8 rounded-[2rem] border border-dashed border-gray-200 bg-white/70 p-10 text-center dark:border-gray-800 dark:bg-gray-900/65">
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
-                  No Amazon matches found
-                </h3>
-                <p className="mx-auto mt-3 max-w-2xl text-gray-600 dark:text-gray-300">
-                  Try a broader search term like &quot;baby carrier&quot; or
-                  &quot;crib mattress&quot;, or browse our editorial picks on
-                  the products page.
-                </p>
-                <div className="mt-6 flex flex-wrap justify-center gap-3">
-                  <Link
-                    href="/products"
-                    className="inline-flex items-center gap-2 rounded-full bg-cyan-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-cyan-700"
-                  >
-                    View curated products
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </div>
-              </div>
-            ) : (
-              <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-                {results.products.map((product) => (
-                  <LiveAmazonProductCard
-                    key={`${product.asin ?? product.url ?? product.title}`}
-                    product={product}
-                  />
-                ))}
-              </div>
-            )}
-          </section>
+          <LiveAmazonResultsSection initialResults={results} />
         ) : null}
 
         <section className="mt-12 rounded-[2rem] border border-gray-200 bg-white/70 p-8 dark:border-gray-800 dark:bg-gray-900/70">
