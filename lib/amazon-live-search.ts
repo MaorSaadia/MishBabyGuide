@@ -2,7 +2,7 @@ import "server-only";
 
 import {
   AmazonCreatorsError,
-  searchProducts as searchAmazonCreatorsProducts,
+  searchProductsWithMetadata,
   type AmazonCreatorsProduct,
 } from "@/lib/amazon-creators";
 
@@ -11,11 +11,17 @@ export type LiveAmazonProduct = AmazonCreatorsProduct;
 export type LiveAmazonSearchResult = {
   query: string;
   itemCount: number;
+  itemPage: number;
+  totalResultCount: number | null;
+  hasMore: boolean;
   fetchedAt: string;
   products: LiveAmazonProduct[];
 };
 
-const DEFAULT_ITEM_COUNT = 12;
+const DEFAULT_ITEM_COUNT = 10;
+const MAX_ITEM_COUNT = 10;
+const MIN_ITEM_PAGE = 1;
+const MAX_ITEM_PAGE = 10;
 const MIN_QUERY_LENGTH = 2;
 const MAX_QUERY_LENGTH = 80;
 
@@ -58,24 +64,46 @@ export function normalizeLiveAmazonItemCount(itemCount?: number) {
     return DEFAULT_ITEM_COUNT;
   }
 
-  return Math.min(Math.max(Math.floor(itemCount), 1), DEFAULT_ITEM_COUNT);
+  return Math.min(Math.max(Math.floor(itemCount), 1), MAX_ITEM_COUNT);
+}
+
+export function normalizeLiveAmazonItemPage(itemPage?: number) {
+  if (!itemPage || Number.isNaN(itemPage)) {
+    return MIN_ITEM_PAGE;
+  }
+
+  return Math.min(Math.max(Math.floor(itemPage), MIN_ITEM_PAGE), MAX_ITEM_PAGE);
 }
 
 export async function searchLiveAmazonProducts(input: {
   query: string;
   itemCount?: number;
+  itemPage?: number;
 }): Promise<LiveAmazonSearchResult> {
   const query = validateLiveAmazonQuery(input.query);
   const itemCount = normalizeLiveAmazonItemCount(input.itemCount);
-  const products = await searchAmazonCreatorsProducts({
+  const itemPage = normalizeLiveAmazonItemPage(input.itemPage);
+  const result = await searchProductsWithMetadata({
     keywords: query,
     itemCount,
+    itemPage,
   });
+  const loadedCount = itemPage * itemCount;
+  const hasKnownMore =
+    typeof result.totalResultCount === "number" &&
+    loadedCount < result.totalResultCount;
+  const hasPossibleMore =
+    result.totalResultCount === null &&
+    result.products.length >= itemCount &&
+    itemPage < MAX_ITEM_PAGE;
 
   return {
     query,
     itemCount,
+    itemPage,
+    totalResultCount: result.totalResultCount,
+    hasMore: itemPage < MAX_ITEM_PAGE && (hasKnownMore || hasPossibleMore),
     fetchedAt: new Date().toISOString(),
-    products,
+    products: result.products,
   };
 }
