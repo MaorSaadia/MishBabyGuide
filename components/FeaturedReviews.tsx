@@ -2,6 +2,7 @@ import Link from "next/link";
 import { FileText, Star } from "lucide-react";
 import { getProductReviews } from "@/lib/sanity.client";
 import { getProductDisplayImage, getProductDisplayLink } from "@/lib/product-display";
+import { savedProductFromProduct } from "@/lib/saved-products";
 import ProductReviewCard from "./ProductReviewCard";
 
 // Server Component - no "use client" needed
@@ -81,6 +82,10 @@ const FeaturedReviews = async () => {
               excerpt={review.excerpt}
               amazonLink={getProductDisplayLink(review)}
               category={review.category?.title}
+              savedProduct={savedProductFromProduct(
+                review,
+                `/reviews/${review.slug.current}`,
+              )}
             />
           ))}
         </div>

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Sparkles } from "lucide-react";
 import { getFeaturedProducts } from "@/lib/sanity.client";
 import { getProductDisplayImage, getProductDisplayLink } from "@/lib/product-display";
+import { savedProductFromProduct } from "@/lib/saved-products";
 import SectionHeading from "./SectionHeading";
 import ProductCard from "./ProductCard";
 
@@ -74,6 +75,10 @@ const FeaturedProducts = async () => {
               excerpt={product.excerpt}
               amazonLink={getProductDisplayLink(product)}
               category={product.category?.title}
+              savedProduct={savedProductFromProduct(
+                product,
+                `/products/${product.slug.current}`,
+              )}
             />
           ))}
         </div>

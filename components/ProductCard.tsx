@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { ExternalLink, ArrowRight } from "lucide-react";
 
+import SaveProductButton from "@/components/SaveProductButton";
+import type { SavedProductInput } from "@/lib/saved-products";
+
 interface ProductCardProps {
   title: string;
   slug: string;
@@ -8,6 +11,7 @@ interface ProductCardProps {
   excerpt: string;
   amazonLink: string;
   category?: string;
+  savedProduct?: SavedProductInput;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
@@ -15,6 +19,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   slug,
   image,
   amazonLink,
+  savedProduct,
 }) => {
   return (
     <div className="group flex h-full flex-col overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-cyan-200 hover:shadow-lg dark:border-gray-800 dark:bg-gray-900 dark:hover:border-cyan-900">
@@ -68,12 +73,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
             href={amazonLink}
             target="_blank"
             rel="nofollow noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-lg border border-cyan-600 bg-white px-3 py-2.5 text-xs font-semibold text-cyan-600 transition-all hover:bg-cyan-50 dark:bg-gray-900 dark:hover:bg-cyan-950/30 sm:px-4 sm:text-sm"
+            className="inline-flex items-center justify-center rounded-lg border border-cyan-600 bg-white px-3 py-2.5 text-xs font-semibold text-cyan-600 transition-all hover:bg-cyan-50 dark:bg-gray-900 dark:hover:bg-cyan-950/30 sm:px-3 sm:text-sm"
             title="View on Amazon"
           >
             <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4" />
             <span className="ml-1.5 sm:hidden">Amazon</span>
           </Link>
+          {savedProduct && (
+            <SaveProductButton product={savedProduct} compact />
+          )}
         </div>
       </div>
     </div>

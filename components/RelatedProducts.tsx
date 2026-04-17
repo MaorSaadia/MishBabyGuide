@@ -2,7 +2,9 @@ import React from "react";
 import Link from "next/link";
 import { Product } from "@/lib/sanity.client";
 import { getProductDisplayImage, getProductDisplayLink } from "@/lib/product-display";
+import { savedProductFromProduct } from "@/lib/saved-products";
 import { Sparkles, ExternalLink, ArrowRight } from "lucide-react";
+import SaveProductButton from "@/components/SaveProductButton";
 
 interface RelatedProductsProps {
   products: Product[];
@@ -92,6 +94,13 @@ const RelatedProducts: React.FC<RelatedProductsProps> = ({
                     >
                       <ExternalLink className="h-4 w-4" />
                     </Link>
+                    <SaveProductButton
+                      product={savedProductFromProduct(
+                        product,
+                        `/products/${product.slug.current}`,
+                      )}
+                      compact
+                    />
                   </div>
                 </div>
               </div>

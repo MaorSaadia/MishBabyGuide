@@ -6,6 +6,7 @@ import { Package, Loader2 } from "lucide-react";
 
 import { Product } from "@/lib/sanity.client";
 import { getProductDisplayImage, getProductDisplayLink } from "@/lib/product-display";
+import { savedProductFromProduct } from "@/lib/saved-products";
 import ProductCard from "./ProductCard";
 
 interface ProductGridProps {
@@ -98,6 +99,10 @@ const ProductGrid: React.FC<ProductGridProps> = ({
             excerpt={product.excerpt}
             amazonLink={getProductDisplayLink(product)}
             category={product.category?.title}
+            savedProduct={savedProductFromProduct(
+              product,
+              `/products/${product.slug.current}`,
+            )}
           />
         ))}
       </div>

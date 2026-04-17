@@ -2,6 +2,9 @@ import React from "react";
 import Link from "next/link";
 import { ExternalLink, ArrowRight, Star } from "lucide-react";
 
+import SaveProductButton from "@/components/SaveProductButton";
+import type { SavedProductInput } from "@/lib/saved-products";
+
 interface ReviewCardProps {
   title: string;
   slug: string;
@@ -11,6 +14,7 @@ interface ReviewCardProps {
   category?: string;
   prosCount?: number;
   consCount?: number;
+  savedProduct?: SavedProductInput;
 }
 
 const ReviewCard: React.FC<ReviewCardProps> = ({
@@ -22,6 +26,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
   category,
   prosCount = 0,
   consCount = 0,
+  savedProduct,
 }) => {
   return (
     <div className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group border border-gray-100 flex flex-col h-full">
@@ -103,6 +108,9 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
           >
             <ExternalLink className="h-4 w-4" />
           </Link>
+          {savedProduct && (
+            <SaveProductButton product={savedProduct} compact />
+          )}
         </div>
       </div>
     </div>

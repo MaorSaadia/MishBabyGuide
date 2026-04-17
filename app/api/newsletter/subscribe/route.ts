@@ -8,7 +8,11 @@ import WelcomeEmail from "@/emails/WelcomeEmail";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { email, name } = body;
+    const { email, name, source } = body;
+    const subscriberSource =
+      typeof source === "string" && source.trim()
+        ? source.trim().slice(0, 80)
+        : "products_page";
 
     if (!email) {
       return NextResponse.json(
@@ -35,7 +39,10 @@ export async function POST(request: Request) {
     if (existingSubscriber) {
       if (existingSubscriber.status === "subscribed") {
         return NextResponse.json(
-          { error: "This email is already subscribed" },
+          {
+            error: "This email is already subscribed",
+            alreadySubscribed: true,
+          },
           { status: 409 },
         );
       }
@@ -47,6 +54,7 @@ export async function POST(request: Request) {
           .set({
             status: "subscribed",
             subscribedAt: new Date().toISOString(),
+            source: subscriberSource,
           })
           .commit();
 
@@ -76,7 +84,7 @@ export async function POST(request: Request) {
       name: name || undefined, // Save name if provided
       status: "subscribed",
       subscribedAt: new Date().toISOString(),
-      source: "products_page", // Track where they subscribed from
+      source: subscriberSource,
     });
 
     // Generate unsubscribe URL
