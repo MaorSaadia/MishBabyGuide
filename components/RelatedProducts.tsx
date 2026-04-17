@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { Product } from "@/lib/sanity.client";
 import { getProductDisplayImage, getProductDisplayLink } from "@/lib/product-display";
@@ -47,11 +46,10 @@ const RelatedProducts: React.FC<RelatedProductsProps> = ({
                   href={`/products/${product.slug.current}`}
                   className="block relative h-64 bg-gray-50 dark:bg-gray-800 overflow-hidden"
                 >
-                  <Image
+                  <img
                     src={imageUrl}
                     alt={product.title}
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="absolute inset-0 h-full w-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                   {product.category?.title && (
                     <div className="absolute top-3 left-3">

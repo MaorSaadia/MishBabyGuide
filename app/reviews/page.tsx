@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 // app/reviews/page.tsx
 import Link from "next/link";
 import { Metadata } from "next";

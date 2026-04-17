@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 interface ProductReviewCardProps {
@@ -27,12 +26,10 @@ const ProductReviewCard = ({
         className="relative block overflow-hidden bg-gray-100 dark:bg-gray-900"
       >
         <div className="relative w-full aspect-square">
-          <Image
+          <img
             src={image}
             alt={title}
-            fill
-            className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="absolute inset-0 h-full w-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
           />
 
           {/* Gradient Overlay on Hover */}

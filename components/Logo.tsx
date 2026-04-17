@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 
 interface LogoProps {
@@ -24,13 +23,10 @@ const Logo: React.FC<LogoProps> = ({
   return (
     <Link href="/" className="flex items-center gap-2 group">
       <div className={`relative ${sizeClasses[size]} shrink-0`}>
-        <Image
+        <img
           src={logoSrc}
           alt="MishBabyGuide Logo"
-          fill
-          className="object-contain transition-transform group-hover:scale-105"
-          priority
-          unoptimized
+          className="absolute inset-0 h-full w-full object-contain transition-transform group-hover:scale-105"
         />
       </div>
       {showText && (

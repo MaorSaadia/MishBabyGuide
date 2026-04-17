@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ExternalLink, ShieldCheck, Star } from "lucide-react";
 
@@ -29,12 +28,10 @@ export default function LiveAmazonProductCard({
         >
           <div className="relative h-64">
             {product.imageUrl ? (
-              <Image
+              <img
                 src={product.imageUrl}
                 alt={product.title ?? "Amazon product image"}
-                fill
-                className="object-contain p-6 transition duration-500 group-hover:scale-105"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="absolute inset-0 h-full w-full object-contain p-6 transition duration-500 group-hover:scale-105"
               />
             ) : (
               <div className="flex h-full items-center justify-center p-6 text-center text-sm text-gray-500 dark:text-gray-400">

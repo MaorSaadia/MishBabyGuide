@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
 import { ChevronLeft, ChevronRight, ZoomIn, X, Maximize2 } from "lucide-react";
 
 interface ImageGalleryProps {
@@ -125,16 +124,13 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images }) => {
 
         {/* Main Image with smooth transition */}
         <div className="relative w-full h-full">
-          <Image
+          <img
             onClick={() => setIsZoomed(true)}
             src={images[currentIndex].url}
             alt={images[currentIndex].alt}
-            fill
-            className={`object-contain p-4 transition-all duration-500 ${
+            className={`absolute inset-0 h-full w-full object-contain p-4 transition-all duration-500 ${
               isTransitioning ? "opacity-0 scale-95" : "opacity-100 scale-100"
             }`}
-            priority
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         </div>
 
@@ -219,12 +215,10 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images }) => {
                   }`}
                 />
 
-                <Image
+                <img
                   src={image.url}
                   alt={`${image.alt} thumbnail ${index + 1}`}
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover/thumb:scale-110"
-                  sizes="100px"
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover/thumb:scale-110"
                 />
 
                 {/* Active indicator */}
@@ -265,15 +259,12 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images }) => {
 
           {/* Main Image Area */}
           <div className="flex-1 relative flex items-center justify-center">
-            <Image
+            <img
               src={images[currentIndex].url}
               alt={images[currentIndex].alt}
-              fill
-              className={`object-contain transition-all duration-500 ${
+              className={`absolute inset-0 h-full w-full object-contain transition-all duration-500 ${
                 isTransitioning ? "opacity-0 scale-95" : "opacity-100 scale-100"
               }`}
-              sizes="100vw"
-              quality={100}
             />
 
             {/* Navigation Arrows in fullscreen */}
@@ -317,12 +308,10 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images }) => {
                         : "opacity-50 hover:opacity-75"
                     }`}
                   >
-                    <Image
+                    <img
                       src={image.url}
                       alt={`Thumbnail ${index + 1}`}
-                      fill
-                      className="object-cover"
-                      sizes="64px"
+                      className="absolute inset-0 h-full w-full object-cover"
                     />
                   </button>
                 ))}
@@ -387,17 +376,14 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images }) => {
 
             {/* Zoomed Image */}
             <div className="relative w-full h-full rounded-lg overflow-hidden shadow-2xl">
-              <Image
+              <img
                 src={images[currentIndex].url}
                 alt={images[currentIndex].alt}
-                fill
-                className={`object-contain transition-all duration-500 ${
+                className={`absolute inset-0 h-full w-full object-contain transition-all duration-500 ${
                   isTransitioning
                     ? "opacity-0 scale-95"
                     : "opacity-100 scale-100"
                 }`}
-                sizes="(max-width: 1280px) 100vw, 1280px"
-                quality={100}
               />
             </div>
           </div>

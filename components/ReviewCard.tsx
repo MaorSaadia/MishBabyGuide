@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { ExternalLink, ArrowRight, Star } from "lucide-react";
 
@@ -31,12 +30,10 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
         href={`/reviews/${slug}`}
         className="block relative h-72 bg-linear-to-br from-gray-50 to-gray-100 overflow-hidden"
       >
-        <Image
+        <img
           src={image}
           alt={title}
-          fill
-          className="object-cover group-hover:scale-110 transition-transform duration-500"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="absolute inset-0 h-full w-full object-cover group-hover:scale-110 transition-transform duration-500"
         />
         {category && (
           <div className="absolute top-3 left-3">

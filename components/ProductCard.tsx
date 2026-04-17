@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ExternalLink, ArrowRight } from "lucide-react";
 
@@ -24,12 +23,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
         href={`/products/${slug}`}
         className="relative block aspect-square overflow-hidden bg-linear-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-900"
       >
-        <Image
+        <img
           src={image}
           alt={title}
-          fill
-          className="object-contain p-3 transition-transform duration-500 group-hover:scale-105 sm:p-4"
-          sizes="(max-width: 640px) 50vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+          className="absolute inset-0 h-full w-full object-contain p-3 transition-transform duration-500 group-hover:scale-105 sm:p-4"
         />
         {/* {category && (
           <div className="absolute top-2 left-2 sm:top-3 sm:left-3">
