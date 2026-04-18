@@ -14,17 +14,45 @@ import {
   UtensilsCrossed,
   Lamp,
   Package,
+  Bookmark,
+  LogOut,
 } from "lucide-react";
+import type { User } from "@supabase/supabase-js";
 import { motion, AnimatePresence } from "framer-motion";
 
 import Logo from "./Logo";
 import SearchComponent from "./Search";
 import { ThemeToggle } from "./ThemeToggle";
+import { createClient } from "@/lib/supabase/client";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showMobileSearch, setShowMobileSearch] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const supabase = createClient();
+
+    void supabase.auth.getUser().then(({ data }) => {
+      setUser(data.user);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleSignOut = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    setUser(null);
+    window.location.href = "/";
+  };
 
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
@@ -194,7 +222,33 @@ const Navbar = () => {
           </div>
 
           {/* Theme Toggle */}
-          <div className="hidden lg:flex">
+          <div className="hidden lg:flex items-center gap-3">
+            {user ? (
+              <>
+                <Link
+                  href="/saved"
+                  className="inline-flex items-center gap-2 rounded-lg border border-cyan-200 px-3 py-2 text-sm font-semibold text-cyan-700 transition hover:bg-cyan-50 dark:border-cyan-900 dark:text-cyan-300 dark:hover:bg-cyan-950/30"
+                >
+                  <Bookmark className="h-4 w-4" />
+                  Saved Products
+                </Link>
+                <button
+                  type="button"
+                  onClick={handleSignOut}
+                  className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Sign out
+                </button>
+              </>
+            ) : (
+              <Link
+                href="/sign-in"
+                className="rounded-lg bg-cyan-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-cyan-700"
+              >
+                Sign in
+              </Link>
+            )}
             <ThemeToggle />
           </div>
 
@@ -314,6 +368,34 @@ const Navbar = () => {
                   >
                     About Us
                   </Link>
+                  {user ? (
+                    <>
+                      <Link
+                        href="/saved"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="flex items-center gap-2 p-2 font-medium text-gray-700 dark:text-gray-200 hover:text-cyan-600 dark:hover:text-cyan-400"
+                      >
+                        <Bookmark className="h-4 w-4" />
+                        Saved Products
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={handleSignOut}
+                        className="flex w-full items-center gap-2 p-2 text-left font-medium text-gray-700 hover:text-cyan-600 dark:text-gray-200 dark:hover:text-cyan-400"
+                      >
+                        <LogOut className="h-4 w-4" />
+                        Sign out
+                      </button>
+                    </>
+                  ) : (
+                    <Link
+                      href="/sign-in"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="block p-2 font-medium text-gray-700 dark:text-gray-200 hover:text-cyan-600 dark:hover:text-cyan-400"
+                    >
+                      Sign in
+                    </Link>
+                  )}
                   {/* <div className="mt-3 rounded-lg bg-gray-50 dark:bg-gray-800 px-3 py-3">
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-medium text-gray-700 dark:text-gray-200">

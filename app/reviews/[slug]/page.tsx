@@ -15,6 +15,7 @@ import {
 } from "@/lib/sanity.client";
 import { getImageUrl } from "@/lib/sanity.image";
 import { getProductDisplayImage, getProductDisplayLink } from "@/lib/product-display";
+import { savedProductFromProduct } from "@/lib/saved-products";
 import {
   generateProductMetadata,
   generateProductJsonLd,
@@ -25,6 +26,7 @@ import { portableTextComponents } from "@/components/PortableTextComponents";
 import Breadcrumb from "@/components/Breadcrumb";
 import ImageGallery from "@/components/ImageGallery";
 import RelatedProducts from "@/components/RelatedProducts";
+import SaveProductButton from "@/components/SaveProductButton";
 
 // Generate static params for all reviews at build time
 export async function generateStaticParams() {
@@ -228,6 +230,13 @@ export default async function ReviewPage({
                   View on Amazon
                   <ExternalLink className="h-5 w-5" />
                 </Link>
+                <SaveProductButton
+                  product={savedProductFromProduct(
+                    product,
+                    `/reviews/${product.slug.current}`,
+                  )}
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-cyan-200 bg-white px-4 py-3 text-sm font-bold text-cyan-700 transition hover:bg-cyan-50 disabled:cursor-not-allowed disabled:opacity-60 dark:border-cyan-900 dark:bg-gray-900 dark:text-cyan-300 dark:hover:bg-cyan-950/30"
+                />
 
                 <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
                   As an Amazon Associate, we earn from qualifying purchases
@@ -343,6 +352,13 @@ export default async function ReviewPage({
               Buy on Amazon
               <ExternalLink className="h-5 w-5" />
             </Link>
+            <SaveProductButton
+              product={savedProductFromProduct(
+                product,
+                `/reviews/${product.slug.current}`,
+              )}
+              className="mt-3 inline-flex items-center justify-center gap-2 rounded-lg border border-white/70 bg-white/10 px-8 py-4 text-sm font-bold text-white transition hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-60"
+            />
           </div>
         </div>
 

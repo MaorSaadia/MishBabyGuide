@@ -7,6 +7,7 @@ import {
   getProductDisplayImage,
   getProductDisplayLink,
 } from "@/lib/product-display";
+import { savedProductFromProduct } from "@/lib/saved-products";
 import ProductCard from "@/components/ProductCard";
 import BlogCard from "@/components/BlogCard";
 import SearchComponent from "@/components/Search";
@@ -160,6 +161,10 @@ export default async function SearchPage({
                       excerpt={product.excerpt}
                       amazonLink={getProductDisplayLink(product)}
                       category={product.category?.title}
+                      savedProduct={savedProductFromProduct(
+                        product,
+                        `/products/${product.slug.current}`,
+                      )}
                     />
                   ))}
                 </div>

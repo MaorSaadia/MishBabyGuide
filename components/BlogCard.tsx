@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Calendar, ArrowRight } from "lucide-react";
 
@@ -38,11 +37,10 @@ const BlogCard: React.FC<BlogCardProps> = ({
         className="block relative h-56 bg-linear-to-br from-gray-100 to-gray-50 dark:from-gray-700 dark:to-gray-800 overflow-hidden"
       >
         {mainImage ? (
-          <Image
+          <img
             src={mainImage}
             alt={title}
-            fill
-            className="object-cover group-hover:scale-105 transition-transform duration-500"
+            className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
         ) : (
           <div className="flex items-center justify-center h-full">

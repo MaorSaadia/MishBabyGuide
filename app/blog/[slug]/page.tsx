@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // app/blog/[slug]/page.tsx
 import Link from "next/link";
-import Image from "next/image";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
@@ -232,13 +231,10 @@ export default async function BlogPostPage({
           {post.mainImage && (
             <figure className="mb-12 rounded-2xl overflow-hidden shadow-lg">
               <div className="relative w-full aspect-video">
-                <Image
+                <img
                   src={getImageUrl(post.mainImage, 1200, 675)}
                   alt={post.title}
-                  fill
-                  className="object-cover"
-                  priority
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+                  className="absolute inset-0 h-full w-full object-cover"
                 />
               </div>
             </figure>

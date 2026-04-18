@@ -1,8 +1,9 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ExternalLink, ShieldCheck, Star } from "lucide-react";
 
+import SaveProductButton from "@/components/SaveProductButton";
 import type { LiveAmazonProduct } from "@/lib/amazon-live-search";
+import { getStableProductKey, type SavedProductInput } from "@/lib/saved-products";
 
 type LiveAmazonProductCardProps = {
   product: LiveAmazonProduct;
@@ -12,6 +13,23 @@ export default function LiveAmazonProductCard({
   product,
 }: LiveAmazonProductCardProps) {
   const features = product.features.filter(Boolean).slice(0, 3);
+  const savedProduct: SavedProductInput = {
+    product_key: getStableProductKey({
+      asin: product.asin,
+      amazonUrl: product.url,
+      siteUrl: null,
+    }),
+    source_type: "amazon_live",
+    title: product.title ?? "Untitled Amazon product",
+    image: product.imageUrl,
+    amazon_url: product.url,
+    site_url: null,
+    asin: product.asin,
+    price: product.price,
+    rating: product.rating,
+    category: "Live Amazon",
+    features,
+  };
 
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-cyan-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl dark:border-gray-800 dark:bg-gray-900">
@@ -29,12 +47,10 @@ export default function LiveAmazonProductCard({
         >
           <div className="relative h-64">
             {product.imageUrl ? (
-              <Image
+              <img
                 src={product.imageUrl}
                 alt={product.title ?? "Amazon product image"}
-                fill
-                className="object-contain p-6 transition duration-500 group-hover:scale-105"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="absolute inset-0 h-full w-full object-contain p-6 transition duration-500 group-hover:scale-105"
               />
             ) : (
               <div className="flex h-full items-center justify-center p-6 text-center text-sm text-gray-500 dark:text-gray-400">
@@ -94,15 +110,18 @@ export default function LiveAmazonProductCard({
           )}
         </ul>
 
-        <Link
-          href={product.url ?? "#"}
-          target="_blank"
-          rel="nofollow noopener noreferrer"
-          className="mt-auto inline-flex items-center justify-center gap-2 rounded-2xl bg-cyan-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-cyan-700"
-        >
-          View on Amazon
-          <ExternalLink className="h-4 w-4" />
-        </Link>
+        <div className="mt-auto flex gap-2">
+          <Link
+            href={product.url ?? "#"}
+            target="_blank"
+            rel="nofollow noopener noreferrer"
+            className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg bg-cyan-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-cyan-700"
+          >
+            View on Amazon
+            <ExternalLink className="h-4 w-4" />
+          </Link>
+          <SaveProductButton product={savedProduct} compact />
+        </div>
       </div>
     </article>
   );

@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
+
+import SaveProductButton from "@/components/SaveProductButton";
+import type { SavedProductInput } from "@/lib/saved-products";
 
 interface ProductReviewCardProps {
   title: string;
@@ -11,6 +13,7 @@ interface ProductReviewCardProps {
   excerpt: string;
   amazonLink: string;
   category?: string;
+  savedProduct?: SavedProductInput;
 }
 
 const ProductReviewCard = ({
@@ -18,6 +21,7 @@ const ProductReviewCard = ({
   slug,
   image,
   excerpt,
+  savedProduct,
 }: ProductReviewCardProps) => {
   return (
     <article className="group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 flex flex-col h-full hover:shadow-2xl transition-all duration-500 hover:-translate-y-1">
@@ -27,12 +31,10 @@ const ProductReviewCard = ({
         className="relative block overflow-hidden bg-gray-100 dark:bg-gray-900"
       >
         <div className="relative w-full aspect-square">
-          <Image
+          <img
             src={image}
             alt={title}
-            fill
-            className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="absolute inset-0 h-full w-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
           />
 
           {/* Gradient Overlay on Hover */}
@@ -68,13 +70,18 @@ const ProductReviewCard = ({
         </p>
 
         {/* Action Button */}
-        <Link
-          href={`/reviews/${slug}`}
-          className="w-full px-4 py-2 bg-linear-to-r from-cyan-600 to-cyan-700 hover:from-cyan-700 hover:to-cyan-800 text-white font-semibold text-sm sm:text-md rounded-xl transition-all flex items-center justify-center gap-2 group/btn shadow-md hover:shadow-lg transform hover:-translate-y-0.5 -mt-3"
-        >
-          <span>Read Review</span>
-          <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-        </Link>
+        <div className="-mt-3 flex gap-2">
+          <Link
+            href={`/reviews/${slug}`}
+            className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-linear-to-r from-cyan-600 to-cyan-700 px-4 py-2 text-sm font-semibold text-white shadow-md transition-all hover:-translate-y-0.5 hover:from-cyan-700 hover:to-cyan-800 hover:shadow-lg sm:text-md"
+          >
+            <span>Read Review</span>
+            <ArrowRight className="w-4 h-4 transition-transform" />
+          </Link>
+          {savedProduct && (
+            <SaveProductButton product={savedProduct} compact />
+          )}
+        </div>
       </div>
 
       {/* Bottom accent line */}

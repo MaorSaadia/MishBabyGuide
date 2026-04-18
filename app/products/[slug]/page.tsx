@@ -12,6 +12,7 @@ import {
   isProductRecommendation,
 } from "@/lib/sanity.client";
 import { getProductDisplayImage, getProductDisplayLink } from "@/lib/product-display";
+import { savedProductFromProduct } from "@/lib/saved-products";
 import {
   generateProductMetadata,
   generateProductJsonLd,
@@ -24,6 +25,7 @@ import ImageGallery from "@/components/ImageGallery";
 import AmazonRelatedProducts from "@/components/AmazonRelatedProducts";
 import StickyBuyFooter from "@/components/StickyBuyFooter";
 import ProductShareButton from "@/components/ProductShareButton";
+import SaveProductButton from "@/components/SaveProductButton";
 
 // Generate static params for all products at build time
 export async function generateStaticParams() {
@@ -242,6 +244,13 @@ export default async function ProductPage({
                   Buy on Amazon
                   <ExternalLink className="h-5 w-5" />
                 </Link>
+                <SaveProductButton
+                  product={savedProductFromProduct(
+                    product,
+                    `/products/${product.slug.current}`,
+                  )}
+                  className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-white/70 bg-white/10 px-4 py-3 text-sm font-bold text-white transition hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-60"
+                />
                 <p className="text-xs text-cyan-100 mt-3 text-center">
                   As an Amazon Associate, we earn from qualifying purchases
                 </p>

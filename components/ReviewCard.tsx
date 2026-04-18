@@ -1,7 +1,9 @@
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { ExternalLink, ArrowRight, Star } from "lucide-react";
+
+import SaveProductButton from "@/components/SaveProductButton";
+import type { SavedProductInput } from "@/lib/saved-products";
 
 interface ReviewCardProps {
   title: string;
@@ -12,6 +14,7 @@ interface ReviewCardProps {
   category?: string;
   prosCount?: number;
   consCount?: number;
+  savedProduct?: SavedProductInput;
 }
 
 const ReviewCard: React.FC<ReviewCardProps> = ({
@@ -23,6 +26,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
   category,
   prosCount = 0,
   consCount = 0,
+  savedProduct,
 }) => {
   return (
     <div className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group border border-gray-100 flex flex-col h-full">
@@ -31,12 +35,10 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
         href={`/reviews/${slug}`}
         className="block relative h-72 bg-linear-to-br from-gray-50 to-gray-100 overflow-hidden"
       >
-        <Image
+        <img
           src={image}
           alt={title}
-          fill
-          className="object-cover group-hover:scale-110 transition-transform duration-500"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="absolute inset-0 h-full w-full object-cover group-hover:scale-110 transition-transform duration-500"
         />
         {category && (
           <div className="absolute top-3 left-3">
@@ -106,6 +108,9 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
           >
             <ExternalLink className="h-4 w-4" />
           </Link>
+          {savedProduct && (
+            <SaveProductButton product={savedProduct} compact />
+          )}
         </div>
       </div>
     </div>

@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 // app/reviews/page.tsx
 import Link from "next/link";
 import { Metadata } from "next";
@@ -9,7 +8,9 @@ import {
   getAllProductCategories,
 } from "@/lib/sanity.client";
 import { getProductDisplayImage } from "@/lib/product-display";
+import { savedProductFromProduct } from "@/lib/saved-products";
 import NewsletterSubscribe from "@/components/NewsletterSubscribe";
+import SaveProductButton from "@/components/SaveProductButton";
 
 // Enhanced metadata with better SEO
 export const metadata: Metadata = {
@@ -138,7 +139,7 @@ async function ReviewsContent({
                   </div>
 
                   {/* Footer with Read Review Link */}
-                  <div className="flex items-center pt-2 md:pt-4 mt-auto border-t border-gray-100 dark:border-gray-700">
+                  <div className="flex items-center justify-between gap-3 pt-2 md:pt-4 mt-auto border-t border-gray-100 dark:border-gray-700">
                     <Link
                       href={`/reviews/${product.slug.current}`}
                       className="inline-flex items-center gap-1.5 md:gap-2 text-cyan-600 dark:text-cyan-400 font-semibold hover:gap-2 md:hover:gap-3 transition-all text-xs md:text-base"
@@ -146,6 +147,13 @@ async function ReviewsContent({
                       Read Review
                       <ArrowRight className="w-3 h-3 md:w-4 md:h-4" />
                     </Link>
+                    <SaveProductButton
+                      product={savedProductFromProduct(
+                        product,
+                        `/reviews/${product.slug.current}`,
+                      )}
+                      compact
+                    />
                   </div>
                 </div>
               </div>

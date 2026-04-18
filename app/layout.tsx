@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { Toaster } from "@/components/ui/sonner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import PendingSavedProductSync from "@/components/PendingSavedProductSync";
 import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -156,6 +157,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Toaster position="top-right" expand={false} richColors closeButton />
+          <PendingSavedProductSync />
           <Navbar />
           <main className="min-h-screen">{children}</main>
           <Footer />

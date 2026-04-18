@@ -1,5 +1,4 @@
 // components/PortableTextComponents.tsx
-import Image from "next/image";
 import { PortableTextComponents } from "@portabletext/react";
 import { getImageUrl } from "@/lib/sanity.image";
 import Link from "next/link";
@@ -83,11 +82,10 @@ export const portableTextComponents: PortableTextComponents = {
       return (
         <figure className="my-8">
           <div className="relative w-full aspect-video rounded-lg overflow-hidden">
-            <Image
+            <img
               src={getImageUrl(value, 1200, 675)}
               alt={value.alt || "Article image"}
-              fill
-              className="object-cover"
+              className="absolute inset-0 h-full w-full object-cover"
             />
           </div>
           {value.caption && (
@@ -118,11 +116,10 @@ export const portableTextComponents: PortableTextComponents = {
             {value.productImage?.asset && (
               <div className="md:w-1/3 shrink-0">
                 <div className="relative aspect-square rounded-xl overflow-hidden bg-white">
-                  <Image
+                  <img
                     src={getImageUrl(value.productImage, 400, 400)}
                     alt={value.productName}
-                    fill
-                    className="object-contain p-4"
+                    className="absolute inset-0 h-full w-full object-contain p-4"
                   />
                 </div>
               </div>
