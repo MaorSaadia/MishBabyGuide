@@ -16,6 +16,7 @@ import {
   Package,
   Bookmark,
   LogOut,
+  UserCircle2,
 } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
 import { motion, AnimatePresence } from "framer-motion";
@@ -271,6 +272,26 @@ const Navbar = () => {
               <Search className="w-5 h-5" />
             </button>
 
+            {user ? (
+              <Link
+                href="/saved"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-cyan-200 text-cyan-700 transition hover:bg-cyan-50 dark:border-cyan-900 dark:text-cyan-300 dark:hover:bg-cyan-950/30"
+                aria-label="Open your profile"
+                title="Saved products"
+              >
+                <UserCircle2 className="h-5 w-5" />
+              </Link>
+            ) : (
+              <Link
+                href="/sign-in"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-cyan-200 text-cyan-700 transition hover:bg-cyan-50 dark:border-cyan-900 dark:text-cyan-300 dark:hover:bg-cyan-950/30"
+                aria-label="Sign in"
+                title="Sign in"
+              >
+                <UserCircle2 className="h-5 w-5" />
+              </Link>
+            )}
+
             {/* Mobile Menu Button */}
             <button
               onClick={() => {
@@ -387,15 +408,7 @@ const Navbar = () => {
                         Sign out
                       </button>
                     </>
-                  ) : (
-                    <Link
-                      href="/sign-in"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="block p-2 font-medium text-gray-700 dark:text-gray-200 hover:text-cyan-600 dark:hover:text-cyan-400"
-                    >
-                      Sign in
-                    </Link>
-                  )}
+                  ) : null}
                   {/* <div className="mt-3 rounded-lg bg-gray-50 dark:bg-gray-800 px-3 py-3">
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-medium text-gray-700 dark:text-gray-200">

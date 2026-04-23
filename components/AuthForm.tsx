@@ -13,6 +13,33 @@ type AuthFormProps = {
   mode: "sign-in" | "sign-up";
 };
 
+function GoogleIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className="h-5 w-5"
+    >
+      <path
+        d="M21.805 12.23c0-.79-.071-1.549-.203-2.277H12v4.313h5.488a4.695 4.695 0 0 1-2.035 3.082v2.555h3.293c1.928-1.775 3.059-4.395 3.059-7.673Z"
+        fill="#4285F4"
+      />
+      <path
+        d="M12 22c2.76 0 5.076-.916 6.768-2.482l-3.293-2.555c-.916.614-2.087.977-3.475.977-2.672 0-4.938-1.804-5.747-4.23H2.848v2.635A9.998 9.998 0 0 0 12 22Z"
+        fill="#34A853"
+      />
+      <path
+        d="M6.253 13.71A5.996 5.996 0 0 1 5.931 12c0-.594.102-1.17.322-1.71V7.655H2.848A9.998 9.998 0 0 0 2 12c0 1.614.387 3.142 1.068 4.345l3.185-2.635Z"
+        fill="#FBBC05"
+      />
+      <path
+        d="M12 6.06c1.502 0 2.85.516 3.912 1.529l2.935-2.935C17.07 2.998 14.754 2 12 2a9.998 9.998 0 0 0-9.152 5.655l3.405 2.635C7.062 7.864 9.328 6.06 12 6.06Z"
+        fill="#EA4335"
+      />
+    </svg>
+  );
+}
+
 export default function AuthForm({ mode }: AuthFormProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -23,7 +50,8 @@ export default function AuthForm({ mode }: AuthFormProps) {
   const [name, setName] = useState("");
   const [newsletter, setNewsletter] = useState(true);
   const [message, setMessage] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmittingForm, setIsSubmittingForm] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
   async function subscribeToNewsletter() {
     const response = await fetch("/api/newsletter/subscribe", {
@@ -51,7 +79,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
     event: React.FormEvent<HTMLFormElement>,
   ) {
     event.preventDefault();
-    setIsLoading(true);
+    setIsSubmittingForm(true);
     setMessage(null);
 
     try {
@@ -96,12 +124,12 @@ export default function AuthForm({ mode }: AuthFormProps) {
         error instanceof Error ? error.message : "Authentication failed.",
       );
     } finally {
-      setIsLoading(false);
+      setIsSubmittingForm(false);
     }
   }
 
   async function handleGoogleSignIn() {
-    setIsLoading(true);
+    setIsGoogleLoading(true);
     const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`;
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
@@ -112,7 +140,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
 
     if (error) {
       toast.error(error.message);
-      setIsLoading(false);
+      setIsGoogleLoading(false);
     }
   }
 
@@ -132,9 +160,14 @@ export default function AuthForm({ mode }: AuthFormProps) {
       <button
         type="button"
         onClick={handleGoogleSignIn}
-        disabled={isLoading}
-        className="mb-4 inline-flex w-full items-center justify-center rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-semibold text-gray-800 transition hover:bg-gray-50 disabled:opacity-60 dark:border-gray-700 dark:bg-gray-950 dark:text-gray-100 dark:hover:bg-gray-800"
+        disabled={isGoogleLoading || isSubmittingForm}
+        className="mb-4 inline-flex w-full items-center justify-center gap-3 rounded-xl border border-gray-300 bg-white px-4 py-3.5 text-sm font-semibold text-gray-900 shadow-sm transition hover:border-gray-400 hover:bg-gray-50 disabled:opacity-60 dark:border-gray-700 dark:bg-gray-950 dark:text-gray-100 dark:hover:border-gray-600 dark:hover:bg-gray-800"
       >
+        {isGoogleLoading ? (
+          <Loader2 className="h-5 w-5 animate-spin" />
+        ) : (
+          <GoogleIcon />
+        )}
         Continue with Google
       </button>
 
@@ -220,10 +253,10 @@ export default function AuthForm({ mode }: AuthFormProps) {
 
         <button
           type="submit"
-          disabled={isLoading}
+          disabled={isSubmittingForm || isGoogleLoading}
           className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-cyan-600 px-4 py-3 text-sm font-bold text-white transition hover:bg-cyan-700 disabled:opacity-60"
         >
-          {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
+          {isSubmittingForm && <Loader2 className="h-4 w-4 animate-spin" />}
           {isSignUp ? "Create account" : "Sign in"}
         </button>
       </form>
