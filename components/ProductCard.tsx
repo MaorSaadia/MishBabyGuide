@@ -43,10 +43,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
       </Link>
 
       {/* Content Section */}
-      <div className="flex grow flex-col bg-white p-3 dark:bg-gray-900 sm:p-4">
+      <div className="flex grow flex-col bg-white p-2.5 dark:bg-gray-900 sm:p-4">
         {/* Product Title */}
-        <Link href={`/products/${slug}`} className="mb-3">
-          <h3 className="line-clamp-3 min-h-14 text-sm font-bold leading-snug text-gray-950 transition-colors hover:text-cyan-600 dark:text-gray-100 sm:text-base">
+        <Link href={`/products/${slug}`} className="mb-2 sm:mb-3">
+          <h3 className="line-clamp-3 min-h-12 text-sm font-bold leading-snug text-gray-950 transition-colors hover:text-cyan-600 dark:text-gray-100 sm:min-h-14 sm:text-base">
             {title}
           </h3>
         </Link>
@@ -57,11 +57,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
         </p> */}
 
         {/* Action Buttons */}
-        <div className="mt-auto flex gap-2">
+        <div className="mt-auto grid grid-cols-[minmax(0,1fr)_36px_36px] items-center gap-1.5 sm:flex sm:gap-2">
           {/* View Product Button */}
           <Link
             href={`/products/${slug}`}
-            className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-cyan-600 px-3 py-2.5 text-xs font-semibold text-white shadow-sm transition-all hover:bg-cyan-700 hover:shadow-md sm:gap-2 sm:text-sm"
+            className="inline-flex min-w-0 items-center justify-center gap-1 rounded-lg bg-cyan-600 px-2 py-2.5 text-xs font-semibold text-white shadow-sm transition-all hover:bg-cyan-700 hover:shadow-md sm:flex-1 sm:gap-2 sm:px-3 sm:text-sm"
           >
             <span className="hidden sm:inline">View Product</span>
             <span className="sm:hidden">View</span>
@@ -73,11 +73,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
             href={amazonLink}
             target="_blank"
             rel="nofollow noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-lg border border-cyan-600 bg-white px-3 py-2.5 text-xs font-semibold text-cyan-600 transition-all hover:bg-cyan-50 dark:bg-gray-900 dark:hover:bg-cyan-950/30 sm:px-3 sm:text-sm"
+            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-cyan-600 bg-white text-cyan-600 transition-all hover:bg-cyan-50 dark:bg-gray-900 dark:hover:bg-cyan-950/30 sm:h-auto sm:w-auto sm:px-3 sm:py-2.5 sm:text-sm"
             title="View on Amazon"
+            aria-label={`View ${title} on Amazon`}
           >
             <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4" />
-            <span className="ml-1.5 sm:hidden">Amazon</span>
           </Link>
           {savedProduct && (
             <SaveProductButton product={savedProduct} compact />

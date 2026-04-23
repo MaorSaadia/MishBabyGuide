@@ -102,7 +102,9 @@ export default function SaveProductButton({
       disabled={!loaded || isPending || !product.product_key}
       className={
         className ??
-        "inline-flex items-center justify-center gap-2 rounded-lg border border-cyan-600 bg-white px-3 py-2.5 text-xs font-semibold text-cyan-700 transition hover:bg-cyan-50 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-gray-900 dark:text-cyan-300 dark:hover:bg-cyan-950/30 sm:text-sm"
+        (compact
+          ? "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-cyan-600 bg-white text-cyan-700 transition hover:bg-cyan-50 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-gray-900 dark:text-cyan-300 dark:hover:bg-cyan-950/30 sm:h-11 sm:w-11"
+          : "inline-flex items-center justify-center gap-2 rounded-lg border border-cyan-600 bg-white px-3 py-2.5 text-xs font-semibold text-cyan-700 transition hover:bg-cyan-50 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-gray-900 dark:text-cyan-300 dark:hover:bg-cyan-950/30 sm:text-sm")
       }
       aria-pressed={saved}
       aria-label={saved ? `Unsave ${product.title}` : `Save ${product.title}`}
