@@ -5,8 +5,6 @@ import { toast } from "sonner";
 
 interface NewsletterContent {
   products: Array<{ title: string }>;
-  reviews: Array<{ title: string }>;
-  blogPost: { title: string } | null;
   date: string;
 }
 
@@ -47,11 +45,11 @@ export default function NewsletterPreviewClient({
         throw new Error(data.error || "Failed to send test email");
       }
 
-      toast.success("Test email sent successfully! 📧", {
+      toast.success("Test email sent successfully!", {
         description: `Sent to ${email}`,
         duration: 4000,
       });
-      setEmail(""); // Clear input on success
+      setEmail("");
     } catch (error) {
       console.error("Error sending test email:", error);
       toast.error("Failed to send test email", {
@@ -66,25 +64,22 @@ export default function NewsletterPreviewClient({
 
   return (
     <div className="min-h-screen bg-gray-100 py-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-          <h1 className="text-2xl font-bold mb-4">Newsletter Preview</h1>
-          <p className="text-gray-600 mb-4">
-            This is how your newsletter will look when sent.
+      <div className="mx-auto max-w-4xl">
+        <div className="mb-6 rounded-lg bg-white p-6 shadow-lg">
+          <h1 className="mb-4 text-2xl font-bold">Newsletter Preview</h1>
+          <p className="mb-4 text-gray-600">
+            This is how your product-focused weekly newsletter will look when
+            sent.
           </p>
 
-          {/* Content Summary */}
-          <div className="bg-gray-50 rounded-lg p-4 mb-4">
-            <h2 className="font-semibold mb-2">Content Summary:</h2>
+          <div className="mb-4 rounded-lg bg-gray-50 p-4">
+            <h2 className="mb-2 font-semibold">Content Summary:</h2>
             <ul className="space-y-1 text-sm">
-              <li>📦 Products: {content.products.length}</li>
-              <li>⭐ Reviews: {content.reviews.length}</li>
-              <li>📝 Blog Post: {content.blogPost ? "✓" : "✗"}</li>
-              <li>📅 Date: {content.date}</li>
+              <li>Products: {content.products.length}</li>
+              <li>Date: {content.date}</li>
             </ul>
           </div>
 
-          {/* Send Test Email Form */}
           <form onSubmit={handleSendTest} className="mb-4">
             <div className="flex gap-2">
               <input
@@ -94,12 +89,12 @@ export default function NewsletterPreviewClient({
                 placeholder="your@email.com"
                 required
                 disabled={isSending}
-                className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 disabled:opacity-50 disabled:bg-gray-100"
+                className="flex-1 rounded-lg border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500 disabled:bg-gray-100 disabled:opacity-50"
               />
               <button
                 type="submit"
                 disabled={isSending}
-                className="px-6 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
+                className="rounded-lg bg-cyan-600 px-6 py-2 font-medium text-white transition-colors hover:bg-cyan-700 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {isSending ? "Sending..." : "Send Test Email"}
               </button>
@@ -107,8 +102,7 @@ export default function NewsletterPreviewClient({
           </form>
         </div>
 
-        {/* Email Preview */}
-        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+        <div className="overflow-hidden rounded-lg bg-white shadow-lg">
           <div dangerouslySetInnerHTML={{ __html: emailHtml }} />
         </div>
       </div>

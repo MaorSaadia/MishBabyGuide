@@ -38,15 +38,7 @@ export async function POST(request: Request) {
           from: FROM_EMAIL,
           to: email,
           subject: `Your Weekly Baby Product Picks - ${content.date}`,
-          react: WeeklyNewsletter({
-            ...content,
-            blogPost: content.blogPost || {
-              title: "",
-              excerpt: "",
-              image: "",
-              url: "",
-            },
-          }),
+          react: WeeklyNewsletter(content),
         }),
       );
 

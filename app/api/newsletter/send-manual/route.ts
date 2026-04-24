@@ -2,7 +2,7 @@
 import { NextResponse } from "next/server";
 import { resend, FROM_EMAIL } from "@/lib/resend";
 import { client } from "@/lib/sanity.client";
-import { getProductCardImage, getBlogCardImage } from "@/lib/sanity.image";
+import { getProductCardImage } from "@/lib/sanity.image";
 import WeeklyNewsletter from "@/emails/WeeklyNewsletter";
 
 export async function POST(request: Request) {
@@ -22,26 +22,6 @@ export async function POST(request: Request) {
         title,
         customSubject,
         products[]-> {
-          _id,
-          title,
-          excerpt,
-          slug,
-          mainImage {
-            asset -> { url }
-          },
-          publishedAt
-        },
-        reviews[]-> {
-          _id,
-          title,
-          excerpt,
-          slug,
-          mainImage {
-            asset -> { url }
-          },
-          publishedAt
-        },
-        blogPost-> {
           _id,
           title,
           excerpt,
@@ -75,24 +55,6 @@ export async function POST(request: Request) {
           : `${baseUrl}/placeholder.jpg`,
         url: `${baseUrl}/products/${p.slug.current}`,
       })),
-      reviews: newsletter.reviews.slice(0, 2).map((r: any) => ({
-        title: r.title,
-        excerpt: r.excerpt,
-        image: r.mainImage
-          ? getProductCardImage(r.mainImage)
-          : `${baseUrl}/placeholder.jpg`,
-        url: `${baseUrl}/reviews/${r.slug.current}`,
-      })),
-      blogPost: newsletter.blogPost
-        ? {
-            title: newsletter.blogPost.title,
-            excerpt: newsletter.blogPost.excerpt,
-            image: newsletter.blogPost.mainImage
-              ? getBlogCardImage(newsletter.blogPost.mainImage)
-              : `${baseUrl}/placeholder.jpg`,
-            url: `${baseUrl}/blog/${newsletter.blogPost.slug.current}`,
-          }
-        : null,
       date: new Date().toLocaleDateString("en-US", {
         year: "numeric",
         month: "long",
@@ -114,15 +76,7 @@ export async function POST(request: Request) {
           subject:
             newsletter.customSubject ||
             `Your Weekly Baby Product Picks - ${content.date}`,
-          react: WeeklyNewsletter({
-            ...content,
-            blogPost: content.blogPost || {
-              title: "",
-              excerpt: "",
-              image: "",
-              url: "",
-            },
-          }),
+          react: WeeklyNewsletter(content),
         }),
       );
 

@@ -16,6 +16,7 @@ import {
   generateBreadcrumbJsonLd,
 } from "@/lib/metadata";
 import Breadcrumb from "@/components/Breadcrumb";
+import CategoryLiveAmazonSection from "@/components/CategoryLiveAmazonSection";
 import ProductGrid from "@/components/ProductGrid";
 
 // Generate static params for all categories at build time
@@ -62,26 +63,39 @@ function ProductGridSkeleton() {
 }
 
 // Separate component for products to enable Suspense
-async function CategoryProducts({ slug }: { slug: string }) {
+async function CategoryProducts({
+  slug,
+  categoryTitle,
+}: {
+  slug: string;
+  categoryTitle: string;
+}) {
   const products = await getProductsByCategory(slug);
 
   if (products.length === 0) {
     return (
-      <div className="text-center py-16 bg-gray-50 dark:bg-gray-800 rounded-2xl">
-        <Package className="h-16 w-16 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
-        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-          No Products Yet
-        </h3>
-        <p className="text-gray-600 dark:text-gray-300 mb-6">
-          We&apos;re working on adding products to this category.
-        </p>
-        <Link
-          href="/products"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-cyan-600 text-white font-semibold rounded-lg hover:bg-cyan-700 transition-all"
-        >
-          Browse All Products
-        </Link>
-      </div>
+      <>
+        <div className="text-center py-16 bg-gray-50 dark:bg-gray-800 rounded-2xl">
+          <Package className="h-16 w-16 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+            No Products Yet
+          </h3>
+          <p className="text-gray-600 dark:text-gray-300 mb-6">
+            We&apos;re working on adding products to this category.
+          </p>
+          <Link
+            href="/products"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-cyan-600 text-white font-semibold rounded-lg hover:bg-cyan-700 transition-all"
+          >
+            Browse All Products
+          </Link>
+        </div>
+
+        <CategoryLiveAmazonSection
+          categoryTitle={categoryTitle}
+          categorySlug={slug}
+        />
+      </>
     );
   }
 
@@ -99,6 +113,11 @@ async function CategoryProducts({ slug }: { slug: string }) {
 
       {/* Products Grid */}
       <ProductGrid products={products} />
+
+      <CategoryLiveAmazonSection
+        categoryTitle={categoryTitle}
+        categorySlug={slug}
+      />
 
       {/* Bottom CTA */}
       {products.length >= 3 && (
@@ -218,7 +237,7 @@ export default async function CategoryPage({
 
         {/* Products Content with Suspense */}
         <Suspense fallback={<ProductGridSkeleton />}>
-          <CategoryProducts slug={slug} />
+          <CategoryProducts slug={slug} categoryTitle={category.title} />
         </Suspense>
       </div>
 

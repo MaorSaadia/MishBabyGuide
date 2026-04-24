@@ -6,18 +6,7 @@ import NewsletterPreviewClient from "./NewsletterPreviewClient";
 export default async function NewsletterPreviewPage() {
   const content = await getNewsletterContent();
 
-  // Render the email as HTML
-  const emailHtml = await render(
-    WeeklyNewsletter({
-      ...content,
-      blogPost: content.blogPost || {
-        title: "",
-        excerpt: "",
-        image: "",
-        url: "",
-      },
-    }),
-  );
+  const emailHtml = await render(WeeklyNewsletter(content));
 
   return <NewsletterPreviewClient content={content} emailHtml={emailHtml} />;
 }

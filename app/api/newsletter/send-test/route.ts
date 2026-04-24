@@ -49,12 +49,6 @@ export async function POST(request: Request) {
       subject: `[TEST] Your Weekly Baby Product Picks - ${content.date}`,
       react: WeeklyNewsletter({
         ...content,
-        blogPost: content.blogPost || {
-          title: "",
-          excerpt: "",
-          image: "",
-          url: "",
-        },
         unsubscribeUrl, // MAKE SURE THIS IS PASSED
       }),
       headers: {
