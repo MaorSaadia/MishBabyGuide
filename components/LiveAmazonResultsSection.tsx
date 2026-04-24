@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Clock3, Loader2 } from "lucide-react";
+import { ArrowRight, Clock3, Loader2, Sparkles } from "lucide-react";
 
 import type {
   LiveAmazonProduct,
@@ -12,6 +12,14 @@ import LiveAmazonProductCard from "@/components/LiveAmazonProductCard";
 
 type LiveAmazonResultsSectionProps = {
   initialResults: LiveAmazonSearchResult;
+  badgeLabel?: string;
+  title?: string;
+  description?: string;
+  totalResultsLabel?: string;
+  className?: string;
+  fullSearchHref?: string;
+  fullSearchLabel?: string;
+  hideEmptyState?: boolean;
 };
 
 function formatFetchedAt(isoString: string) {
@@ -46,6 +54,14 @@ function mergeProducts(
 
 export default function LiveAmazonResultsSection({
   initialResults,
+  badgeLabel = "Live results",
+  title,
+  description,
+  totalResultsLabel,
+  className = "mt-10",
+  fullSearchHref,
+  fullSearchLabel = "Open full live Amazon search",
+  hideEmptyState = false,
 }: LiveAmazonResultsSectionProps) {
   const [products, setProducts] = useState(initialResults.products);
   const [itemPage, setItemPage] = useState(initialResults.itemPage);
@@ -90,21 +106,40 @@ export default function LiveAmazonResultsSection({
     }
   }
 
+  if (hideEmptyState && products.length === 0) {
+    return null;
+  }
+
+  const sectionTitle =
+    title ??
+    `${products.length} result${products.length === 1 ? "" : "s"} for "${
+      initialResults.query
+    }"`;
+  const totalResultsText =
+    totalResultsLabel ??
+    `Amazon found about ${initialResults.totalResultCount} matching result${
+      initialResults.totalResultCount === 1 ? "" : "s"
+    }.`;
+
   return (
-    <section className="mt-10">
+    <section className={className}>
       <div className="flex flex-col gap-5 rounded-[2rem] border border-cyan-100 bg-white/80 p-6 dark:border-gray-800 dark:bg-gray-900/75 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-700 dark:text-cyan-300">
-            Live results
-          </p>
+          <div className="inline-flex items-center gap-2 rounded-full bg-cyan-50 px-4 py-2 text-sm font-semibold text-cyan-700 dark:bg-cyan-950/60 dark:text-cyan-200">
+            <Sparkles className="h-4 w-4" />
+            {badgeLabel}
+          </div>
           <h2 className="mt-2 text-3xl font-black tracking-tight text-gray-900 dark:text-white">
-            {products.length} result{products.length === 1 ? "" : "s"} for{" "}
-            &quot;{initialResults.query}&quot;
+            {sectionTitle}
           </h2>
+          {description ? (
+            <p className="mt-3 max-w-3xl text-base leading-7 text-gray-600 dark:text-gray-300">
+              {description}
+            </p>
+          ) : null}
           {initialResults.totalResultCount ? (
             <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-              Amazon found about {initialResults.totalResultCount} matching
-              result{initialResults.totalResultCount === 1 ? "" : "s"}.
+              {totalResultsText}
             </p>
           ) : null}
         </div>
@@ -180,6 +215,16 @@ export default function LiveAmazonResultsSection({
                 You&apos;ve reached the end of the available live results.
               </p>
             )}
+
+            {fullSearchHref ? (
+              <Link
+                href={fullSearchHref}
+                className="inline-flex items-center gap-2 text-sm font-semibold text-cyan-700 transition hover:text-cyan-900 dark:text-cyan-300 dark:hover:text-cyan-100"
+              >
+                {fullSearchLabel}
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            ) : null}
           </div>
         </>
       )}
