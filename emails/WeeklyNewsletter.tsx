@@ -1,4 +1,3 @@
-// emails/WeeklyNewsletter.tsx
 import {
   Body,
   Button,
@@ -20,37 +19,23 @@ interface Product {
   url: string;
 }
 
-interface Review {
-  title: string;
-  excerpt: string;
-  image: string;
-  url: string;
-}
-
-interface BlogPost {
-  title: string;
-  excerpt: string;
-  image: string;
-  url: string;
-}
-
 interface WeeklyNewsletterProps {
   products: Product[];
-  reviews: Review[];
-  blogPost: BlogPost;
   date: string;
+  weekKey?: string;
+  trackingPixelUrl?: string;
   unsubscribeUrl?: string;
 }
 
 export const WeeklyNewsletter = ({
   products = [],
-  reviews = [],
-  blogPost,
   date = new Date().toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
   }),
+  weekKey,
+  trackingPixelUrl = "",
   unsubscribeUrl = "",
 }: WeeklyNewsletterProps) => {
   const baseUrl = "https://www.mishbabyguide.com";
@@ -58,10 +43,9 @@ export const WeeklyNewsletter = ({
   return (
     <Html>
       <Head />
-      <Preview>Your weekly baby product picks and parenting tips</Preview>
+      <Preview>Your weekly baby product recommendations are ready</Preview>
       <Body style={main}>
         <Container style={container}>
-          {/* Header */}
           <Section style={header}>
             <Img
               src={`${baseUrl}/logo.png`}
@@ -75,110 +59,63 @@ export const WeeklyNewsletter = ({
             <Text style={dateText}>{date}</Text>
           </Section>
 
-          {/* Introduction */}
           <Section style={section}>
             <Text style={text}>
-              Hi there! 👋
+              Hi there!
               <br />
               <br />
-              Here&apos;s your weekly roundup of the best baby products on
-              Amazon, our latest reviews, and helpful parenting articles.
+              Here&apos;s this week&apos;s product-focused roundup from
+              MishBabyGuide. We picked practical baby finds worth checking this
+              week so you can get straight to the recommendations.
             </Text>
           </Section>
 
-          {/* New Products Section - ALL 10 in uniform grid */}
+          {weekKey ? (
+            <Section style={weekKeySection}>
+              <Text style={weekKeyText}>Weekly send: {weekKey}</Text>
+            </Section>
+          ) : null}
+
           <Section style={section}>
-            <Heading style={h2}>📦 New Products This Week</Heading>
+            <Heading style={h2}>This Week&apos;s Product Picks</Heading>
             <Text style={sectionSubtitle}>
-              10 hand-picked products we think you&apos;ll love
+              Fresh baby recommendations curated for this week
             </Text>
 
-            {/* Product Grid - mobile-friendly single column */}
             {products.slice(0, 10).map((product, index) => (
-              <Section key={index} style={productCardMobile}>
+              <Section key={index} style={productCard}>
                 <Link href={product.url} style={productLink}>
                   <Img
                     src={product.image}
                     alt={product.title}
-                    style={productImageMobile}
+                    style={productImage}
                   />
-                  <Heading style={productTitleMobile}>{product.title}</Heading>
-                  <Text style={productExcerptMobile}>
-                    {product.excerpt.length > 100
-                      ? `${product.excerpt.substring(0, 100)}...`
+                  <Heading style={productTitle}>{product.title}</Heading>
+                  <Text style={productExcerpt}>
+                    {product.excerpt.length > 120
+                      ? `${product.excerpt.substring(0, 120)}...`
                       : product.excerpt}
                   </Text>
                 </Link>
                 <Button style={button} href={product.url}>
-                  View Product →
+                  View Product
                 </Button>
               </Section>
             ))}
           </Section>
 
-          {/* Divider */}
-          <Section style={divider} />
-
-          {/* Reviews Section */}
-          <Section style={section}>
-            <Heading style={h2}>⭐ Featured Reviews</Heading>
-            <Text style={sectionSubtitle}>
-              In-depth analysis with pros & cons
-            </Text>
-
-            {reviews.slice(0, 2).map((review, index) => (
-              <Section key={index} style={reviewCardMobile}>
-                <Link href={review.url} style={productLink}>
-                  <Img
-                    src={review.image}
-                    alt={review.title}
-                    style={reviewImageMobile}
-                  />
-                  <Heading style={reviewTitleMobile}>{review.title}</Heading>
-                  <Text style={reviewExcerptMobile}>{review.excerpt}</Text>
-                </Link>
-                <Link href={review.url} style={reviewButton}>
-                  Read Review →
-                </Link>
-              </Section>
-            ))}
-          </Section>
-
-          {/* Divider */}
-          <Section style={divider} />
-
-          {/* Blog Post Section */}
-          {blogPost && (
-            <Section style={section}>
-              <Heading style={h2}>📝 Latest Article</Heading>
-              <Section style={blogCard}>
-                <Img
-                  src={blogPost.image}
-                  alt={blogPost.title}
-                  style={blogImage}
-                />
-                <Heading style={blogTitle}>{blogPost.title}</Heading>
-                <Text style={blogExcerpt}>{blogPost.excerpt}</Text>
-                <Button style={button} href={blogPost.url}>
-                  Read Article →
-                </Button>
-              </Section>
-            </Section>
-          )}
-
-          {/* Footer */}
           <Section style={footer}>
             <Text style={footerText}>
               You&apos;re receiving this email because you subscribed to
-              MishBabyGuide newsletter.
+              MishBabyGuide updates or created an account with us.
             </Text>
             <Text style={footerLinks}>
-              <Link href={`${baseUrl}`} style={footerLink}>
+              <Link href={baseUrl} style={footerLink}>
                 Visit Website
               </Link>
-              {" | "}
               {unsubscribeUrl ? (
                 <>
+                  {" | "}
                   <Link href={unsubscribeUrl} style={footerLink}>
                     Unsubscribe
                   </Link>
@@ -188,13 +125,17 @@ export const WeeklyNewsletter = ({
             <Text style={footerCopyright}>
               © {new Date().getFullYear()} MishBabyGuide. All rights reserved.
             </Text>
-            {unsubscribeUrl && (
-              <Text style={footerTextSmall}>
-                MishBabyGuide • Your trusted source for baby product
-                recommendations
-              </Text>
-            )}
           </Section>
+
+          {trackingPixelUrl ? (
+            <Img
+              src={trackingPixelUrl}
+              alt=""
+              width="1"
+              height="1"
+              style={trackingPixel}
+            />
+          ) : null}
         </Container>
       </Body>
     </Html>
@@ -203,7 +144,6 @@ export const WeeklyNewsletter = ({
 
 export default WeeklyNewsletter;
 
-// Styles
 const main = {
   backgroundColor: "#f6f9fc",
   fontFamily:
@@ -276,8 +216,18 @@ const sectionSubtitle = {
   paddingLeft: "8px",
 };
 
-// New product styles - mobile-friendly single column
-const productCardMobile = {
+const weekKeySection = {
+  padding: "0 24px",
+};
+
+const weekKeyText = {
+  color: "#64748b",
+  fontSize: "12px",
+  margin: "0",
+  paddingLeft: "8px",
+};
+
+const productCard = {
   marginBottom: "20px",
   padding: "16px",
   backgroundColor: "#f9fafb",
@@ -292,7 +242,7 @@ const productLink = {
   display: "block",
 };
 
-const productImageMobile = {
+const productImage = {
   width: "100%",
   maxWidth: "400px",
   height: "auto",
@@ -301,7 +251,7 @@ const productImageMobile = {
   display: "block",
 };
 
-const productTitleMobile = {
+const productTitle = {
   color: "#1f2937",
   fontSize: "16px",
   fontWeight: "600",
@@ -309,7 +259,7 @@ const productTitleMobile = {
   lineHeight: "22px",
 };
 
-const productExcerptMobile = {
+const productExcerpt = {
   color: "#6b7280",
   fontSize: "14px",
   lineHeight: "20px",
@@ -329,89 +279,6 @@ const button = {
   width: "auto",
   maxWidth: "100%",
   boxSizing: "border-box" as const,
-};
-
-// Review styles - mobile-friendly single column
-const reviewCardMobile = {
-  marginBottom: "20px",
-  padding: "16px",
-  backgroundColor: "#fef3c7",
-  borderRadius: "12px",
-  border: "1px solid #fde68a",
-  width: "100%",
-};
-
-const reviewImageMobile = {
-  width: "100%",
-  maxWidth: "300px",
-  height: "auto",
-  borderRadius: "8px",
-  marginBottom: "12px",
-  display: "block",
-};
-
-const reviewTitleMobile = {
-  color: "#1f2937",
-  fontSize: "18px",
-  fontWeight: "600",
-  margin: "0 0 8px",
-  lineHeight: "24px",
-};
-
-const reviewExcerptMobile = {
-  color: "#6b7280",
-  fontSize: "14px",
-  lineHeight: "20px",
-  margin: "0 0 12px",
-};
-
-const reviewButton = {
-  backgroundColor: "#06b6d4",
-  borderRadius: "8px",
-  color: "#fff",
-  fontSize: "14px",
-  fontWeight: "600",
-  textDecoration: "none",
-  textAlign: "center" as const,
-  display: "block",
-  padding: "12px 24px",
-  width: "100%",
-  boxSizing: "border-box" as const,
-};
-
-const blogCard = {
-  marginTop: "16px",
-  padding: "20px",
-  backgroundColor: "#f0f9ff",
-  borderRadius: "12px",
-  border: "1px solid #bae6fd",
-  boxSizing: "border-box" as const,
-};
-
-const blogImage = {
-  width: "100%",
-  height: "auto",
-  borderRadius: "8px",
-  marginBottom: "16px",
-};
-
-const blogTitle = {
-  color: "#1f2937",
-  fontSize: "20px",
-  fontWeight: "600",
-  margin: "0 0 12px",
-};
-
-const blogExcerpt = {
-  color: "#6b7280",
-  fontSize: "14px",
-  lineHeight: "20px",
-  margin: "0 0 16px",
-};
-
-const divider = {
-  borderTop: "1px solid #e5e7eb",
-  margin: "32px 0",
 };
 
 const footer = {
@@ -445,9 +312,8 @@ const footerCopyright = {
   margin: "8px 0 4px",
 };
 
-const footerTextSmall = {
-  color: "#9ca3af",
-  fontSize: "10px",
-  margin: "4px 0 0",
-  lineHeight: "14px",
+const trackingPixel = {
+  display: "block",
+  width: "1px",
+  height: "1px",
 };
