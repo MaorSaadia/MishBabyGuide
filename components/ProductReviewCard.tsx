@@ -41,9 +41,9 @@ const ProductReviewCard = ({
           <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
           {/* Review Badge */}
-          <div className="absolute top-4 left-4 bg-cyan-600 text-white px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 shadow-lg backdrop-blur-sm">
-            <CheckCircle2 className="w-3.5 h-3.5" />
-            Full Review
+          <div className="absolute left-2 top-2 inline-flex max-w-[calc(100%-1rem)] items-center gap-1 rounded-full bg-cyan-600 px-2.5 py-1 text-[11px] font-semibold text-white shadow-lg backdrop-blur-sm sm:left-4 sm:top-4 sm:gap-1.5 sm:px-3 sm:py-1.5 sm:text-xs">
+            <CheckCircle2 className="h-3 w-3 shrink-0 sm:h-3.5 sm:w-3.5" />
+            <span className="truncate">Full Review</span>
           </div>
 
           {/* Category Badge */}
@@ -56,27 +56,28 @@ const ProductReviewCard = ({
       </Link>
 
       {/* Content */}
-      <div className="p-3 flex flex-col grow">
+      <div className="flex grow flex-col p-2.5 sm:p-3">
         {/* Title */}
         <Link href={`/reviews/${slug}`}>
-          <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-gray-100 mb-1 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors line-clamp-2 leading-tight">
+          <h3 className="mb-1 line-clamp-3 min-h-16 text-sm font-bold leading-tight text-gray-900 transition-colors group-hover:text-cyan-600 dark:text-gray-100 dark:group-hover:text-cyan-400 sm:min-h-0 sm:text-xl md:text-2xl">
             {title}
           </h3>
         </Link>
 
         {/* Excerpt */}
-        <p className="text-gray-600 dark:text-gray-400 text-sm md:text-base mb-6 line-clamp-3 grow leading-relaxed">
+        <p className="mb-4 grow line-clamp-2 text-xs leading-relaxed text-gray-600 dark:text-gray-400 sm:mb-6 sm:line-clamp-3 sm:text-sm md:text-base">
           {excerpt}
         </p>
 
         {/* Action Button */}
-        <div className="-mt-3 flex gap-2">
+        <div className="mt-auto grid grid-cols-[minmax(0,1fr)_36px] items-center gap-1.5 sm:-mt-3 sm:flex sm:gap-2">
           <Link
             href={`/reviews/${slug}`}
-            className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-linear-to-r from-cyan-600 to-cyan-700 px-4 py-2 text-sm font-semibold text-white shadow-md transition-all hover:-translate-y-0.5 hover:from-cyan-700 hover:to-cyan-800 hover:shadow-lg sm:text-md"
+            className="inline-flex min-w-0 items-center justify-center gap-1 rounded-xl bg-linear-to-r from-cyan-600 to-cyan-700 px-2 py-2 text-sm font-semibold text-white shadow-md transition-all hover:-translate-y-0.5 hover:from-cyan-700 hover:to-cyan-800 hover:shadow-lg sm:flex-1 sm:gap-2 sm:px-4 sm:text-base"
           >
-            <span>Read Review</span>
-            <ArrowRight className="w-4 h-4 transition-transform" />
+            <span className="sm:hidden">Read</span>
+            <span className="hidden sm:inline">Read Review</span>
+            <ArrowRight className="h-4 w-4 shrink-0 transition-transform" />
           </Link>
           {savedProduct && (
             <SaveProductButton product={savedProduct} compact />
