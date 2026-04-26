@@ -25,6 +25,13 @@ import Logo from "./Logo";
 import SearchComponent from "./Search";
 import { ThemeToggle } from "./ThemeToggle";
 import { createClient } from "@/lib/supabase/client";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -273,14 +280,48 @@ const Navbar = () => {
             </button>
 
             {user ? (
-              <Link
-                href="/saved"
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-cyan-200 text-cyan-700 transition hover:bg-cyan-50 dark:border-cyan-900 dark:text-cyan-300 dark:hover:bg-cyan-950/30"
-                aria-label="Open your profile"
-                title="Saved products"
-              >
-                <UserCircle2 className="h-5 w-5" />
-              </Link>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (showMobileSearch) setShowMobileSearch(false);
+                      if (isMobileMenuOpen) setIsMobileMenuOpen(false);
+                    }}
+                    className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-cyan-200 text-cyan-700 transition hover:bg-cyan-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 focus-visible:ring-offset-2 dark:border-cyan-900 dark:text-cyan-300 dark:hover:bg-cyan-950/30 dark:focus-visible:ring-offset-gray-900"
+                    aria-label="Open profile menu"
+                    title="Profile menu"
+                  >
+                    <UserCircle2 className="h-5 w-5" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  align="end"
+                  sideOffset={8}
+                  className="w-52 rounded-xl border-gray-200 bg-white p-1.5 shadow-lg dark:border-gray-700 dark:bg-gray-900"
+                >
+                  <DropdownMenuItem asChild>
+                    <Link
+                      href="/saved"
+                      className="flex cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 outline-none transition hover:bg-cyan-50 hover:text-cyan-700 focus:bg-cyan-50 focus:text-cyan-700 dark:text-gray-200 dark:hover:bg-cyan-950/30 dark:hover:text-cyan-300 dark:focus:bg-cyan-950/30 dark:focus:text-cyan-300"
+                    >
+                      <Bookmark className="h-4 w-4" />
+                      Saved Products
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator className="bg-gray-100 dark:bg-gray-800" />
+                  <DropdownMenuItem
+                    onSelect={(event) => {
+                      event.preventDefault();
+                      void handleSignOut();
+                    }}
+                    className="cursor-pointer rounded-lg px-3 py-2 text-sm font-medium text-gray-700 transition focus:bg-cyan-50 focus:text-cyan-700 dark:text-gray-200 dark:focus:bg-cyan-950/30 dark:focus:text-cyan-300"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    Sign out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
               <Link
                 href="/sign-in"
