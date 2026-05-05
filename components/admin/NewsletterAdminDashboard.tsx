@@ -37,19 +37,34 @@ function SendStatusBadge({
   status: NewsletterRecipient["weekSendStatus"];
 }) {
   if (status === "sent") {
-    return <Badge className="bg-emerald-100 text-emerald-800">Sent</Badge>;
+    return (
+      <Badge className="bg-emerald-100 text-emerald-800 dark:bg-emerald-500/15 dark:text-emerald-300">
+        Sent
+      </Badge>
+    );
   }
 
   if (status === "failed") {
-    return <Badge className="bg-rose-100 text-rose-700">Failed</Badge>;
+    return (
+      <Badge className="bg-rose-100 text-rose-700 dark:bg-rose-500/15 dark:text-rose-300">
+        Failed
+      </Badge>
+    );
   }
 
   if (status === "pending") {
-    return <Badge className="bg-amber-100 text-amber-800">Pending</Badge>;
+    return (
+      <Badge className="bg-amber-100 text-amber-800 dark:bg-amber-500/15 dark:text-amber-300">
+        Pending
+      </Badge>
+    );
   }
 
   return (
-    <Badge variant="outline" className="border-slate-300 text-slate-600">
+    <Badge
+      variant="outline"
+      className="border-slate-300 text-slate-600 dark:border-slate-600 dark:text-slate-300"
+    >
       Not sent
     </Badge>
   );
@@ -64,14 +79,17 @@ function OpenStatusBadge({
 }) {
   if (!opened) {
     return (
-      <Badge variant="outline" className="border-slate-300 text-slate-600">
+      <Badge
+        variant="outline"
+        className="border-slate-300 text-slate-600 dark:border-slate-600 dark:text-slate-300"
+      >
         Not opened
       </Badge>
     );
   }
 
   return (
-    <Badge className="bg-cyan-100 text-cyan-800">
+    <Badge className="bg-cyan-100 text-cyan-800 dark:bg-cyan-500/15 dark:text-cyan-300">
       Opened {openCount > 1 ? `${openCount}x` : ""}
     </Badge>
   );
@@ -262,7 +280,7 @@ export default function NewsletterAdminDashboard({
             </Button>
           </div>
         </CardHeader>
-        <CardContent className="space-y-2 text-sm text-slate-600">
+        <CardContent className="space-y-2 text-sm text-muted-foreground">
           <p>
             The manual sender uses Supabase Auth users as the recipient list and
             skips anyone already marked as sent for this week.
@@ -284,9 +302,9 @@ export default function NewsletterAdminDashboard({
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-slate-200 text-sm">
+            <table className="min-w-full divide-y divide-slate-200 text-sm dark:divide-slate-800">
               <thead>
-                <tr className="text-left text-slate-500">
+                <tr className="text-left text-muted-foreground">
                   <th className="px-3 py-3 font-medium">Email</th>
                   <th className="px-3 py-3 font-medium">User ID</th>
                   <th className="px-3 py-3 font-medium">Joined</th>
@@ -297,33 +315,33 @@ export default function NewsletterAdminDashboard({
                   <th className="px-3 py-3 font-medium">Preview</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800/80">
                 {recipients.map((recipient) => (
                   <tr key={recipient.userId} className="align-top">
-                    <td className="px-3 py-3 font-medium text-slate-900">
+                    <td className="px-3 py-3 font-medium text-slate-900 dark:text-slate-100">
                       {recipient.email}
                     </td>
-                    <td className="px-3 py-3 font-mono text-xs text-slate-600">
+                    <td className="px-3 py-3 font-mono text-xs text-slate-600 dark:text-slate-400">
                       {recipient.userId}
                     </td>
-                    <td className="px-3 py-3 text-slate-600">
+                    <td className="px-3 py-3 text-slate-600 dark:text-slate-300">
                       {formatDateTime(recipient.createdAt)}
                     </td>
-                    <td className="space-y-2 px-3 py-3 text-slate-600">
+                    <td className="space-y-2 px-3 py-3 text-slate-600 dark:text-slate-300">
                       <SendStatusBadge status={recipient.weekSendStatus} />
                       <div>{formatDateTime(recipient.weekSentAt)}</div>
                     </td>
-                    <td className="space-y-2 px-3 py-3 text-slate-600">
+                    <td className="space-y-2 px-3 py-3 text-slate-600 dark:text-slate-300">
                       <OpenStatusBadge
                         opened={recipient.weekOpened}
                         openCount={recipient.weekOpenCount}
                       />
                       <div>{formatDateTime(recipient.weekOpenedAt)}</div>
                     </td>
-                    <td className="px-3 py-3 text-slate-600">
+                    <td className="px-3 py-3 text-slate-600 dark:text-slate-300">
                       {formatDateTime(recipient.lastSentAt)}
                     </td>
-                    <td className="px-3 py-3 text-slate-600">
+                    <td className="px-3 py-3 text-slate-600 dark:text-slate-300">
                       {formatDateTime(recipient.lastOpenedAt)}
                     </td>
                     <td className="px-3 py-3">

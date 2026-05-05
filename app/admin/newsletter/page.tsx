@@ -41,7 +41,7 @@ export default async function AdminNewsletterPage() {
             Newsletter Control Room
           </h1>
           <p className="max-w-3xl text-slate-600 dark:text-slate-300">
-            Review the Supabase recipient list, check this week’s delivery
+            Review the Supabase recipient list, check this week&apos;s delivery
             status, and send the Monday newsletter manually when you are ready.
           </p>
         </div>
