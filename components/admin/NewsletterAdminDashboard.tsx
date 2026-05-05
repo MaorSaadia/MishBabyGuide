@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState, useTransition } from "react";
-import { Loader2, Mail, RefreshCw } from "lucide-react";
+import { Loader2, Mail, RefreshCw, Send } from "lucide-react";
 import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
@@ -29,6 +29,17 @@ interface NewsletterAdminDashboardProps {
 interface RecipientsApiResponse {
   recipients: NewsletterRecipient[];
   summary: NewsletterRecipientSummary;
+}
+
+interface SendRecipientApiResponse {
+  success?: boolean;
+  skipped?: boolean;
+  email?: string;
+  status?: NewsletterRecipient["weekSendStatus"];
+  sentAt?: string;
+  deliveryId?: string;
+  message?: string;
+  error?: string;
 }
 
 function SendStatusBadge({
@@ -103,7 +114,8 @@ export default function NewsletterAdminDashboard({
   const [recipients, setRecipients] = useState(initialRecipients);
   const [summary, setSummary] = useState(initialSummary);
   const [isRefreshing, startRefreshing] = useTransition();
-  const [isSending, startSending] = useTransition();
+  const [isBulkSending, setIsBulkSending] = useState(false);
+  const [sendingEmail, setSendingEmail] = useState<string | null>(null);
   const [previewSendingEmail, setPreviewSendingEmail] = useState<string | null>(
     null,
   );
@@ -112,6 +124,8 @@ export default function NewsletterAdminDashboard({
     () => formatWeekLabel(summary.weekKey),
     [summary.weekKey],
   );
+  const isSending = isBulkSending || Boolean(sendingEmail);
+  const isBusy = isRefreshing || isSending || Boolean(previewSendingEmail);
 
   async function refreshRecipients() {
     const response = await fetch("/api/admin/newsletter/recipients", {
@@ -148,41 +162,138 @@ export default function NewsletterAdminDashboard({
     });
   }
 
-  function handleSendWeeklyNewsletter() {
-    startSending(async () => {
-      try {
-        const response = await fetch("/api/admin/newsletter/send-weekly-manual", {
-          method: "POST",
-        });
-        const data = (await response.json()) as {
-          success?: boolean;
-          message?: string;
-          error?: string;
-          sent?: number;
-          failed?: number;
-        };
+  async function sendRecipient(recipient: NewsletterRecipient) {
+    const response = await fetch("/api/admin/newsletter/send-recipient", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: recipient.email,
+        userId: recipient.userId,
+      }),
+    });
 
-        if (!response.ok || !data.success) {
-          throw new Error(data.error || "Failed to send newsletter");
+    const data = (await response.json()) as SendRecipientApiResponse;
+
+    if (!response.ok || !data.success) {
+      throw new Error(data.error || `Failed to send to ${recipient.email}`);
+    }
+
+    setRecipients((currentRecipients) =>
+      currentRecipients.map((currentRecipient) =>
+        currentRecipient.userId === recipient.userId
+          ? {
+              ...currentRecipient,
+              weekSendStatus: data.status ?? "sent",
+              weekSentAt: data.sentAt ?? currentRecipient.weekSentAt,
+              lastSentAt: data.sentAt ?? currentRecipient.lastSentAt,
+              deliveryId: data.deliveryId ?? currentRecipient.deliveryId,
+            }
+          : currentRecipient,
+      ),
+    );
+
+    return data;
+  }
+
+  async function handleSendRecipient(recipient: NewsletterRecipient) {
+    setSendingEmail(recipient.email);
+
+    try {
+      const data = await sendRecipient(recipient);
+      toast.success(data.message || `Newsletter sent to ${recipient.email}.`);
+      await refreshRecipients();
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : "Failed to send newsletter",
+      );
+      await refreshRecipients();
+    } finally {
+      setSendingEmail(null);
+    }
+  }
+
+  async function handleSendWeeklyNewsletter() {
+    const pendingRecipients = recipients.filter(
+      (recipient) => recipient.weekSendStatus !== "sent",
+    );
+
+    if (pendingRecipients.length === 0) {
+      toast.info("Everyone on the list has already been sent this week.");
+      return;
+    }
+
+    setIsBulkSending(true);
+
+    let sent = 0;
+    let failed = 0;
+    let skipped = 0;
+    const toastId = toast.loading(
+      `Sending 1 of ${pendingRecipients.length} newsletters...`,
+    );
+
+    try {
+      for (let index = 0; index < pendingRecipients.length; index += 1) {
+        const recipient = pendingRecipients[index];
+        setSendingEmail(recipient.email);
+        toast.loading(
+          `Sending ${index + 1} of ${pendingRecipients.length} newsletters...`,
+          {
+            id: toastId,
+            description: recipient.email,
+          },
+        );
+
+        try {
+          const data = await sendRecipient(recipient);
+
+          if (data.skipped) {
+            skipped += 1;
+          } else {
+            sent += 1;
+          }
+        } catch {
+          failed += 1;
+          setRecipients((currentRecipients) =>
+            currentRecipients.map((currentRecipient) =>
+              currentRecipient.userId === recipient.userId
+                ? {
+                    ...currentRecipient,
+                    weekSendStatus: "failed",
+                  }
+                : currentRecipient,
+            ),
+          );
         }
 
-        toast.success(data.message || "Newsletter sent successfully.", {
-          description: `Sent: ${data.sent ?? 0}, Failed: ${data.failed ?? 0}`,
-        });
-
-        await refreshRecipients();
-      } catch (error) {
-        toast.error(
-          error instanceof Error ? error.message : "Failed to send newsletter",
-        );
+        if (index < pendingRecipients.length - 1) {
+          await new Promise((resolve) => setTimeout(resolve, 750));
+        }
       }
-    });
+
+      if (failed > 0) {
+        toast.error("Newsletter send finished with some failures.", {
+          id: toastId,
+          description: `Sent: ${sent}, Failed: ${failed}, Skipped: ${skipped}`,
+        });
+      } else {
+        toast.success("Newsletter send finished.", {
+          id: toastId,
+          description: `Sent: ${sent}, Skipped: ${skipped}`,
+        });
+      }
+    } finally {
+      setSendingEmail(null);
+      setIsBulkSending(false);
+      await refreshRecipients();
+    }
   }
 
   function handleSendPreview(email: string) {
     setPreviewSendingEmail(email);
 
-    startSending(async () => {
+    void (async () => {
       try {
         const response = await fetch("/api/admin/newsletter/send-preview", {
           method: "POST",
@@ -210,7 +321,7 @@ export default function NewsletterAdminDashboard({
       } finally {
         setPreviewSendingEmail(null);
       }
-    });
+    })();
   }
 
   return (
@@ -255,7 +366,7 @@ export default function NewsletterAdminDashboard({
               type="button"
               variant="outline"
               onClick={handleRefresh}
-              disabled={isRefreshing || isSending}
+              disabled={isBusy}
             >
               {isRefreshing ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
@@ -267,16 +378,16 @@ export default function NewsletterAdminDashboard({
             <Button
               type="button"
               onClick={handleSendWeeklyNewsletter}
-              disabled={isSending || summary.allSentThisWeek}
+              disabled={isBusy || summary.allSentThisWeek}
             >
               {isSending ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
-                <Mail className="h-4 w-4" />
+                <Send className="h-4 w-4" />
               )}
               {summary.allSentThisWeek
                 ? "Already sent this week"
-                : "Send This Week's Newsletter"}
+                : "Send Unsent One by One"}
             </Button>
           </div>
         </CardHeader>
@@ -284,6 +395,10 @@ export default function NewsletterAdminDashboard({
           <p>
             The manual sender uses Supabase Auth users as the recipient list and
             skips anyone already marked as sent for this week.
+          </p>
+          <p>
+            The bulk button sends one recipient at a time to reduce provider
+            errors. You can also send or retry a single row from the table.
           </p>
           <p>
             Open tracking is counted when the email tracking pixel is loaded by
@@ -312,6 +427,7 @@ export default function NewsletterAdminDashboard({
                   <th className="px-3 py-3 font-medium">Opened</th>
                   <th className="px-3 py-3 font-medium">Last sent</th>
                   <th className="px-3 py-3 font-medium">Last opened</th>
+                  <th className="px-3 py-3 font-medium">Send</th>
                   <th className="px-3 py-3 font-medium">Preview</th>
                 </tr>
               </thead>
@@ -347,10 +463,29 @@ export default function NewsletterAdminDashboard({
                     <td className="px-3 py-3">
                       <Button
                         type="button"
+                        size="sm"
+                        onClick={() => void handleSendRecipient(recipient)}
+                        disabled={
+                          isBusy || recipient.weekSendStatus === "sent"
+                        }
+                      >
+                        {sendingEmail === recipient.email ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          <Send className="h-4 w-4" />
+                        )}
+                        {recipient.weekSendStatus === "sent"
+                          ? "Sent"
+                          : "Send"}
+                      </Button>
+                    </td>
+                    <td className="px-3 py-3">
+                      <Button
+                        type="button"
                         variant="outline"
                         size="sm"
                         onClick={() => handleSendPreview(recipient.email)}
-                        disabled={Boolean(previewSendingEmail) || isSending}
+                        disabled={isBusy}
                       >
                         {previewSendingEmail === recipient.email ? (
                           <Loader2 className="h-4 w-4 animate-spin" />
